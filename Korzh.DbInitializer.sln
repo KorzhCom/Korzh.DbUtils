@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korzh.DbInitializer", "Korzh.DbInitializer\Korzh.DbInitializer.csproj", "{4FFD3940-7FE0-443F-AAC5-3C58A3C6ACFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbexport", "dbexport\dbexport.csproj", "{3B1017DC-8410-4E9F-B0AF-B7CEE62DD8C2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4FFD3940-7FE0-443F-AAC5-3C58A3C6ACFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FFD3940-7FE0-443F-AAC5-3C58A3C6ACFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FFD3940-7FE0-443F-AAC5-3C58A3C6ACFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FFD3940-7FE0-443F-AAC5-3C58A3C6ACFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B1017DC-8410-4E9F-B0AF-B7CEE62DD8C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B1017DC-8410-4E9F-B0AF-B7CEE62DD8C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B1017DC-8410-4E9F-B0AF-B7CEE62DD8C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B1017DC-8410-4E9F-B0AF-B7CEE62DD8C2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B25EF7F4-DB2D-44B6-AA7F-2CAC60551D0C}
+	EndGlobalSection
+EndGlobal
