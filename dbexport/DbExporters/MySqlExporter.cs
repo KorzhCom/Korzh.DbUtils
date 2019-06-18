@@ -6,7 +6,7 @@ using System.Text;
 
 using MySql.Data.MySqlClient;
 
-using dbexport.Savers;
+using dbexport.DbSavers;
 
 namespace dbexport.DbExporters
 {

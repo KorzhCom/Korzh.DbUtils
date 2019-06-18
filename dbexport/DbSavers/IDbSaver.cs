@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-namespace dbexport.Savers
+namespace dbexport.DbSavers
 {
     internal interface IDbSaver
     {

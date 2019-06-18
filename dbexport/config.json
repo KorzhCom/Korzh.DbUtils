@@ -1,0 +1,8 @@
+{
+  "Database": {
+    "Type": "mssql",
+    //"Type": "mysql",
+    "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EqDemoDb05;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+    //"ConnectionString": "Server=demodb.korzh.com;Port=6603;Database=nwind;Uid=equser;Pwd=ILoveEasyQuery;SslMode=none"
+  }
+}

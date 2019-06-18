@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 
-using dbexport.Savers;
+using Microsoft.Extensions.Logging;
+
+using dbexport.DbSavers;
 
 namespace dbexport.DbExporters
 {
-    internal enum DbType {
-        Unknown,
-        MsSqlServer,
-        MySql
+
+    internal static class DbType
+    {
+        public const string MsSqlServer = "mssql";
+
+        public const string MySql = "mysql";
     }
 
     internal class DbExportBuilderException : Exception
@@ -25,6 +29,17 @@ namespace dbexport.DbExporters
         private Type _dbExporterType;
         private string _connectionString;
         private IDbSaver _saver;
+        private ILogger _logger;
+
+        public DbExporterBuilder()
+        {
+
+        }
+
+        public DbExporterBuilder(ILogger logger)
+        {
+            _logger = logger;
+        }
 
         public DbExporterBuilder SetConnectionString(string connectionString)
         {
@@ -35,7 +50,7 @@ namespace dbexport.DbExporters
             return this;
         }
 
-        public DbExporterBuilder UseDbExporter(DbType dbType)
+        public DbExporterBuilder UseDbExporter(string dbType)
         {
             switch (dbType)
             {
@@ -57,50 +72,24 @@ namespace dbexport.DbExporters
         {
             _dbExporterType = typeof(T);
             return this;
+
         }
 
-        public DbExporterBuilder UseFileDbSaver(string fileName)
+        public DbExporterBuilder UseXmlZipFileDbSaver(string fileName)
         {
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
 
-            if (fileName.EndsWith(".json"))
-            {
-                _saver = new JsonFileDbSaver(fileName);
-            }
-            else if (fileName.EndsWith(".xml"))
-            {
-                _saver = new XmlFileDbSaver(fileName);
-            }
-            else {
-                fileName += ".xml";
-                _saver = new XmlFileDbSaver("filaName");
-            }
-
+            _saver = new XmlZipFileDbSaver(fileName, _logger);
             return this;
         }
 
-        public DbExporterBuilder UseXmlFileDbSaver(string fileName)
+        public DbExporterBuilder UseJsonZipFileDbSaver(string fileName)
         {
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
 
-            if (!fileName.EndsWith(".xml"))
-                fileName += ".xml";
-
-            _saver = new XmlFileDbSaver(fileName);
-            return this;
-        }
-
-        public DbExporterBuilder UseJsonFileDbSaver(string fileName)
-        {
-            if (fileName == null)
-                throw new ArgumentNullException(nameof(fileName));
-
-            if (!fileName.EndsWith(".json"))
-                fileName += ".json";
-
-            _saver = new JsonFileDbSaver(fileName);
+            _saver = new JsonZipFileDbSaver(fileName, _logger);
             return this;
         }
 
@@ -124,7 +113,7 @@ namespace dbexport.DbExporters
 
             if (_saver == null)
             {
-                _saver = new XmlFileDbSaver("result.xml");
+                _saver = new XmlZipFileDbSaver("result", _logger);
             }
 
             return (IDbExporter)

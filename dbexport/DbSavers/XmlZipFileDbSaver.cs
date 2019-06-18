@@ -1,36 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
+using System.IO.Compression;
 using System.Text;
 using System.Xml;
 
-namespace dbexport.Savers
+using Microsoft.Extensions.Logging;
+
+namespace dbexport.DbSavers
 {
-    internal class XmlFileDbSaver: FileDbSaverBase
+    internal class XmlZipFileDbSaver: ZipFileDbSaver
     {
 
+        private StreamWriter _fileWriter;
         private XmlTextWriter _writer;
 
-        public XmlFileDbSaver(string fileName) : base(fileName)
+        public XmlZipFileDbSaver(string fileName, ILogger logger) : base(fileName, logger)
         {
 
         }
 
-        public override void Start()
+        public override void StartSaveTable(string tableName)
         {
-            base.Start();
+            Logger?.LogInformation($"Start saving table '{tableName}' to file '{tableName + ".xml"}'");
+            ZipArchiveEntry entry = ZipArchive.CreateEntry(tableName + ".xml");
+            _fileWriter = new StreamWriter(entry.Open());
 
-            _writer = new XmlTextWriter(FileStream);
+            _writer = new XmlTextWriter(_fileWriter);
             _writer.Formatting = Formatting.Indented;
 
             _writer.WriteStartDocument();
             _writer.WriteStartElement("Root");
-        }
-
-
-        public override void StartSaveTable(string tableName)
-        {
-            _writer.WriteStartElement(tableName);
         }
 
         public override void SaveTableData(IDataReader dataReader)
@@ -42,6 +43,7 @@ namespace dbexport.Savers
 
             while (dataReader.Read())
             {
+                Logger?.LogDebug("Start writting row.");
                 _writer.WriteStartElement("Row");
                 foreach (var column in columns)
                 {
@@ -53,8 +55,11 @@ namespace dbexport.Savers
                     }
 
                     _writer.WriteEndElement();
+
+                    Logger?.LogDebug($"Column={column}; Value={value}");
                 }
                 _writer.WriteEndElement();
+                Logger?.LogDebug("Finish writting row.");
             }
         }
 
@@ -62,15 +67,12 @@ namespace dbexport.Savers
         public override void EndSaveTable()
         {
             _writer.WriteEndElement();
-        }
-
-        public override void End()
-        {
-            _writer.WriteEndElement();
             _writer.WriteEndDocument();
             _writer.Close();
 
-            base.End();
+            _fileWriter.Close();
+
+            Logger?.LogInformation("Finish saving table");
         }
     }
 }
