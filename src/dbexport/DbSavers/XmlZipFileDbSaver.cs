@@ -47,14 +47,14 @@ namespace dbexport.DbSavers
                 _writer.WriteStartElement("Row");
                 foreach (var column in columns)
                 {
-                    _writer.WriteStartElement(column);
+   
                     var value = dataReader.GetValue(dataReader.GetOrdinal(column));
                     if (value.GetType() != typeof(DBNull))
                     {
+                        _writer.WriteStartElement(column);
                         _writer.WriteValue(dataReader.GetValue(dataReader.GetOrdinal(column)));
+                        _writer.WriteEndElement();
                     }
-
-                    _writer.WriteEndElement();
 
                     Logger?.LogDebug($"Column={column}; Value={value}");
                 }

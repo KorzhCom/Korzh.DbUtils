@@ -31,9 +31,7 @@ namespace dbexport.DbSavers
 
             _writer = new JsonTextWriter(_fileWriter);
             _writer.Formatting = Formatting.Indented;
-            _writer.WriteStartObject();
 
-            _writer.WritePropertyName(tableName);
             _writer.WriteStartArray();
         }
 
@@ -67,7 +65,7 @@ namespace dbexport.DbSavers
         public override void EndSaveTable()
         {
             _writer.WriteEndArray();
-            _writer.WriteEnd();
+
             _writer.Close();
 
             _fileWriter.Close();

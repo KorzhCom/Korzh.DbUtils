@@ -4,6 +4,7 @@ using System.Data;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
+using System.Linq;
 
 using Microsoft.Extensions.Logging;
 
@@ -29,6 +30,12 @@ namespace dbexport.DbSavers
         public void Start()
         {
             ZipArchive = ZipFile.Open(_fileName, ZipArchiveMode.Update);
+            var entryNames = ZipArchive.Entries.Select(e => e.Name).ToList();
+            foreach (var name in entryNames)
+            {
+                var entry = ZipArchive.GetEntry(name);
+                entry?.Delete();
+            }
 
             Logger?.LogInformation("Start writting to file: " + _fileName);
         }

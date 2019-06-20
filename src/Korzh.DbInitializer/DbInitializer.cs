@@ -5,4 +5,5 @@ namespace Korzh.DbInitializer
     public class DbInitializer
     {
     }
+
 }

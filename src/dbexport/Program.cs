@@ -31,16 +31,17 @@ namespace dbexport
 
         private void OnExecute()
         {
-
-
             var configuration = new ConfigurationBuilder()
                                     .SetBasePath(Directory.GetCurrentDirectory())
                                     .AddJsonFile(ConfigFileName)
                                     .Build();
 
             var assemblyInfo = typeof(Program).Assembly.GetName();
+
+#pragma warning disable CS0618 // Type or member is obsolete
             var logger = new LoggerFactory()
                   .AddConsole(LogLevel.Information)
+#pragma warning restore CS0618 // Type or member is obsolete
                   .CreateLogger(assemblyInfo.Name + ", v:" + assemblyInfo.Version);
 
             var dbExporterBuilder = new DbExporterBuilder(logger)
