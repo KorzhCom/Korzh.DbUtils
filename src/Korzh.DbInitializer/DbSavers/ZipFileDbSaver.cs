@@ -8,9 +8,9 @@ using System.Linq;
 
 using Microsoft.Extensions.Logging;
 
-namespace dbexport.DbSavers
+namespace Korzh.DbInitializer.DbSavers
 {
-    internal abstract class ZipFileDbSaver: IDbSaver
+    public abstract class ZipFileDbSaver: IDbSaver
     {
         private readonly string _fileName;
         protected ILogger Logger; 

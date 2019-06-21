@@ -5,13 +5,13 @@ VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbInitializer", "src\Korzh.DbInitializer\Korzh.DbInitializer.csproj", "{4FFD3940-7FE0-443F-AAC5-3C58A3C6ACFE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dbexport", "src\dbexport\dbexport.csproj", "{3B1017DC-8410-4E9F-B0AF-B7CEE62DD8C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dbadm", "src\dbexport\dbadm.csproj", "{3B1017DC-8410-4E9F-B0AF-B7CEE62DD8C2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1BE9C416-D4CD-40CE-95FD-37A604595058}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2ED5DC21-5E61-4244-BF19-CEBA7B7FDB00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korzh.DbInitializer.Tests", "tests\Korzh.DbInitializer.Tests\Korzh.DbInitializer.Tests.csproj", "{813D7CE2-162F-4E03-ABEA-F4685BBD0332}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbInitializer.Tests", "tests\Korzh.DbInitializer.Tests\Korzh.DbInitializer.Tests.csproj", "{813D7CE2-162F-4E03-ABEA-F4685BBD0332}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

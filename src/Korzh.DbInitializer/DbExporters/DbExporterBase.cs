@@ -4,11 +4,11 @@ using System.Data;
 using System.Data.Common;
 using System.Text;
 
-using dbexport.DbSavers;
+using Korzh.DbInitializer.DbSavers;
 
-namespace dbexport.DbExporters
+namespace Korzh.DbInitializer.DbExporters
 {
-    internal abstract class DbExporterBase : IDbExporter
+    public abstract class DbExporterBase : IDbExporter
     {
 
         private readonly string _connectionString;

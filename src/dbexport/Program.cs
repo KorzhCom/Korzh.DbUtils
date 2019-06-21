@@ -2,15 +2,16 @@
 using System.IO;
 using System.ComponentModel.DataAnnotations;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 
 using McMaster.Extensions.CommandLineUtils;
 
-using dbexport.DbExporters;
+using Korzh.DbInitializer.DbExporters;
 
-namespace dbexport
+namespace eqadm
 {
     [HelpOption]
     class Program
@@ -38,11 +39,8 @@ namespace dbexport
 
             var assemblyInfo = typeof(Program).Assembly.GetName();
 
-#pragma warning disable CS0618 // Type or member is obsolete
-            var logger = new LoggerFactory()
-                  .AddConsole(LogLevel.Information)
-#pragma warning restore CS0618 // Type or member is obsolete
-                  .CreateLogger(assemblyInfo.Name + ", v:" + assemblyInfo.Version);
+            var logger = GetLoggerFactory()
+                        .CreateLogger(assemblyInfo.Name + ", v:" + assemblyInfo.Version);
 
             var dbExporterBuilder = new DbExporterBuilder(logger)
                                         .UseDbExporter(configuration.GetValue<string>("Database:Type") 
@@ -75,6 +73,14 @@ namespace dbexport
             dbExporterBuilder
                 .Build()
                 .Export();
+        }
+
+        private static ILoggerFactory GetLoggerFactory()
+        {
+            IServiceCollection serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging(builder =>
+                   builder.AddConsole());
+            return serviceCollection.BuildServiceProvider().GetService<ILoggerFactory>();
         }
     }
 }

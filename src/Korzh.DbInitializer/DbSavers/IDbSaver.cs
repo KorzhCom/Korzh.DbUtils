@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-namespace dbexport.DbSavers
+namespace Korzh.DbInitializer.DbSavers
 {
-    internal interface IDbSaver
+    public interface IDbSaver
     {
         void Start();
         void StartSaveTable(string tableName);

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-namespace dbexport.DbExporters
+namespace Korzh.DbInitializer.DbExporters
 {
-    internal interface IDbExporter
+    public interface IDbExporter
     {
         void Export();
     }

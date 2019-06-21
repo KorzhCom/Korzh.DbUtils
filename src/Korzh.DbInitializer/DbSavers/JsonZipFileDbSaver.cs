@@ -9,9 +9,9 @@ using Microsoft.Extensions.Logging;
 
 using Newtonsoft.Json;
 
-namespace dbexport.DbSavers
+namespace Korzh.DbInitializer.DbSavers
 {
-    internal class JsonZipFileDbSaver : ZipFileDbSaver
+    public class JsonZipFileDbSaver : ZipFileDbSaver
     {
         private StreamWriter _fileWriter;
         private JsonWriter _writer;

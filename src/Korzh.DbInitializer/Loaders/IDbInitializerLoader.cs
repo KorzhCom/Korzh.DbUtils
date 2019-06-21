@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Korzh.DbInitializer
+namespace Korzh.DbInitializer.Loaders
 {
 
     public interface IDbInitializerLoader

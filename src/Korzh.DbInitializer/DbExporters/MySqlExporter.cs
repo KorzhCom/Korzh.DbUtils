@@ -6,11 +6,11 @@ using System.Text;
 
 using MySql.Data.MySqlClient;
 
-using dbexport.DbSavers;
+using Korzh.DbInitializer.DbSavers;
 
-namespace dbexport.DbExporters
+namespace Korzh.DbInitializer.DbExporters
 {
-    internal class MySqlExporter : DbExporterBase
+    public class MySqlExporter : DbExporterBase
     {
         public MySqlExporter(string connectionString, IDbSaver saver) : base(connectionString, saver)
         {

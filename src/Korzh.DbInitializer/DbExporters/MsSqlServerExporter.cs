@@ -4,11 +4,11 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
-using dbexport.DbSavers;
+using Korzh.DbInitializer.DbSavers;
 
-namespace dbexport.DbExporters
+namespace Korzh.DbInitializer.DbExporters
 {
-    internal class MsSqlServerExporter : DbExporterBase
+    public class MsSqlServerExporter : DbExporterBase
     {
         public MsSqlServerExporter(string connectionString, IDbSaver saver) : base(connectionString, saver)
         {

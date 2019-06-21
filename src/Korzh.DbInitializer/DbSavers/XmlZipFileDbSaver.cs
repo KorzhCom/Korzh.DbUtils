@@ -8,7 +8,7 @@ using System.Xml;
 
 using Microsoft.Extensions.Logging;
 
-namespace dbexport.DbSavers
+namespace Korzh.DbInitializer.DbSavers
 {
     internal class XmlZipFileDbSaver: ZipFileDbSaver
     {

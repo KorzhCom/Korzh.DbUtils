@@ -5,7 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 
-namespace Korzh.DbInitializer
+namespace Korzh.DbInitializer.Loaders
 {
     public abstract class ZipFileLoader : IDbInitializerLoader, IDisposable
     {
@@ -49,6 +49,7 @@ namespace Korzh.DbInitializer
                     if (attr is ColumnAttribute)
                     {
                         columnAttr = (ColumnAttribute)attr;
+                        break;
                     }
                 }
 

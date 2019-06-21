@@ -4,19 +4,19 @@ using System.Text;
 
 using Microsoft.Extensions.Logging;
 
-using dbexport.DbSavers;
+using Korzh.DbInitializer.DbSavers;
 
-namespace dbexport.DbExporters
+namespace Korzh.DbInitializer.DbExporters
 {
 
-    internal static class DbType
+    public static class DbType
     {
         public const string MsSqlServer = "mssql";
 
         public const string MySql = "mysql";
     }
 
-    internal class DbExportBuilderException : Exception
+    public class DbExportBuilderException : Exception
     {
         public DbExportBuilderException(string message) : base(message)
         {
@@ -24,7 +24,7 @@ namespace dbexport.DbExporters
         }
     }
 
-    internal class DbExporterBuilder
+    public class DbExporterBuilder
     {
         private Type _dbExporterType;
         private string _connectionString;
