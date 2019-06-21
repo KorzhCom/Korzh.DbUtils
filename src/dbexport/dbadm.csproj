@@ -1,8 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+
+    <RootNamespace>dbadm</RootNamespace>
+    <Product>dbadm</Product>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.10</AssemblyVersion>
+    <FileVersion>1.0.0.10</FileVersion>
+    <Title>Aistdoc</Title>
+    <Description>
+      A .NET Core global tool that exports data base tables to xml or json. Supports MsSQLServer and MySQL.
+    </Description>
+    <Authors>Sergiy Korzh, Anton Ivanenko</Authors>
+    <Copyright>Copyright 2018-2019 (c) Korzh.com. All rights reserved.</Copyright>
+    <RepositoryUrl>https://github.com/kedonec/Korzh.DbInitializer</RepositoryUrl>
+
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>dbadm</ToolCommandName>
   </PropertyGroup>
 
   <ItemGroup>
