@@ -22,49 +22,11 @@ namespace Korzh.DbInitializer.Loaders
             ZipArchive = new ZipArchive(stream, ZipArchiveMode.Read);
         }
 
-        public abstract IEnumerable<IDataItem> LoadEntityData(string entityName);
-
-        public abstract IEnumerable<object> LoadEntityData(string entityName, Type entityType);
-
-        public IEnumerable<TEntity> LoadEntityData<TEntity>(string entityName) where TEntity : class
-        {
-            return (IEnumerable<TEntity>)LoadEntityData(entityName, typeof(TEntity));
-        }
+        public abstract IEnumerable<IDataItem> LoadTableData(string entityName);
 
         public void Dispose()
         {
             ZipArchive.Dispose();
-        }
-
-        protected IReadOnlyDictionary<string, string> GetColumnProperies(Type type)
-        {
-            var columnProperties = new Dictionary<string, string>();
-            foreach (var property in type.GetProperties())
-            {
-                var attrs = property.GetCustomAttributes(true);
-                ColumnAttribute columnAttr = null;
-
-                foreach (var attr in attrs)
-                {
-                    if (attr is ColumnAttribute)
-                    {
-                        columnAttr = (ColumnAttribute)attr;
-                        break;
-                    }
-                }
-
-                if (columnAttr != null)
-                {
-                    columnProperties[columnAttr.Name] = property.Name;
-                }
-                else
-                {
-                    columnProperties[property.Name] = property.Name;
-                }
-
-            }
-
-            return columnProperties;
         }
     }
 }

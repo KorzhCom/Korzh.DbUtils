@@ -22,7 +22,7 @@ namespace Korzh.DbInitializer.Tests
             var zipArhiveStream = TestUtils.GetResourceStream("Resources", "data-json.zip");
             IDbInitializerLoader zipArhiveLoader = new JsonZipFileLoader(zipArhiveStream);
 
-            var items = zipArhiveLoader.LoadEntityData(entityName).ToList();
+            var items = zipArhiveLoader.LoadTableData(entityName).ToList();
             items.Should().HaveCount(count);
 
             var item = items.First();
@@ -30,19 +30,5 @@ namespace Korzh.DbInitializer.Tests
 
         }
 
-        [Theory]
-        [InlineData("Orders", typeof(Order), 830)]
-        [InlineData("Products", typeof(Product), 77)]
-        [InlineData("Categories", typeof(Category), 8)]
-        [InlineData("Customers", typeof(Customer), 91)]
-        [InlineData("Employees", typeof(Employee), 9)]
-        public void LoadFromEntityTypeDataTest(string entityName, Type entityType, int count)
-        {
-            var zipArhiveStream = TestUtils.GetResourceStream("Resources", "data-json.zip");
-            IDbInitializerLoader zipArhiveLoader = new JsonZipFileLoader(zipArhiveStream);
-
-            var items = zipArhiveLoader.LoadEntityData(entityName, entityType).ToList();
-            items.Should().HaveCount(count);
-        }
     }
 }

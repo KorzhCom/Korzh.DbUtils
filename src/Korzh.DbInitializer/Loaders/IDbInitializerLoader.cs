@@ -6,10 +6,6 @@ namespace Korzh.DbInitializer.Loaders
 
     public interface IDbInitializerLoader
     {
-        IEnumerable<IDataItem> LoadEntityData(string entityName);
-
-        IEnumerable<TEntity> LoadEntityData<TEntity>(string entityName) where TEntity : class;
-
-        IEnumerable<object> LoadEntityData(string entityName, Type entityType);
+        IEnumerable<IDataItem> LoadTableData(string tableName);
     }
 }

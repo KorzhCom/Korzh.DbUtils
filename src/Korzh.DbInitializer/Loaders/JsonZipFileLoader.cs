@@ -34,9 +34,9 @@ namespace Korzh.DbInitializer.Loaders
 
         }
 
-        public override IEnumerable<IDataItem> LoadEntityData(string entityName)
+        public override IEnumerable<IDataItem> LoadTableData(string tableName)
         {
-            var entry = ZipArchive.GetEntry(entityName + ".json") ?? throw new JsonZipFileLoaderException($"File {entityName + ".json"} is not found");
+            var entry = ZipArchive.GetEntry(tableName + ".json") ?? throw new JsonZipFileLoaderException($"File {tableName + ".json"} is not found");
 
             using (var streamReader = new StreamReader(entry.Open()))
             using (var jsonReader = new JsonTextReader(streamReader))
@@ -61,49 +61,6 @@ namespace Korzh.DbInitializer.Loaders
                 {
                     throw new JsonZipFileLoaderException($"Wrong file fotmat at {jsonReader.LineNumber}:{jsonReader.LinePosition}");
                 }  
-            }
-
-            yield break;
-        }
-
-        public override IEnumerable<object> LoadEntityData(string entityName, Type entityType)
-        {
-            var entry = ZipArchive.GetEntry(entityName + ".json") ?? throw new JsonZipFileLoaderException($"File {entityName + ".json"} is not found");
-
-            using (var streamReader = new StreamReader(entry.Open()))
-            using (var jsonReader = new JsonTextReader(streamReader))
-            {
-                jsonReader.Read();
-                if (jsonReader.TokenType == JsonToken.StartArray)
-                {
-
-                    var colProps = GetColumnProperies(entityType);
-                    while (jsonReader.Read() && jsonReader.TokenType != JsonToken.EndArray)
-                    {
-
-                        var item = Activator.CreateInstance(entityType);
-                        var data = JObject.Load(jsonReader);
-
-                        foreach (var property in data.Properties())
-                        {
-                            if (colProps.TryGetValue(property.Name, out var entPropName))
-                            {
-                                var entProperty = entityType.GetProperty(entPropName);
-                                if (entProperty != null && entProperty.CanWrite)
-                                {
-                                    entProperty.SetValue(item, property.Value.ToObject(entProperty.PropertyType));
-                                }
-
-                            }
-                        }
-
-                        yield return item;
-                    }
-                }
-                else
-                {
-                    throw new JsonZipFileLoaderException($"Wrong file fotmat at {jsonReader.LineNumber}:{jsonReader.LinePosition}");
-                }
             }
 
             yield break;
