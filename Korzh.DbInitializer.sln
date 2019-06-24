@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2ED5DC21
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbInitializer.Tests", "tests\Korzh.DbInitializer.Tests\Korzh.DbInitializer.Tests.csproj", "{813D7CE2-162F-4E03-ABEA-F4685BBD0332}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korzh.DbInitializer.EntityFrameworkCore", "Korzh.DbInitializer.EntityFrameworkCore\Korzh.DbInitializer.EntityFrameworkCore.csproj", "{5F0CCD3F-764F-4CED-AFFC-3A1F42FAF518}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korzh.DbInitializer.EntityFrameworkCore", "src\Korzh.DbInitializer.EntityFrameworkCore\Korzh.DbInitializer.EntityFrameworkCore.csproj", "{5F0CCD3F-764F-4CED-AFFC-3A1F42FAF518}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

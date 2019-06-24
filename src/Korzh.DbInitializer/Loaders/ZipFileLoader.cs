@@ -7,6 +7,21 @@ using System.Text;
 
 namespace Korzh.DbInitializer.Loaders
 {
+
+    public abstract class ZipFileLoaderException : Exception
+    {
+
+        public ZipFileLoaderException() : base()
+        {
+
+        }
+
+        public ZipFileLoaderException(string message) : base(message)
+        {
+
+        }
+    }
+
     public abstract class ZipFileLoader : IDbInitializerLoader, IDisposable
     {
 

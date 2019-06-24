@@ -12,7 +12,7 @@ namespace Korzh.DbInitializer
 
         bool TryGetProperty<T>(string name, out T value);
 
-        bool TryGetProperty(string name, Type type, out object value)
+        bool TryGetProperty(string name, Type type, out object value);
     }
 
     public class DataItem: IDataItem
@@ -80,7 +80,7 @@ namespace Korzh.DbInitializer
             if (type == typeof(short) ||
             type == typeof(short?))
             {
-                return ValueAsInt(value);
+                return ValueAsShort(value);
             }
 
             if (type == typeof(bool) ||

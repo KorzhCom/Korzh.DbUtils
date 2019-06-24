@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 namespace Korzh.DbInitializer.Loaders
 {
 
-    public class JsonZipFileLoaderException : Exception
+    public class JsonZipFileLoaderException : ZipFileLoaderException
     {
         public JsonZipFileLoaderException(): base()
         {

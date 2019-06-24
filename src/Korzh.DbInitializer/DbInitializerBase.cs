@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Korzh.DbInitializer.Loaders;
 
@@ -17,17 +18,27 @@ namespace Korzh.DbInitializer
 
         public void Init()
         {
-            var tables = GetTablesInRightOrder();
+            var tables = GetTables();
+
+            //Init table cycle
             foreach (var table in tables)
             {
-                var data = _loader.LoadTableData(table);
-                InitTable(table, data);
+                try
+                {
+                    var data = _loader.LoadTableData(table);
+                    InitTable(table, data);
+                }
+                catch (ZipFileLoaderException ex)
+                {
+                    // Nothing to do
+                }
+                
             }
         }
 
         protected abstract void InitTable(string tableName, IEnumerable<IDataItem> data);
 
-        protected abstract IReadOnlyCollection<string> GetTablesInRightOrder();
+        protected abstract IReadOnlyCollection<string> GetTables();
 
     }
 

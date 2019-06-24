@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace Korzh.DbInitializer.Loaders
 {
-    public class XmlZipFileLoaderException : Exception
+    public class XmlZipFileLoaderException : ZipFileLoaderException
     {
         public XmlZipFileLoaderException() : base()
         {

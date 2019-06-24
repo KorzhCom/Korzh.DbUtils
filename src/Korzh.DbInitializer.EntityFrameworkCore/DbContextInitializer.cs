@@ -17,6 +17,7 @@ namespace Korzh.DbInitializer.EntityFrameworkCore
 
         }
     }
+
     public class DbContextInitializer: DbInitializerBase
     {
 
@@ -24,14 +25,21 @@ namespace Korzh.DbInitializer.EntityFrameworkCore
 
         private readonly int _quotumPerTransaction = 100;
 
+        private readonly IReadOnlyCollection<string> _ignoreTables = new List<string>();
+
         public DbContextInitializer(DbContext dbContext, IDbInitializerLoader loader) : base(loader)
         {
             _dbContext = dbContext;
         }
 
-        protected override IReadOnlyCollection<string> GetTablesInRightOrder()
+        public DbContextInitializer(DbContext dbContext, IDbInitializerLoader loader, IReadOnlyCollection<string> ignoreTables) : this(dbContext, loader)
         {
-            var entityTypes = _dbContext.Model.GetEntityTypes();
+            _ignoreTables = ignoreTables;
+        }
+
+        protected override IReadOnlyCollection<string> GetTables()
+        {
+            var entityTypes = _dbContext.Model.GetEntityTypes().Where(e => !_ignoreTables.Contains(e.Relational().TableName)).ToList();
             var tables = new List<string>();
 
             foreach (var entityType in entityTypes)
@@ -39,6 +47,8 @@ namespace Korzh.DbInitializer.EntityFrameworkCore
                 if (!tables.Contains(entityType.Relational().TableName))
                     DetermineTableOrder(null, entityType, ref tables);
             }
+
+            tables.Reverse();
 
             return tables;
         }
@@ -50,13 +60,18 @@ namespace Korzh.DbInitializer.EntityFrameworkCore
                 throw new DbContextInitializerException($"Loop is detected between tables. Unable to find the right order for tables.");
             }
 
-
             var refereneces = curEntityType.GetReferencingForeignKeys();
             if (refereneces.Any())
             {
                 foreach (var reference in refereneces)
                 {
-                    if (!tables.Contains(reference.DeclaringEntityType.Relational().TableName))
+                    var refTableName = reference.DeclaringEntityType.Relational().TableName;
+                    if (reference.IsRequired && _ignoreTables.Contains(refTableName))
+                    {
+                        throw new DbContextInitializerException($"Table references to ignore table. Unable to find the right order for tables.");
+                    }
+
+                    if (!tables.Contains(refTableName) && refTableName != curEntityType.Relational().TableName)
                     {
                         DetermineTableOrder(startEntityType, reference.DeclaringEntityType, ref tables);
                     }
@@ -84,6 +99,7 @@ namespace Korzh.DbInitializer.EntityFrameworkCore
                 }
 
                 _dbContext.Add(item);
+                count++;
 
                 if (count == _quotumPerTransaction)
                 {
@@ -92,7 +108,8 @@ namespace Korzh.DbInitializer.EntityFrameworkCore
                 }
             }
 
-            if (count > 0) {
+            if (count > 0)
+            {
                 _dbContext.SaveChanges();
             }
 
