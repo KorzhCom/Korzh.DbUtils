@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils", "src\Korzh.DbInitializer\Korzh.DbUtils.csproj", "{4FFD3940-7FE0-443F-AAC5-3C58A3C6ACFE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbTool", "src\dbexport\Korzh.DbTool.csproj", "{3B1017DC-8410-4E9F-B0AF-B7CEE62DD8C2}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1BE9C416-D4CD-40CE-95FD-37A604595058}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2ED5DC21-5E61-4244-BF19-CEBA7B7FDB00}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.Tests", "tests\Korzh.DbInitializer.Tests\Korzh.DbUtils.Tests.csproj", "{813D7CE2-162F-4E03-ABEA-F4685BBD0332}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils", "src\Korzh.DbUtils\Korzh.DbUtils.csproj", "{4FFD3940-7FE0-443F-AAC5-3C58A3C6ACFE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.EntityFrameworkCore", "src\Korzh.DbInitializer.EntityFrameworkCore\Korzh.DbUtils.EntityFrameworkCore.csproj", "{5F0CCD3F-764F-4CED-AFFC-3A1F42FAF518}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbTool", "src\Korzh.DbTool\Korzh.DbTool.csproj", "{3B1017DC-8410-4E9F-B0AF-B7CEE62DD8C2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.Tests", "tests\Korzh.DbUtils.Tests\Korzh.DbUtils.Tests.csproj", "{813D7CE2-162F-4E03-ABEA-F4685BBD0332}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.EntityFrameworkCore", "src\Korzh.DbUtils.EntityFrameworkCore\Korzh.DbUtils.EntityFrameworkCore.csproj", "{5F0CCD3F-764F-4CED-AFFC-3A1F42FAF518}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
