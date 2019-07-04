@@ -5,7 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 
-namespace Korzh.DbInitializer.Loaders
+namespace Korzh.DbUtils.Loaders
 {
 
     public abstract class ZipFileLoaderException : Exception

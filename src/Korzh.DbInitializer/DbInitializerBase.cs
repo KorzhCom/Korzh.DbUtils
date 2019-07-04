@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Korzh.DbInitializer.Loaders;
+using Korzh.DbUtils.Loaders;
 
-namespace Korzh.DbInitializer
+namespace Korzh.DbUtils
 {
     public abstract class DbInitializerBase: IDbInitializer
     {
-
         private readonly IDbInitializerLoader _loader;
 
         public DbInitializerBase(IDbInitializerLoader loader)

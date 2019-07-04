@@ -6,9 +6,9 @@ using System.Text;
 
 using MySql.Data.MySqlClient;
 
-using Korzh.DbInitializer.DbSavers;
+using Korzh.DbUtils.DbSavers;
 
-namespace Korzh.DbInitializer.DbExporters
+namespace Korzh.DbUtils.Exporters
 {
     public class MySqlExporter : DbExporterBase
     {

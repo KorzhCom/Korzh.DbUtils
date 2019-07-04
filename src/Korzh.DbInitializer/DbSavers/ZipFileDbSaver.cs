@@ -8,7 +8,7 @@ using System.Linq;
 
 using Microsoft.Extensions.Logging;
 
-namespace Korzh.DbInitializer.DbSavers
+namespace Korzh.DbUtils.DbSavers
 {
     public abstract class ZipFileDbSaver: IDbSaver
     {

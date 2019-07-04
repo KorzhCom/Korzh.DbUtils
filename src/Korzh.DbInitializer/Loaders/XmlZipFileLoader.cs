@@ -6,7 +6,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Linq.Expressions;
 
-namespace Korzh.DbInitializer.Loaders
+namespace Korzh.DbUtils.Loaders
 {
     public class XmlZipFileLoaderException : ZipFileLoaderException
     {

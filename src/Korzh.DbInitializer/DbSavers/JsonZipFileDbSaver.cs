@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 using Newtonsoft.Json;
 
-namespace Korzh.DbInitializer.DbSavers
+namespace Korzh.DbUtils.DbSavers
 {
     public class JsonZipFileDbSaver : ZipFileDbSaver
     {

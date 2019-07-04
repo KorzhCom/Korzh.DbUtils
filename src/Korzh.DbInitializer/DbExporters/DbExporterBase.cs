@@ -4,9 +4,12 @@ using System.Data;
 using System.Data.Common;
 using System.Text;
 
-using Korzh.DbInitializer.DbSavers;
+using Korzh.DbUtils.DbSavers;
 
-namespace Korzh.DbInitializer.DbExporters
+/// <summary>
+/// The DbExporters namespace.
+/// </summary>
+namespace Korzh.DbUtils.Exporters
 {
     public abstract class DbExporterBase : IDbExporter
     {

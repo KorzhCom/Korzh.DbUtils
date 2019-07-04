@@ -4,9 +4,9 @@ using System.Text;
 
 using Microsoft.Extensions.Logging;
 
-using Korzh.DbInitializer.DbSavers;
+using Korzh.DbUtils.DbSavers;
 
-namespace Korzh.DbInitializer.DbExporters
+namespace Korzh.DbUtils.Exporters
 {
 
     public static class DbType

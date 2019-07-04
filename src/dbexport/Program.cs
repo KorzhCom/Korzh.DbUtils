@@ -9,9 +9,9 @@ using Microsoft.Extensions.Logging.Console;
 
 using McMaster.Extensions.CommandLineUtils;
 
-using Korzh.DbInitializer.DbExporters;
+using Korzh.DbUtils.Exporters;
 
-namespace eqadm
+namespace Korzh.DbTool
 {
     [HelpOption]
     class Program

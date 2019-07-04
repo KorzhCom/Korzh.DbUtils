@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-namespace Korzh.DbInitializer.DbExporters
+namespace Korzh.DbUtils.Exporters
 {
     public interface IDbExporter
     {

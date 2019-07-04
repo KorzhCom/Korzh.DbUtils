@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace Korzh.DbInitializer
+namespace Korzh.DbUtils
 {
 
     public interface IDataItem

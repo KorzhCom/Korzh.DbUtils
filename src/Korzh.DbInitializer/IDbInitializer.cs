@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Korzh.DbInitializer
+namespace Korzh.DbUtils
 {
     public interface IDbInitializer
     {

@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-using Korzh.DbInitializer.Loaders;
+using Korzh.DbUtils.Loaders;
 
-namespace Korzh.DbInitializer.EntityFrameworkCore
+namespace Korzh.DbUtils.EntityFrameworkCore
 {
 
     public class DbContextInitializerException : Exception

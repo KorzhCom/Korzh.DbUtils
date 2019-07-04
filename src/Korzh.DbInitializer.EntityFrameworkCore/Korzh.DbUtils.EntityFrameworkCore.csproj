@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Korzh.DbInitializer\Korzh.DbInitializer.csproj" />
+    <ProjectReference Include="..\Korzh.DbInitializer\Korzh.DbUtils.csproj" />
   </ItemGroup>
 
 </Project>

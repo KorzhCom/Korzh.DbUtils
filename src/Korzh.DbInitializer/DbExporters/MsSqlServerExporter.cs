@@ -4,9 +4,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
-using Korzh.DbInitializer.DbSavers;
+using Korzh.DbUtils.DbSavers;
 
-namespace Korzh.DbInitializer.DbExporters
+namespace Korzh.DbUtils.Exporters
 {
     public class MsSqlServerExporter : DbExporterBase
     {

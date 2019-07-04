@@ -5,9 +5,9 @@ using Xunit;
 
 using FluentAssertions;
 
-using Korzh.DbInitializer.Loaders;
+using Korzh.DbUtils.Loaders;
 
-namespace Korzh.DbInitializer.Tests
+namespace Korzh.DbUtils.Tests
 {
     public class JsonZipFileLoaderTests
     {

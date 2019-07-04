@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace Korzh.DbInitializer.Tests
+namespace Korzh.DbUtils.Tests
 {
     internal static class TestUtils
     {
