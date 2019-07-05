@@ -8,16 +8,16 @@ using System.Linq;
 
 using Microsoft.Extensions.Logging;
 
-namespace Korzh.DbUtils.DbSavers
+namespace Korzh.DbUtils.Packers
 {
-    public abstract class ZipFileDbSaver: IDbSaver
+    public abstract class ZipDataPacker: IDataPacker
     {
         private readonly string _fileName;
         protected ILogger Logger; 
 
         protected ZipArchive ZipArchive;
 
-        public ZipFileDbSaver(string fileName, ILogger logger)
+        public ZipDataPacker(string fileName, ILogger logger)
         {
             _fileName = fileName;
 

@@ -4,9 +4,8 @@ using System.Text;
 
 using Microsoft.Extensions.Logging;
 
-using Korzh.DbUtils.DbSavers;
 
-namespace Korzh.DbUtils.Exporters
+namespace Korzh.DbUtils.Export
 {
 
     public static class DbType
@@ -28,7 +27,7 @@ namespace Korzh.DbUtils.Exporters
     {
         private Type _dbExporterType;
         private string _connectionString;
-        private IDbSaver _saver;
+        private IDatasetExporter _datasetExporter;
         private ILogger _logger;
 
         public DbExporterBuilder()
@@ -54,12 +53,12 @@ namespace Korzh.DbUtils.Exporters
         {
             switch (dbType)
             {
-                case DbType.MsSqlServer:
-                    _dbExporterType = typeof(MsSqlServerExporter);
-                    break;
-                case DbType.MySql:
-                    _dbExporterType = typeof(MySqlExporter);
-                    break;
+                //case DbType.MsSqlServer:
+                //    _dbExporterType = typeof(MsSqlServerExporter);
+                //    break;
+                //case DbType.MySql:
+                //    _dbExporterType = typeof(MySqlExporter);
+                //    break;
                 default:
                     throw new DbExportBuilderException("Unknown Database type");
             }
@@ -75,27 +74,27 @@ namespace Korzh.DbUtils.Exporters
 
         }
 
-        public DbExporterBuilder UseXmlZipFileDbSaver(string fileName)
+        //public DbExporterBuilder UseXmlZipFileDbSaver(string fileName)
+        //{
+        //    if (fileName == null)
+        //        throw new ArgumentNullException(nameof(fileName));
+
+        //    _saver = new XmlZipFileDbSaver(fileName, _logger);
+        //    return this;
+        //}
+
+        //public DbExporterBuilder UseJsonZipFileDbSaver(string fileName)
+        //{
+        //    if (fileName == null)
+        //        throw new ArgumentNullException(nameof(fileName));
+
+        //    _saver = new JsonZipFileDbSaver(fileName, _logger);
+        //    return this;
+        //}
+
+        public DbExporterBuilder UseDbSaver(IDatasetExporter exporter)
         {
-            if (fileName == null)
-                throw new ArgumentNullException(nameof(fileName));
-
-            _saver = new XmlZipFileDbSaver(fileName, _logger);
-            return this;
-        }
-
-        public DbExporterBuilder UseJsonZipFileDbSaver(string fileName)
-        {
-            if (fileName == null)
-                throw new ArgumentNullException(nameof(fileName));
-
-            _saver = new JsonZipFileDbSaver(fileName, _logger);
-            return this;
-        }
-
-        public DbExporterBuilder UseDbSaver(IDbSaver saver)
-        {
-            _saver = saver;
+            _datasetExporter = exporter;
             return this;
         }
 
@@ -111,13 +110,13 @@ namespace Korzh.DbUtils.Exporters
                 throw new DbExportBuilderException("DbExporter is not defined");
             }
 
-            if (_saver == null)
-            {
-                _saver = new XmlZipFileDbSaver("result", _logger);
-            }
+            //if (_datasetExporter == null)
+            //{
+            //    _datasetExporter = new XmlZipFileDbSaver("result", _logger);
+            //}
 
             return (IDbExporter)
-                Activator.CreateInstance(_dbExporterType, _connectionString, _saver);
+                Activator.CreateInstance(_dbExporterType, _connectionString, _datasetExporter);
         }
 
     }

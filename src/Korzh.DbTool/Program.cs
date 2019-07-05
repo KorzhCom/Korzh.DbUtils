@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging.Console;
 
 using McMaster.Extensions.CommandLineUtils;
 
-using Korzh.DbUtils.Exporters;
+using Korzh.DbUtils.Export;
 
 namespace Korzh.DbTool
 {
@@ -42,37 +42,37 @@ namespace Korzh.DbTool
             var logger = GetLoggerFactory()
                         .CreateLogger(assemblyInfo.Name + ", v:" + assemblyInfo.Version);
 
-            var dbExporterBuilder = new DbExporterBuilder(logger)
-                                        .UseDbExporter(configuration.GetValue<string>("Database:Type") 
-                                        ?? throw new Exception("Database type is not defined"))
-                                        .SetConnectionString(configuration.GetValue<string>("Database:ConnectionString")
-                                        ?? throw new Exception("Connection string is not defined"));
+            //var dbExporterBuilder = new DbExporterBuilder(logger)
+            //                            .UseDbExporter(configuration.GetValue<string>("Database:Type") 
+            //                            ?? throw new Exception("Database type is not defined"))
+            //                            .SetConnectionString(configuration.GetValue<string>("Database:ConnectionString")
+            //                            ?? throw new Exception("Connection string is not defined"));
 
 
-            var fileName = OutputFileName ?? "result";
-            if (!string.IsNullOrEmpty(OutputFileType))
-            {
-                switch (OutputFileType.ToLowerInvariant())
-                {
-                    case "json":
-                        dbExporterBuilder.UseJsonZipFileDbSaver(fileName);
-                        break;
-                    case "xml":
-                        dbExporterBuilder.UseXmlZipFileDbSaver(fileName);
-                        break;
-                    default:
-                        throw new Exception("Unknown output file type: " + OutputFileType);
-                }
-            }
-            else
-            {
-                dbExporterBuilder.UseJsonZipFileDbSaver(fileName);
-            }
+            //var fileName = OutputFileName ?? "result";
+            //if (!string.IsNullOrEmpty(OutputFileType))
+            //{
+            //    switch (OutputFileType.ToLowerInvariant())
+            //    {
+            //        case "json":
+            //            dbExporterBuilder.UseJsonZipFileDbSaver(fileName);
+            //            break;
+            //        case "xml":
+            //            dbExporterBuilder.UseXmlZipFileDbSaver(fileName);
+            //            break;
+            //        default:
+            //            throw new Exception("Unknown output file type: " + OutputFileType);
+            //    }
+            //}
+            //else
+            //{
+            //    dbExporterBuilder.UseJsonZipFileDbSaver(fileName);
+            //}
 
 
-            dbExporterBuilder
-                .Build()
-                .Export();
+            //dbExporterBuilder
+            //    .Build()
+            //    .Export();
         }
 
         private static ILoggerFactory GetLoggerFactory()

@@ -4,25 +4,24 @@ using System.Data;
 using System.Data.Common;
 using System.Text;
 
-using Korzh.DbUtils.DbSavers;
 
 /// <summary>
-/// The DbExporters namespace.
+/// Contains all classes which implement exporting operations.
 /// </summary>
-namespace Korzh.DbUtils.Exporters
+namespace Korzh.DbUtils.Export
 {
     public abstract class DbExporterBase : IDbExporter
     {
 
         private readonly string _connectionString;
-        private readonly IDbSaver _saver;
+        private readonly IDatasetExporter _datasetExporter;
 
         protected DbConnection DbConnection;
 
-        public DbExporterBase(string connectionString, IDbSaver saver)
+        public DbExporterBase(string connectionString, IDatasetExporter saver)
         {
             _connectionString = connectionString;
-            _saver = saver;
+            _datasetExporter = saver;
         }
 
         public void Export()
@@ -32,17 +31,17 @@ namespace Korzh.DbUtils.Exporters
             var tables = GetTables();
             if (tables.Count > 0) {
 
-                _saver.Start();
-                foreach (var table in tables)
-                {
-                    _saver.StartSaveTable(table);
-                    using (var reader = ReadTable(table))
-                    {
-                        _saver.SaveTableData(reader);
-                    }
-                    _saver.EndSaveTable();
-                }
-                _saver.End();
+                //_datasetExporter.Start();
+                //foreach (var table in tables)
+                //{
+                //    _datasetExporter.StartSaveTable(table);
+                //    using (var reader = ReadTable(table))
+                //    {
+                //        _datasetExporter.SaveTableData(reader);
+                //    }
+                //    _datasetExporter.EndSaveTable();
+                //}
+                //_datasetExporter.End();
             }
 
             DbConnection.Close();

@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Korzh.DbInitializer\Korzh.DbUtils.csproj" />
+    <ProjectReference Include="..\Korzh.DbUtils\Korzh.DbUtils.csproj" />
   </ItemGroup>
 
 </Project>

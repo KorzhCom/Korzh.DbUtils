@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Korzh.DbInitializer\Korzh.DbUtils.csproj" />
+    <ProjectReference Include="..\..\src\Korzh.DbUtils\Korzh.DbUtils.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,13 +6,11 @@ using System.Text;
 
 using MySql.Data.MySqlClient;
 
-using Korzh.DbUtils.DbSavers;
-
-namespace Korzh.DbUtils.Exporters
+namespace Korzh.DbUtils.Export
 {
     public class MySqlExporter : DbExporterBase
     {
-        public MySqlExporter(string connectionString, IDbSaver saver) : base(connectionString, saver)
+        public MySqlExporter(string connectionString, IDatasetExporter saver) : base(connectionString, saver)
         {
             DbConnection = new MySqlConnection(connectionString);
         }

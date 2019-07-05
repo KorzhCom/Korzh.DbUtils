@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-namespace Korzh.DbUtils.Exporters
+namespace Korzh.DbUtils.Export
 {
     public interface IDbExporter
     {
-        void Export();
+        //void Start();
+        //void StartSaveTable(string tableName);
+        //void SaveTableData(IDataReader dataReader);
+        //void EndSaveTable();
+        //void End();
     }
 }

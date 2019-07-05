@@ -4,13 +4,12 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
-using Korzh.DbUtils.DbSavers;
 
-namespace Korzh.DbUtils.Exporters
+namespace Korzh.DbUtils.Export
 {
     public class MsSqlServerExporter : DbExporterBase
     {
-        public MsSqlServerExporter(string connectionString, IDbSaver saver) : base(connectionString, saver)
+        public MsSqlServerExporter(string connectionString, IDatasetExporter saver) : base(connectionString, saver)
         {
             DbConnection = new SqlConnection(connectionString);
         }
