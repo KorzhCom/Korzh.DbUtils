@@ -34,10 +34,13 @@ namespace DbUtilsDemo
         static void ExportDb(DbConnection connection)
         {
             CheckConnection(connection);
-            var datasetExporter = new Korzh.DbUtils.Export.XmlDatasetExporter();
+            //var datasetExporter = new Korzh.DbUtils.Export.XmlDatasetExporter();
+            var datasetExporter = new Korzh.DbUtils.Export.JsonDatasetExporter();
             var bridge = new Korzh.DbUtils.DbBridges.MsSqlBridge(connection as SqlConnection);
+            //var packer = new Korzh.DbUtils.Packers.FileFolderPacker("Data");
+            var packer = new Korzh.DbUtils.Packers.ZipArchivePacker("EqDemoDb.zip");
 
-            var exporter = new Korzh.DbUtils.Export.DbExporter(bridge, datasetExporter);
+            var exporter = new Korzh.DbUtils.Export.DbExporter(bridge, datasetExporter, packer);
 
             Console.WriteLine($"Exporting database...");
             exporter.Export();

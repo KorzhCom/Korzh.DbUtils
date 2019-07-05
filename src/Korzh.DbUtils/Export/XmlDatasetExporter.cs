@@ -18,6 +18,8 @@ namespace Korzh.DbUtils.Export
         {
         }
 
+        public string FormatExtension => "xml";
+
         //protected XmlWriter InitWriter(Stream outStream, string datasetName)
         //{
         //    _logger?.LogInformation($"Start saving table '{tableName}' to file '{tableName + ".xml"}'");

@@ -12,5 +12,7 @@ namespace Korzh.DbUtils.Export
     public interface IDatasetExporter
     {
         void Export(IDataReader reader, Stream outStream, string datasetName = null);
+
+        string FormatExtension { get; }
     }
 }

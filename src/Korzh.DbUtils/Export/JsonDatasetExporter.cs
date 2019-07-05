@@ -20,6 +20,8 @@ namespace Korzh.DbUtils.Export
           
         }
 
+        public string FormatExtension => "json";
+
 
         //public override void StartSaveTable(string tableName)
         //{
