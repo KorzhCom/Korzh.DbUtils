@@ -67,7 +67,7 @@ namespace Korzh.DbUtils.Export
 
         }
 
-        public DbExporterBuilder UseDbExporter<T>() where T : DbExporterBase
+        public DbExporterBuilder UseDbExporter<T>() where T : DbExporter
         {
             _dbExporterType = typeof(T);
             return this;
@@ -98,7 +98,7 @@ namespace Korzh.DbUtils.Export
             return this;
         }
 
-        public IDbExporter Build()
+        public DbExporter Build()
         {
             if (_connectionString == null)
             {
@@ -115,7 +115,7 @@ namespace Korzh.DbUtils.Export
             //    _datasetExporter = new XmlZipFileDbSaver("result", _logger);
             //}
 
-            return (IDbExporter)
+            return (DbExporter)
                 Activator.CreateInstance(_dbExporterType, _connectionString, _datasetExporter);
         }
 

@@ -12,7 +12,8 @@ namespace DbUtilsDemo
         {
             var connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EqDemoDb07;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             var connection = new SqlConnection(connectionString);
-            ExportTable(connection, "Customers");
+            //ExportTable(connection, "Customers");
+            ExportDb(connection);
         }
 
 
@@ -28,6 +29,19 @@ namespace DbUtilsDemo
                 exporter.Export(customersReader, outXmlFile);
                 Console.WriteLine($"Done!");
             }
+        }
+
+        static void ExportDb(DbConnection connection)
+        {
+            CheckConnection(connection);
+            var datasetExporter = new Korzh.DbUtils.Export.XmlDatasetExporter();
+            var bridge = new Korzh.DbUtils.DbBridges.MsSqlBridge(connection as SqlConnection);
+
+            var exporter = new Korzh.DbUtils.Export.DbExporter(bridge, datasetExporter);
+
+            Console.WriteLine($"Exporting database...");
+            exporter.Export();
+            Console.WriteLine($"Done!");
         }
 
         private static void CheckConnection(DbConnection connection) {
