@@ -20,17 +20,17 @@ namespace Korzh.DbUtils.Export
         {
             var tables = _dbBridge.GetTableNames();
             if (tables.Count > 0) {
-                _dataPacker.Start();
+                _dataPacker.StartPacking();
                 try {
                     foreach (var tableName in tables) {
                         using (var stream = GetPackerStream(tableName))
                         using (var reader = _dbBridge.GetDataReaderForTable(tableName)) {
-                            _datasetExporter.Export(reader, stream, tableName);
+                            _datasetExporter.ExportDataset(reader, stream, tableName);
                         }
                     }
                 }
                 finally {
-                    _dataPacker.Finish();
+                    _dataPacker.FinishPacking();
                 }
             }
         }

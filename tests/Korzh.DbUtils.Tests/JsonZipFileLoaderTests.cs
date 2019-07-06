@@ -20,7 +20,7 @@ namespace Korzh.DbUtils.Tests
         public void LoadEntityDataTest(string entityName, int count, int propCount)
         {
             var zipArhiveStream = TestUtils.GetResourceStream("Resources", "data-json.zip");
-            IDbInitializerLoader zipArhiveLoader = new JsonZipFileLoader(zipArhiveStream);
+            IDbImporter zipArhiveLoader = new JsonZipFileLoader(zipArhiveStream);
 
             var items = zipArhiveLoader.LoadTableData(entityName).ToList();
             items.Should().HaveCount(count);

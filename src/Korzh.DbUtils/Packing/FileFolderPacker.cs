@@ -4,7 +4,7 @@ using System.IO;
 
 using Microsoft.Extensions.Logging;
 
-namespace Korzh.DbUtils.Packers
+namespace Korzh.DbUtils.Packing
 {
     public class FileFolderPacker : IDataPacker
     {
@@ -18,7 +18,7 @@ namespace Korzh.DbUtils.Packers
             _logger = logger;
         }
 
-        public void Start()
+        public void StartPacking()
         {
             _logger?.LogInformation("Start writing to folder: " + _folderPath);
             Directory.CreateDirectory(_folderPath);
@@ -30,7 +30,7 @@ namespace Korzh.DbUtils.Packers
             return File.Create(filePath);
         }
 
-        public void Finish()
+        public void FinishPacking()
         {
             _logger?.LogInformation("Finished writing to folder: " + _folderPath);
         }

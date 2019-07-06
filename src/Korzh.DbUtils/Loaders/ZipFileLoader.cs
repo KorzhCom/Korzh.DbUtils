@@ -22,7 +22,7 @@ namespace Korzh.DbUtils.Loaders
         }
     }
 
-    public abstract class ZipFileLoader : IDbInitializerLoader, IDisposable
+    public abstract class ZipFileLoader : IDisposable
     {
 
         protected ZipArchive ZipArchive;

@@ -26,7 +26,7 @@ namespace DbUtilsDemo
                 var exporter = new Korzh.DbUtils.Export.XmlDatasetExporter();
 
                 Console.WriteLine($"Exporting {tableName}...");
-                exporter.Export(customersReader, outXmlFile);
+                exporter.ExportDataset(customersReader, outXmlFile);
                 Console.WriteLine($"Done!");
             }
         }
@@ -38,7 +38,7 @@ namespace DbUtilsDemo
             var datasetExporter = new Korzh.DbUtils.Export.JsonDatasetExporter();
             var bridge = new Korzh.DbUtils.DbBridges.MsSqlBridge(connection as SqlConnection);
             //var packer = new Korzh.DbUtils.Packers.FileFolderPacker("Data");
-            var packer = new Korzh.DbUtils.Packers.ZipArchivePacker("EqDemoDb.zip");
+            var packer = new Korzh.DbUtils.Packing.ZipFilePacker("EqDemoDb.zip");
 
             var exporter = new Korzh.DbUtils.Export.DbExporter(bridge, datasetExporter, packer);
 

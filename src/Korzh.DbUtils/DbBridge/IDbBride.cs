@@ -14,5 +14,7 @@ namespace Korzh.DbUtils
         IDataReader GetDataReaderForTable(string tableName);
 
         IDataReader GetDataReaderForSql(string sql);
+
+        void WriteRecord(DataRow record);
     }
 }

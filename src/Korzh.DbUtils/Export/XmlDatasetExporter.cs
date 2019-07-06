@@ -27,7 +27,7 @@ namespace Korzh.DbUtils.Export
         //    _fileWriter = new StreamWriter(entry.Open());
         //}
 
-        public void Export(IDataReader dataReader, Stream outStream, string datasetName = null)
+        public void ExportDataset(IDataReader dataReader, Stream outStream, string datasetName = null)
         {
             var columns = new string[dataReader.FieldCount];
 
