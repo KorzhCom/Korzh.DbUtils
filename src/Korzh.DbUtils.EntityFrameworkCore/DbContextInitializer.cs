@@ -82,7 +82,7 @@ namespace Korzh.DbUtils.EntityFrameworkCore
                 tables.Add(curEntityType.Relational().TableName);
         }
 
-        protected override void InitTable(string tableName, IEnumerable<IDataItem> data)
+        protected override void InitTable(string tableName, IEnumerable<IDataRecord> data)
         {
             var entityType = GetEntityTypeByTableName(tableName);
             int count = 0;

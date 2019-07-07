@@ -1,16 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.IO;
+using System.Data;
 
 namespace Korzh.DbUtils.Import
 {
     public interface IDatasetImporter
     {
-        IEnumerable<IDataItem> ImportDataset(string tableName);
         void StartImport(Stream datasetStream);
 
         bool HasRecords();
-        System.Data.DataRow NextRecord();
+
+        IDataRecord NextRecord();
 
         void FinishImport();
+    }
+
+    public class DatasetImporterException : Exception
+    {
+        public DatasetImporterException(string message) : base(message)
+        {
+        }
     }
 }

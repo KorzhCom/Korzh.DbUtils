@@ -72,5 +72,10 @@ namespace Korzh.DbUtils.DbBridges
 
             return tables.AsReadOnly();
         }
+
+        public void WriteRecord(IDataRecord record)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace Korzh.DbUtils.Loaders
         {
         }
 
-        public override IEnumerable<IDataItem> LoadTableData(string entityName)
+        public override IEnumerable<IDataRecord> LoadTableData(string entityName)
         {
             var entry = ZipArchive.GetEntry(entityName + ".xml") ?? throw new XmlZipFileLoaderException($"File {entityName + ".xml"} is not found");
 
@@ -45,7 +45,7 @@ namespace Korzh.DbUtils.Loaders
                 {
                     while (xmlReader.Read() && xmlReader.Name.ToLowerInvariant().Equals("row"))
                     {
-                        var item = new DataItem();
+                        var item = new DataRecord();
                         XElement element = null;
 
                         using (XmlReader subXmlReader = xmlReader.ReadSubtree())

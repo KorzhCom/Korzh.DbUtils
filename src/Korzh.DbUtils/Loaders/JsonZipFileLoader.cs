@@ -32,7 +32,7 @@ namespace Korzh.DbUtils.Loaders
 
         }
 
-        public override IEnumerable<IDataItem> LoadTableData(string tableName)
+        public override IEnumerable<IDataRecord> LoadTableData(string tableName)
         {
             var entry = ZipArchive.GetEntry(tableName + ".json") ?? throw new JsonZipFileLoaderException($"File {tableName + ".json"} is not found");
 
@@ -44,7 +44,7 @@ namespace Korzh.DbUtils.Loaders
                 {
                     while (jsonReader.Read() && jsonReader.TokenType != JsonToken.EndArray)
                     {
-                        var item = new DataItem();
+                        var item = new DataRecord();
                         var data = JObject.Load(jsonReader);
 
                         foreach (var property in data.Properties())

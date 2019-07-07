@@ -4,6 +4,6 @@ namespace Korzh.DbUtils.Loaders
 {
     public interface IDbInitializerLoader
     {
-        IEnumerable<IDataItem> LoadTableData(string tableName);
+        IEnumerable<IDataRecord> LoadTableData(string tableName);
     }
 }

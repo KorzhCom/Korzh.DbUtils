@@ -22,15 +22,6 @@ namespace Korzh.DbUtils.Export
 
         public string FormatExtension => "json";
 
-
-        //public override void StartSaveTable(string tableName)
-        //{
-        //    _logger?.LogInformation($"Start saving table '{tableName}' to file '{tableName + ".json"}'");
-
-        //    ZipArchiveEntry entry = ZipArchive.CreateEntry(tableName + ".json");
-        //    _fileWriter = new StreamWriter(entry.Open());
-        //}
-
         public void ExportDataset(IDataReader dataReader, Stream outStream, string datasetName = null)
         {
             var columns = new string[dataReader.FieldCount];
@@ -41,7 +32,15 @@ namespace Korzh.DbUtils.Export
             using (var writer = new JsonTextWriter(new StreamWriter(outStream, Encoding.UTF8))) { ///TODO: Set encoding elsewhere
                 writer.Formatting = Formatting.Indented;
 
-                writer.WriteStartArray();
+                writer.WriteStartObject();  //root object start
+
+                writer.WritePropertyName("schema");
+                writer.WriteStartObject();  //schema object start
+                WriteSchemaProperties(writer);
+                writer.WriteEndObject();    //schema object end
+
+                writer.WritePropertyName("data");
+                writer.WriteStartArray();   //data array start
 
                 while (dataReader.Read()) {
                     _logger?.LogDebug("Start writting row.");
@@ -59,8 +58,13 @@ namespace Korzh.DbUtils.Export
 
                     _logger?.LogDebug("Finish writting row.");
                 }
-                writer.WriteEndArray();
+                writer.WriteEndArray();     //data array end
+                writer.WriteEndObject();    //root object end
             }
+        }
+
+        protected virtual void WriteSchemaProperties(JsonWriter writer)
+        {
         }
     }
 }

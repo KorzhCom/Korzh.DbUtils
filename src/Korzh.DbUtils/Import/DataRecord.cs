@@ -6,7 +6,7 @@ using System.Text;
 namespace Korzh.DbUtils
 {
 
-    public interface IDataItem
+    public interface IDataRecord
     {
         IReadOnlyDictionary<string, string> Properties { get; }
 
@@ -15,7 +15,7 @@ namespace Korzh.DbUtils
         bool TryGetProperty(string name, Type type, out object value);
     }
 
-    public class DataItem: IDataItem
+    public class DataRecord: IDataRecord
     {
         private readonly Dictionary<string, string> _properties = new Dictionary<string, string>();
 

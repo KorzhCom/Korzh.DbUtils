@@ -35,7 +35,7 @@ namespace Korzh.DbUtils
             }
         }
 
-        protected abstract void InitTable(string tableName, IEnumerable<IDataItem> data);
+        protected abstract void InitTable(string tableName, IEnumerable<IDataRecord> data);
 
         protected abstract IReadOnlyCollection<string> GetTables();
 

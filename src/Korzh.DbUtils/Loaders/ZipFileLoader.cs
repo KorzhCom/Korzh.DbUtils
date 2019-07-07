@@ -37,7 +37,7 @@ namespace Korzh.DbUtils.Loaders
             ZipArchive = new ZipArchive(stream, ZipArchiveMode.Read);
         }
 
-        public abstract IEnumerable<IDataItem> LoadTableData(string entityName);
+        public abstract IEnumerable<IDataRecord> LoadTableData(string entityName);
 
         public void Dispose()
         {
