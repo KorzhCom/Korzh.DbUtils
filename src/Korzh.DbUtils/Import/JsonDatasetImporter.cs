@@ -10,7 +10,7 @@ namespace Korzh.DbUtils.Import
     public class JsonDatasetImporter : IDatasetImporter
     {
         private JsonTextReader _jsonReader;
-        private bool _isEndOfRecords = false;
+        private bool _isEndOfData = false;
 
         public void StartImport(Stream datasetStream)
         {
@@ -19,25 +19,26 @@ namespace Korzh.DbUtils.Import
             if (_jsonReader.TokenType != JsonToken.StartObject) {
                 throw new DatasetImporterException($"Wrong file format at {_jsonReader.LineNumber}:{_jsonReader.LinePosition}");
             }
-            _isEndOfRecords = false;
+            _isEndOfData = false;
 
             if (!ReadToProperty("schema")) {
-                _isEndOfRecords = true;
+                _isEndOfData = true;
                 throw new DatasetImporterException($"Wrong file format. No 'schema' property");
             }
             _jsonReader.Read();
             ReadSchema();
             if (!ReadToProperty("data")) {
-                _isEndOfRecords = true;
+                _isEndOfData = true;
                 throw new DatasetImporterException($"Wrong file format. No 'data' property");
             }
             _jsonReader.Read();
             if (_jsonReader.TokenType != JsonToken.StartArray) {
                 throw new DatasetImporterException($"Wrong file format at {_jsonReader.LineNumber}:{_jsonReader.LinePosition}");
             }
-            _jsonReader.Read(); //read first object start
+            
+            //read first object start
             if (!_jsonReader.Read() || _jsonReader.TokenType != JsonToken.StartObject) {
-                _isEndOfRecords = true;
+                _isEndOfData = true;
             }
         }
 
@@ -58,7 +59,7 @@ namespace Korzh.DbUtils.Import
 
         public bool HasRecords()
         {
-            return !_isEndOfRecords;
+            return !_isEndOfData;
         }
 
         public IDataRecord NextRecord()
@@ -68,7 +69,7 @@ namespace Korzh.DbUtils.Import
             ReadRecordFields(record);
 
             if (!_jsonReader.Read() || _jsonReader.TokenType != JsonToken.StartObject) {
-                _isEndOfRecords = true;
+                _isEndOfData = true;
             }
             return record;
         }

@@ -20,13 +20,6 @@ namespace Korzh.DbUtils.Export
 
         public string FormatExtension => "xml";
 
-        //protected XmlWriter InitWriter(Stream outStream, string datasetName)
-        //{
-        //    _logger?.LogInformation($"Start saving table '{tableName}' to file '{tableName + ".xml"}'");
-        //    ZipArchiveEntry entry = ZipArchive.CreateEntry(tableName + ".xml");
-        //    _fileWriter = new StreamWriter(entry.Open());
-        //}
-
         public void ExportDataset(IDataReader dataReader, Stream outStream, string datasetName = null)
         {
             var columns = new string[dataReader.FieldCount];
@@ -44,6 +37,11 @@ namespace Korzh.DbUtils.Export
                     writer.WriteAttributeString("name", datasetName);
                 }
 
+                writer.WriteStartElement("Schema");
+                WriteDatasetSchema(writer);
+                writer.WriteEndElement();
+
+                writer.WriteStartElement("Data");
                 while (dataReader.Read()) {
                     _logger?.LogDebug("Start writting row.");
                     writer.WriteStartElement("Row");
@@ -63,10 +61,15 @@ namespace Korzh.DbUtils.Export
                     _logger?.LogDebug("Finish writting row.");
                 }
 
-                writer.WriteEndElement();
+                writer.WriteEndElement(); //Data
+                writer.WriteEndElement(); //Dataset
                 writer.WriteEndDocument();
-                _logger?.LogInformation("Finish saving table");
+                _logger?.LogInformation("Finish saving dataset");
             }
+        }
+
+        protected virtual void WriteDatasetSchema(XmlTextWriter writer)
+        {
         }
     }
 }
