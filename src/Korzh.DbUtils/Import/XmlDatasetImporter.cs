@@ -12,6 +12,8 @@ namespace Korzh.DbUtils.Import
 
         public string FileExtension => "xml";
 
+        private DatasetInfo _datasetInfo;
+
         public DatasetInfo StartImport(Stream datasetStream)
         {
             _isEndOfData = true;
@@ -22,6 +24,7 @@ namespace Korzh.DbUtils.Import
             }
 
             var datasetInfo = new DatasetInfo(_xmlReader.GetAttribute("name"));
+            _datasetInfo = datasetInfo;
 
             _isEndOfData = false;
 
@@ -55,6 +58,13 @@ namespace Korzh.DbUtils.Import
 
         protected virtual void ReadSchema()
         {
+            if (ReadToElement("Columns")) {
+                while (_xmlReader.Read()
+                    && _xmlReader.NodeType == XmlNodeType.Element) {
+
+                    _datasetInfo.AddColumn(new ColumnInfo(_xmlReader.GetAttribute("name"), _xmlReader.GetAttribute("type")));
+                }
+            }
         }
 
         public bool HasRecords()

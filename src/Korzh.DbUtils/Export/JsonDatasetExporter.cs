@@ -46,12 +46,13 @@ namespace Korzh.DbUtils.Export
 
                     writer.WriteStartObject();
                     foreach (var column in columns) {
-                        writer.WritePropertyName(column);
-
                         var value = dataReader.GetValue(dataReader.GetOrdinal(column));
-                        writer.WriteValue(value);
+                        if (value.GetType() != typeof(DBNull)) { 
+                            writer.WritePropertyName(column);
+                            writer.WriteValue(value);
 
-                        _logger?.LogDebug($"Column={column}; Value={value}");
+                            _logger?.LogDebug($"Column={column}; Value={value}");
+                        }
                     }
                     writer.WriteEndObject();
 
@@ -64,15 +65,19 @@ namespace Korzh.DbUtils.Export
 
         protected virtual void WriteSchemaProperties(JsonWriter writer, IDataReader dataReader)
         {
-            writer.WritePropertyName("colums");
+            writer.WritePropertyName("columns");
             writer.WriteStartArray(); //data fields start
             var schema = dataReader.GetSchemaTable();
             foreach (DataColumn column in schema.Columns) {
+                writer.WriteStartObject();
+
                 writer.WritePropertyName("name");
                 writer.WriteValue(column.ColumnName);
 
                 writer.WritePropertyName("type");
                 writer.WriteValue(column.DataType.ToString());
+
+                writer.WriteEndObject();
             }
             writer.WriteEndArray(); //data fields end
         }

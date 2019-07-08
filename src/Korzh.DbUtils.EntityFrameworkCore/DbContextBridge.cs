@@ -100,8 +100,4 @@ namespace Korzh.DbUtils.EntityFrameworkCore
     {
         public DbContextBridge(TDbContext dbContext) : base(dbContext) { }
     }
-
-    public class DbContextInitializer2<TDbContext> : DbInitializer where TDbContext : DbContext
-    {
-    }
 }
