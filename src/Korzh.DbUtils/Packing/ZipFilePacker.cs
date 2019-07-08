@@ -40,7 +40,7 @@ namespace Korzh.DbUtils.Packing
             _logger?.LogInformation("Start writting to file: " + _fileName);
         }
 
-        public Stream OpenStream(string entryName)
+        public Stream OpenStreamForPacking(string entryName)
         {
             var entry = _zipArchive.CreateEntry(entryName);
             return entry.Open();
@@ -62,12 +62,6 @@ namespace Korzh.DbUtils.Packing
             _zipArchive = ZipFile.Open(_fileName, ZipArchiveMode.Read);
             _unpackingEntry = 0;
 
-            //_unpackingEntries = _zipArchive.Entries;//.Select(e => e.Name).ToList();
-            //foreach (var name in entryNames) {
-            //    var entry = _zipArchive.GetEntry(name);
-            //    entry?.Delete();
-            //}
-
             _logger?.LogInformation("Start unpacking" + _fileName);
         }
 
@@ -81,7 +75,7 @@ namespace Korzh.DbUtils.Packing
             return _unpackingEntry < _zipArchive.Entries.Count;
         }
 
-        public Stream NextDatasetStream()
+        public Stream OpenNextStreamForUnpacking()
         {
             if (!HasData()) {
                 throw new ZipFilePackerException("No more entries to unpack");

@@ -23,7 +23,7 @@ namespace Korzh.DbUtils.Import
             _dataUnpacker.StartUnpacking();
             try {
                 while (_dataUnpacker.HasData()) {
-                    using (var datasetStream = _dataUnpacker.NextDatasetStream()) {
+                    using (var datasetStream = _dataUnpacker.OpenNextStreamForUnpacking()) {
                         var dataset = _datasetImporter.StartImport(datasetStream);
                         Console.WriteLine($"Reading {dataset.Name}..."); //!!!!!!!!!!!!!!!!!!!!!
                         while (_datasetImporter.HasRecords()) {

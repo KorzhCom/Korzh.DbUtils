@@ -9,7 +9,7 @@ namespace Korzh.DbUtils
     {
         void StartPacking();
 
-        Stream OpenStream(string datasetName);
+        Stream OpenStreamForPacking(string datasetName);
 
         void FinishPacking();
     }

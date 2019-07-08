@@ -37,7 +37,7 @@ namespace Korzh.DbUtils.Export
 
         protected virtual Stream GetPackerStream(string datasetName)
         {
-            return _dataPacker.OpenStream(datasetName + "." + _datasetExporter.FormatExtension);
+            return _dataPacker.OpenStreamForPacking(datasetName + "." + _datasetExporter.FormatExtension);
         }
     }
 }

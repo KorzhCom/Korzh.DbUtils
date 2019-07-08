@@ -6,16 +6,16 @@ using Microsoft.Extensions.Logging;
 
 namespace Korzh.DbUtils.Packing
 {
-    public class FileFolderPacker : IDataPacker
+    public class FileFolderPacker : IDataPacker, IDataUnpacker
     {
         private readonly string _folderPath;
         private ILogger _logger; 
 
-        public FileFolderPacker(string folderPath, ILogger logger = null)
+        public FileFolderPacker(string folderPath, ILoggerFactory loggerFactory = null)
         {
             _folderPath = folderPath;
 
-            _logger = logger;
+            _logger = loggerFactory?.CreateLogger("DbUtils.Packing");
         }
 
         public void StartPacking()
@@ -24,7 +24,7 @@ namespace Korzh.DbUtils.Packing
             Directory.CreateDirectory(_folderPath);
         }
 
-        public Stream OpenStream(string entryName)
+        public Stream OpenStreamForPacking(string entryName)
         {
             var filePath = Path.Combine(_folderPath, entryName);
             return File.Create(filePath);
@@ -33,6 +33,25 @@ namespace Korzh.DbUtils.Packing
         public void FinishPacking()
         {
             _logger?.LogInformation("Finished writing to folder: " + _folderPath);
+        }
+
+        public void StartUnpacking()
+        {
+        }
+
+        public void FinishUnpacking()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool HasData()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Stream OpenNextStreamForUnpacking()
+        {
+            throw new NotImplementedException();
         }
     }
 }
