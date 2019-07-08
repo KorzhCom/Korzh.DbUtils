@@ -14,7 +14,6 @@ namespace Korzh.DbUtils.Import
 
         public DatasetInfo StartImport(Stream datasetStream)
         {
-            var datasetInfo = new DatasetInfo();
 
             _jsonReader = new JsonTextReader(new StreamReader(datasetStream));
             _jsonReader.Read();
@@ -28,7 +27,7 @@ namespace Korzh.DbUtils.Import
                 throw new DatasetImporterException($"Wrong file format. No 'schema' property");
             }
 
-            datasetInfo.Name = _jsonReader.ReadAsString();
+            var datasetInfo = new DatasetInfo(_jsonReader.ReadAsString());
 
             if (!ReadToProperty("schema")) {
                 _isEndOfData = true;

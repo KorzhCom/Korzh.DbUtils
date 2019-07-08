@@ -10,7 +10,7 @@ namespace Korzh.DbUtils.Packing
 
         bool HasData();
 
-        Stream OpenNextStreamForUnpacking();
+        Stream OpenStreamForUnpacking(string entryName);
     }
 
 }

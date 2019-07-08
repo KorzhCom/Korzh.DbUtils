@@ -57,17 +57,18 @@ namespace Korzh.DbUtils.DbBridges
             return GetDataReaderForSql("SELECT * FROM [" + tableName + "]");
         }
 
-        public IReadOnlyCollection<string> GetTableNames()
+        public IReadOnlyCollection<DatasetInfo> GetDatasets()
         {
             CheckConnection();
             DataTable schemaTable = _connection.GetSchema(SqlClientMetaDataCollectionNames.Tables);
-            var tables = new List<string>();
+            var tables = new List<DatasetInfo>();
 
             foreach (DataRow row in schemaTable.Rows) {
                 string tableType = (string)row["TABLE_TYPE"];
                 string tableName = (string)row["TABLE_NAME"];
-                if (tableType == "BASE TABLE")
-                    tables.Add(tableName);
+                if (tableType == "BASE TABLE") {
+                    tables.Add(new DatasetInfo(tableName));
+                }
             }
 
             return tables.AsReadOnly();

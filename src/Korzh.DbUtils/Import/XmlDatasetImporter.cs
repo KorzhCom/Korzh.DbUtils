@@ -13,13 +13,13 @@ namespace Korzh.DbUtils.Import
         public DatasetInfo StartImport(Stream datasetStream)
         {
             _isEndOfData = true;
-            var datasetInfo = new DatasetInfo();
+
             _xmlReader = new XmlTextReader(new StreamReader(datasetStream));
             if (!ReadToElement("Dataset")) {
                 throw new DatasetImporterException($"Wrong file format. No 'Dataset' element");
             }
 
-            datasetInfo.Name = _xmlReader.GetAttribute("name");
+            var datasetInfo = new DatasetInfo(_xmlReader.GetAttribute("name"));
 
             _isEndOfData = false;
 

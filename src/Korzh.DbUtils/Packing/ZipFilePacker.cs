@@ -75,13 +75,9 @@ namespace Korzh.DbUtils.Packing
             return _unpackingEntry < _zipArchive.Entries.Count;
         }
 
-        public Stream OpenNextStreamForUnpacking()
+        public Stream OpenStreamForUnpacking(string entryName)
         {
-            if (!HasData()) {
-                throw new ZipFilePackerException("No more entries to unpack");
-            }
-            var entry = _zipArchive.Entries[_unpackingEntry];
-            _unpackingEntry++;
+            var entry = _zipArchive.Entries.FirstOrDefault(e => e.Name == entryName);
             return entry.Open();
         }
     }

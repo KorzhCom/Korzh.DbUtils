@@ -9,7 +9,7 @@ namespace Korzh.DbUtils
     {
         IDbConnection GetConnection();
 
-        IReadOnlyCollection<string> GetTableNames();
+        IReadOnlyCollection<DatasetInfo> GetDatasets();
     }
 
     public interface IDbReader : IDbBridge

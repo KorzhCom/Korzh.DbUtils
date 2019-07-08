@@ -39,7 +39,7 @@ namespace Korzh.DbUtils.EntityFrameworkCore
             return DbContext.Database.GetDbConnection();
         }
 
-        public IReadOnlyCollection<string> GetTableNames()
+        public IReadOnlyCollection<string> GetDatasets()
         {
             var entityTypes = DbContext.Model.GetEntityTypes();
             var tables = new List<string>(entityTypes.Count());

@@ -49,7 +49,7 @@ namespace Korzh.DbUtils.Packing
             throw new NotImplementedException();
         }
 
-        public Stream OpenNextStreamForUnpacking()
+        public Stream OpenStreamForUnpacking(string entryName)
         {
             throw new NotImplementedException();
         }

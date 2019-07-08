@@ -55,13 +55,13 @@ namespace Korzh.DbUtils.DbBridges
             return GetDataReaderForSql("SELECT * FROM `" + tableName + "`");
         }
 
-        public IReadOnlyCollection<string> GetTableNames()
+        public IReadOnlyCollection<DatasetInfo> GetDatasets()
         {
-            var tables = new List<string>();
+            var tables = new List<DatasetInfo>();
             using (var dataReader = GetDataReaderForSql("SHOW TABLES")) {
                 while (dataReader.Read()) {
                     string tableName = dataReader.GetString(0);
-                    tables.Add(tableName);
+                    tables.Add(new DatasetInfo(tableName));
                 }
             }
             return tables.AsReadOnly();

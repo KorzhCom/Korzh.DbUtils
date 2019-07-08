@@ -18,7 +18,7 @@ namespace Korzh.DbUtils.Export
 
         public void Export()
         {
-            var tables = _dbReader.GetTableNames();
+            var tables = _dbReader.GetDatasets();
             if (tables.Count > 0) {
                 _dataPacker.StartPacking();
                 try {

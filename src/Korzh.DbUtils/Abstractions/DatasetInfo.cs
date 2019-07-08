@@ -6,6 +6,11 @@ namespace Korzh.DbUtils
 {
     public class DatasetInfo
     {
-        public string Name { get; set; }
+        public string Name { get; private set; }
+
+        public DatasetInfo(string name)
+        {
+            Name = name;
+        }
     }
 }
