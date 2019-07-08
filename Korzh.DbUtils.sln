@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.EntityFramewo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{FA1BBF18-4752-4BAE-92F1-4DE0D721A91E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbUtilsDemo", "samples\DbUtilsDemo\DbUtilsDemo.csproj", "{5A4889B8-8EB7-4242-A3A5-F177F9699799}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbUtilsDemo", "samples\DbUtilsDemo\DbUtilsDemo.csproj", "{5A4889B8-8EB7-4242-A3A5-F177F9699799}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreTestApp", "samples\AspNetCoreTestApp\AspNetCoreTestApp.csproj", "{EA51C0C3-4D53-45A8-9E0D-D05B22B87B07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{5A4889B8-8EB7-4242-A3A5-F177F9699799}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A4889B8-8EB7-4242-A3A5-F177F9699799}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A4889B8-8EB7-4242-A3A5-F177F9699799}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA51C0C3-4D53-45A8-9E0D-D05B22B87B07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA51C0C3-4D53-45A8-9E0D-D05B22B87B07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA51C0C3-4D53-45A8-9E0D-D05B22B87B07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA51C0C3-4D53-45A8-9E0D-D05B22B87B07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{813D7CE2-162F-4E03-ABEA-F4685BBD0332} = {2ED5DC21-5E61-4244-BF19-CEBA7B7FDB00}
 		{5F0CCD3F-764F-4CED-AFFC-3A1F42FAF518} = {1BE9C416-D4CD-40CE-95FD-37A604595058}
 		{5A4889B8-8EB7-4242-A3A5-F177F9699799} = {FA1BBF18-4752-4BAE-92F1-4DE0D721A91E}
+		{EA51C0C3-4D53-45A8-9E0D-D05B22B87B07} = {FA1BBF18-4752-4BAE-92F1-4DE0D721A91E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B25EF7F4-DB2D-44B6-AA7F-2CAC60551D0C}

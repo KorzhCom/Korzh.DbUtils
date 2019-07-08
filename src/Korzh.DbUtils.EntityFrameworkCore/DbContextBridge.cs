@@ -102,11 +102,4 @@ namespace Korzh.DbUtils.EntityFrameworkCore
             : base( Activator.CreateInstance<TDbContext>())
         { }
     }
-
-    public class DbContextInitializer2<TDbContext> : DbInitializer where TDbContext : DbContext
-    {
-        public DbContextInitializer2(DbBackupFormat format = DbBackupFormat.XML, bool zip = false)
-            : base(new DbContextBridge<TDbContext>(), format, zip)
-        { }
-    }
 }
