@@ -30,11 +30,9 @@ namespace Korzh.DbUtils.EntityFrameworkCore
         public static bool TryGetProperty(this IDataRecord dataRecord, int i, Type type, out object value)
         {
 
-            try
-            {
+            try {
 
-                if (type == typeof(string))
-                {
+                if (type == typeof(string)) {
                     value = dataRecord.GetString(i);
                     return true;
                 }
@@ -76,8 +74,6 @@ namespace Korzh.DbUtils.EntityFrameworkCore
                     value = dataRecord.GetFloat(i);
                     return true;
                 }
-
-         
 
                 if (type == typeof(double)
                     || type == typeof(double?))

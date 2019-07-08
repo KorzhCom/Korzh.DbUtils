@@ -76,7 +76,7 @@ namespace Korzh.DbUtils.EntityFrameworkCore
         private void DetermineTableOrder(IEntityType startEntityType, IEntityType curEntityType, ref List<DatasetInfo> tables)
         {
             if (startEntityType == curEntityType) {
-                throw new DbContextInitializerException($"Loop is detected between tables. Unable to find the right order for tables.");
+                throw new DbContextBridgeException($"Loop is detected between tables. Unable to find the right order for tables.");
             }
 
             var refereneces = curEntityType.GetReferencingForeignKeys();
