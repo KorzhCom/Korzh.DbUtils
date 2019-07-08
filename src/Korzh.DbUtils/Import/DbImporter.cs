@@ -36,9 +36,6 @@ namespace Korzh.DbUtils.Import
                         }
                     }
                 }
-                //while (_dataUnpacker.HasData()) {
-
-                //}
             }
             finally {
                 _dataUnpacker.FinishUnpacking();
