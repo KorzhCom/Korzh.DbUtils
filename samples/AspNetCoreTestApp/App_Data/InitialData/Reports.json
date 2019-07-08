@@ -1,0 +1,156 @@
+﻿{
+  "name": "Reports",
+  "schema": {
+    "columns": [
+      {
+        "name": "ColumnName",
+        "type": "System.String"
+      },
+      {
+        "name": "ColumnOrdinal",
+        "type": "System.Int32"
+      },
+      {
+        "name": "ColumnSize",
+        "type": "System.Int32"
+      },
+      {
+        "name": "NumericPrecision",
+        "type": "System.Int16"
+      },
+      {
+        "name": "NumericScale",
+        "type": "System.Int16"
+      },
+      {
+        "name": "IsUnique",
+        "type": "System.Boolean"
+      },
+      {
+        "name": "IsKey",
+        "type": "System.Boolean"
+      },
+      {
+        "name": "BaseServerName",
+        "type": "System.String"
+      },
+      {
+        "name": "BaseCatalogName",
+        "type": "System.String"
+      },
+      {
+        "name": "BaseColumnName",
+        "type": "System.String"
+      },
+      {
+        "name": "BaseSchemaName",
+        "type": "System.String"
+      },
+      {
+        "name": "BaseTableName",
+        "type": "System.String"
+      },
+      {
+        "name": "DataType",
+        "type": "System.Type"
+      },
+      {
+        "name": "AllowDBNull",
+        "type": "System.Boolean"
+      },
+      {
+        "name": "ProviderType",
+        "type": "System.Int32"
+      },
+      {
+        "name": "IsAliased",
+        "type": "System.Boolean"
+      },
+      {
+        "name": "IsExpression",
+        "type": "System.Boolean"
+      },
+      {
+        "name": "IsIdentity",
+        "type": "System.Boolean"
+      },
+      {
+        "name": "IsAutoIncrement",
+        "type": "System.Boolean"
+      },
+      {
+        "name": "IsRowVersion",
+        "type": "System.Boolean"
+      },
+      {
+        "name": "IsHidden",
+        "type": "System.Boolean"
+      },
+      {
+        "name": "IsLong",
+        "type": "System.Boolean"
+      },
+      {
+        "name": "IsReadOnly",
+        "type": "System.Boolean"
+      },
+      {
+        "name": "ProviderSpecificDataType",
+        "type": "System.Type"
+      },
+      {
+        "name": "DataTypeName",
+        "type": "System.String"
+      },
+      {
+        "name": "XmlSchemaCollectionDatabase",
+        "type": "System.String"
+      },
+      {
+        "name": "XmlSchemaCollectionOwningSchema",
+        "type": "System.String"
+      },
+      {
+        "name": "XmlSchemaCollectionName",
+        "type": "System.String"
+      },
+      {
+        "name": "UdtAssemblyQualifiedName",
+        "type": "System.String"
+      },
+      {
+        "name": "NonVersionedProviderType",
+        "type": "System.Int32"
+      },
+      {
+        "name": "IsColumnSet",
+        "type": "System.Boolean"
+      }
+    ]
+  },
+  "data": [
+    {
+      "Id": "112ddc22-93ff-4b72-8022-3d1089bd612c",
+      "Name": "Sales by product (this year)",
+      "Description": "",
+      "ModelId": "adhoc-reporting",
+      "QueryJson": "{\r\n  \"id\": \"bb0b3e5a-294e-4088-acaa-1ff1f3731843\",\r\n  \"name\": \"Sales by product (this year)\",\r\n  \"desc\": null,\r\n  \"cols\": [\r\n    {\r\n      \"cptn\": \"Name\",\r\n      \"srt\": 0,\r\n      \"expr\": {\r\n        \"tag\": 2,\r\n        \"dtype\": 1,\r\n        \"kind\": 2,\r\n        \"id\": \"Product.Name\"\r\n      }\r\n    },\r\n    {\r\n      \"cptn\": \"Freight Sum\",\r\n      \"srt\": 0,\r\n      \"expr\": {\r\n        \"tag\": 4,\r\n        \"dtype\": 8,\r\n        \"kind\": 0,\r\n        \"func\": \"SUM\",\r\n        \"distinct\": false,\r\n        \"args\": [\r\n          {\r\n            \"tag\": 2,\r\n            \"dtype\": 8,\r\n            \"kind\": 2,\r\n            \"id\": \"Order.Freight\"\r\n          }\r\n        ]\r\n      }\r\n    }\r\n  ],\r\n  \"justsortcols\": [],\r\n  \"root\": {\r\n    \"linking\": 3,\r\n    \"conds\": [\r\n      {\r\n        \"tag\": 1,\r\n        \"op\": \"DateWithinThisYear\",\r\n        \"exprs\": [\r\n          {\r\n            \"tag\": 2,\r\n            \"dtype\": 12,\r\n            \"kind\": 2,\r\n            \"id\": \"Order.OrderDate\"\r\n          }\r\n        ]\r\n      },\r\n      {\r\n        \"tag\": 1,\r\n        \"op\": \"Equal\",\r\n        \"exprs\": [\r\n          {\r\n            \"tag\": 2,\r\n            \"dtype\": 1,\r\n            \"kind\": 2,\r\n            \"id\": \"Customer.Country\"\r\n          },\r\n          {\r\n            \"tag\": 1,\r\n            \"dtype\": 1,\r\n            \"kind\": 0,\r\n            \"val\": \"USA\",\r\n            \"txt\": \"USA\"\r\n          }\r\n        ]\r\n      }\r\n    ]\r\n  }\r\n}",
+      "OwnerId": "fb8ed5b2-6a68-4d64-920d-eb64dcd72654"
+    },
+    {
+      "Id": "9d767fca-52ea-42f4-93f1-401b5d8d2c48",
+      "Name": "Empolyee of the year",
+      "ModelId": "adhoc-reporting",
+      "QueryJson": "{\"id\":\"9d767fca-52ea-42f4-93f1-401b5d8d2c48\",\"name\":\"Empolyee of the year\",\"desc\":null,\"cols\":[{\"cptn\":\"First name\",\"srt\":0,\"expr\":{\"tag\":2,\"dtype\":1,\"kind\":2,\"id\":\"Employee.FirstName\"}},{\"cptn\":\"Last name\",\"srt\":0,\"expr\":{\"tag\":2,\"dtype\":1,\"kind\":2,\"id\":\"Employee.LastName\"}},{\"cptn\":\"Title\",\"srt\":0,\"expr\":{\"tag\":2,\"dtype\":1,\"kind\":2,\"id\":\"Employee.Title\"}},{\"cptn\":\"Home phone\",\"srt\":0,\"expr\":{\"tag\":2,\"dtype\":1,\"kind\":2,\"id\":\"Employee.HomePhone\"}},{\"cptn\":\"Unit price Sum\",\"srt\":2,\"srtidx\":0,\"expr\":{\"tag\":4,\"dtype\":8,\"kind\":0,\"func\":\"SUM\",\"distinct\":false,\"args\":[{\"tag\":2,\"dtype\":8,\"kind\":2,\"id\":\"OrderDetail.UnitPrice\"}]}}],\"justsortcols\":[],\"root\":{\"linking\":3,\"conds\":[{\"tag\":1,\"op\":\"DateWithinPrevMonth\",\"exprs\":[{\"tag\":2,\"dtype\":12,\"kind\":2,\"id\":\"Order.OrderDate\"}]},{\"tag\":1,\"op\":\"Equal\",\"exprs\":[{\"tag\":2,\"dtype\":1,\"kind\":2,\"id\":\"Customer.Country\"},{\"tag\":1,\"dtype\":1,\"kind\":0,\"val\":\"USA\",\"txt\":\"USA\"}]}]}}",
+      "OwnerId": "fb8ed5b2-6a68-4d64-920d-eb64dcd72654"
+    },
+    {
+      "Id": "c3649466-67da-4d79-ac11-19e9210df6c8",
+      "Name": "Sales by countries (last year)",
+      "Description": "",
+      "ModelId": "adhoc-reporting",
+      "QueryJson": "{\r\n  \"id\": \"fee014cd-ad47-4a33-9c16-4cdf903bfbd2\",\r\n  \"name\": \"Sales by countries (last year)\",\r\n  \"desc\": null,\r\n  \"cols\": [\r\n    {\r\n      \"cptn\": \"Country\",\r\n      \"srt\": 1,\r\n      \"srtidx\": 0,\r\n      \"expr\": {\r\n        \"tag\": 2,\r\n        \"dtype\": 1,\r\n        \"kind\": 2,\r\n        \"id\": \"Customer.Country\"\r\n      }\r\n    },\r\n    {\r\n      \"cptn\": \"Freight Sum\",\r\n      \"srt\": 0,\r\n      \"expr\": {\r\n        \"tag\": 4,\r\n        \"dtype\": 8,\r\n        \"kind\": 0,\r\n        \"func\": \"SUM\",\r\n        \"distinct\": false,\r\n        \"args\": [\r\n          {\r\n            \"tag\": 2,\r\n            \"dtype\": 8,\r\n            \"kind\": 2,\r\n            \"id\": \"Order.Freight\"\r\n          }\r\n        ]\r\n      }\r\n    }\r\n  ],\r\n  \"justsortcols\": [],\r\n  \"root\": {\r\n    \"linking\": 3,\r\n    \"conds\": [\r\n      {\r\n        \"tag\": 1,\r\n        \"op\": \"DateWithinPrevYear\",\r\n        \"exprs\": [\r\n          {\r\n            \"tag\": 2,\r\n            \"dtype\": 12,\r\n            \"kind\": 2,\r\n            \"id\": \"Order.OrderDate\"\r\n          }\r\n        ]\r\n      },\r\n      {\r\n        \"tag\": 1,\r\n        \"op\": \"Equal\",\r\n        \"exprs\": [\r\n          {\r\n            \"tag\": 2,\r\n            \"dtype\": 4,\r\n            \"kind\": 2,\r\n            \"id\": \"OrderDetail.ProductID\"\r\n          },\r\n          {\r\n            \"tag\": 1,\r\n            \"dtype\": 4,\r\n            \"kind\": 0,\r\n            \"val\": \"66\",\r\n            \"txt\": \"\"\r\n          }\r\n        ]\r\n      }\r\n    ]\r\n  }\r\n}",
+      "OwnerId": "fb8ed5b2-6a68-4d64-920d-eb64dcd72654"
+    }
+  ]
+}

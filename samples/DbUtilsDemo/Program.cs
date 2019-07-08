@@ -43,8 +43,8 @@ namespace DbUtilsDemo
             //var datasetExporter = new XmlDatasetExporter();
             var datasetExporter = new JsonDatasetExporter();
             var bridge = new MsSqlBridge(connection as SqlConnection);
-            //var packer = new FileFolderPacker("Data");
-            var packer = new ZipFilePacker("EqDemoDb.zip");
+            var packer = new FileFolderPacker("Data");
+            //var packer = new ZipFilePacker("EqDemoDb.zip");
 
             var exporter = new DbExporter(bridge, datasetExporter, packer);
 

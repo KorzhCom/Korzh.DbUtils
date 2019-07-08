@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using Korzh.DbUtils.Import;
 using Korzh.DbUtils.Packing;
 
@@ -12,18 +12,25 @@ namespace Korzh.DbUtils
     }
 
 
-    public class DbInitializer
+    public class DbInitializer : IDisposable
     {
         private readonly DbImporter _dbImporter;
+
+        private DbInitializerOptions _options;
+
+
 
         public DbInitializer(DbInitializerOptions options)
         {
             _dbImporter = new DbImporter(options.DbWriter, options.DatasetImporter, options.Unpacker);
+            _options = options;
         }
 
         public void Run()
         {
-            _dbImporter.Import();
+            if (_options.NeedDataSeeding) {
+                _dbImporter.Import();
+            }
         }
 
 
@@ -43,6 +50,29 @@ namespace Korzh.DbUtils
 
             return new DbInitializer(options);
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue) {
+                if (disposing) {
+                    foreach (var obj in _options.DisposableObjects) {
+                        obj.Dispose();
+                    }
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 
     public class DbInitializerOptions
@@ -54,6 +84,9 @@ namespace Korzh.DbUtils
         public IDatasetImporter DatasetImporter { get; set; }
 
         public IDataUnpacker Unpacker { get; set; }
+        public bool NeedDataSeeding { get; set; } = false;
+
+        public IList<IDisposable> DisposableObjects { get; } = new List<IDisposable>();
 
         public DbInitializerOptions() {
             InitialDataFolder = System.IO.Path.Combine("App_Data", "InitialData");

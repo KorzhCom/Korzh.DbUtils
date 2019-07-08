@@ -55,13 +55,16 @@ namespace AspNetCoreTestApp
             app.UseCookiePolicy();
 
             app.UseMvc();
-            
-            Korzh.DbUtils.DbInitializer.Create(options => {
+
+            using (var initializer = Korzh.DbUtils.DbInitializer.Create(options => {
                 //options.UseDbContext(dbContext);
-                options.UseDbContext<AppDbContext>(app.ApplicationServices);  //options => options.UseSqlServer(Configuration.GetConnectionString("EqDbDemo"))
+                options.UseDbContext<AppDbContext>(app.ApplicationServices, false);  //options => options.UseSqlServer(Configuration.GetConnectionString("EqDbDemo"))
                 //options.UseJsonFormat();
                 //options.UseFileFolder("App_Data\\DbInitData");
-            }).Run();                
+            })) 
+            {
+                initializer.Run();
+            } 
         }
     }
 }
