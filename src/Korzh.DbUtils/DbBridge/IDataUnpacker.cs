@@ -4,13 +4,13 @@ namespace Korzh.DbUtils.Packing
 {
     public interface IDataUnpacker
     {
-        void StartUnpacking();
+        void StartUnpacking(string fileExtension);
 
         void FinishUnpacking();
 
         bool HasData();
 
-        Stream OpenStreamForUnpacking(string entryName);
+        Stream OpenStreamForUnpacking(string datasetName);
     }
 
 }

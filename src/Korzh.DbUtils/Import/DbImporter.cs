@@ -20,22 +20,22 @@ namespace Korzh.DbUtils.Import
 
         public void Import()
         {
-            _dataUnpacker.StartUnpacking();
+            _dataUnpacker.StartUnpacking(_datasetImporter.FileExtension);
             try {
-                var tables = _dbWriter.GetDatasets();
-                foreach (var table in tables) {
-
+                var datasets = _dbWriter.GetDatasets();
+                foreach (var table in datasets) {
+                    using (var datasetStream = _dataUnpacker.OpenStreamForUnpacking(table.Name)) {
+                        var dataset = _datasetImporter.StartImport(datasetStream);
+                        Console.WriteLine($"Reading {dataset.Name}..."); //!!!!!!!!!!!!!!!!!!!!!
+                        while (_datasetImporter.HasRecords()) {
+                            _dbWriter.WriteRecord(table.Name, _datasetImporter.NextRecord());
+                        }
+                        _datasetImporter.FinishImport();
+                        Console.WriteLine("");
+                    }
                 }
                 //while (_dataUnpacker.HasData()) {
-                //    using (var datasetStream = _dataUnpacker.OpenStreamForUnpacking()) {
-                //        var dataset = _datasetImporter.StartImport(datasetStream);
-                //        Console.WriteLine($"Reading {dataset.Name}..."); //!!!!!!!!!!!!!!!!!!!!!
-                //        while (_datasetImporter.HasRecords()) {
-                //            _dbWriter.WriteRecord(_datasetImporter.NextRecord());
-                //        }
-                //        _datasetImporter.FinishImport();
-                //        Console.WriteLine("");
-                //    }
+
                 //}
             }
             finally {

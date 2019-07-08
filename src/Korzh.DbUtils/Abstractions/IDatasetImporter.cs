@@ -13,6 +13,8 @@ namespace Korzh.DbUtils
         IDataRecord NextRecord();
 
         void FinishImport();
+
+        string FileExtension { get; }
     }
 
     public class DatasetImporterException : Exception

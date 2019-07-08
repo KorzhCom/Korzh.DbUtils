@@ -18,7 +18,7 @@ namespace Korzh.DbUtils.Export
         {
         }
 
-        public string FormatExtension => "xml";
+        public string FileExtension => "xml";
 
         public void ExportDataset(IDataReader dataReader, Stream outStream, string datasetName = null)
         {

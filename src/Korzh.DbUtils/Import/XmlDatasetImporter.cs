@@ -10,6 +10,8 @@ namespace Korzh.DbUtils.Import
         private XmlTextReader _xmlReader;
         private bool _isEndOfData = false;
 
+        public string FileExtension => "xml";
+
         public DatasetInfo StartImport(Stream datasetStream)
         {
             _isEndOfData = true;
