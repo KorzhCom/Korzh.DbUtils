@@ -14,8 +14,7 @@ namespace Korzh.DbUtils.Export
         private ILogger _logger = null;
 
         public JsonDatasetExporter()
-        {
-          
+        {          
         }
 
         public string FormatExtension => "json";
@@ -31,6 +30,8 @@ namespace Korzh.DbUtils.Export
                 writer.Formatting = Formatting.Indented;
 
                 writer.WriteStartObject();  //root object start
+                writer.WritePropertyName("name");
+                writer.WriteValue(datasetName);
 
                 writer.WritePropertyName("schema");
                 writer.WriteStartObject();  //schema object start

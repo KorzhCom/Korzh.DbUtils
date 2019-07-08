@@ -12,14 +12,23 @@ namespace Korzh.DbUtils.Import
         private JsonTextReader _jsonReader;
         private bool _isEndOfData = false;
 
-        public void StartImport(Stream datasetStream)
+        public DatasetInfo StartImport(Stream datasetStream)
         {
+            var datasetInfo = new DatasetInfo();
+
             _jsonReader = new JsonTextReader(new StreamReader(datasetStream));
             _jsonReader.Read();
             if (_jsonReader.TokenType != JsonToken.StartObject) {
                 throw new DatasetImporterException($"Wrong file format at {_jsonReader.LineNumber}:{_jsonReader.LinePosition}");
             }
             _isEndOfData = false;
+
+            if (!ReadToProperty("name")) {
+                _isEndOfData = true;
+                throw new DatasetImporterException($"Wrong file format. No 'schema' property");
+            }
+
+            datasetInfo.Name = _jsonReader.ReadAsString();
 
             if (!ReadToProperty("schema")) {
                 _isEndOfData = true;
@@ -40,6 +49,8 @@ namespace Korzh.DbUtils.Import
             if (!_jsonReader.Read() || _jsonReader.TokenType != JsonToken.StartObject) {
                 _isEndOfData = true;
             }
+
+            return datasetInfo;
         }
 
         private bool ReadToProperty(string propName)

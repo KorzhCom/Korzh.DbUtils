@@ -75,7 +75,17 @@ namespace Korzh.DbUtils.DbBridges
 
         public void WriteRecord(string tableName, IDataRecord record)
         {
-            throw new NotImplementedException();
+            WriteToConsole(record);
+        }
+
+        //!!!!!!!!!!!!!!!! Just for testing. Remove before release
+        private void WriteToConsole(IDataRecord record)
+        {
+            StringBuilder sb = new StringBuilder();
+            for (var i = 0; i < record.FieldCount; i++) {
+                sb.Append(record.GetString(i) + "; ");
+            }
+            Console.WriteLine(sb.ToString());
         }
     }
 }

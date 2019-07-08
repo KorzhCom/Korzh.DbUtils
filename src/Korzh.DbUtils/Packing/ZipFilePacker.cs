@@ -87,6 +87,7 @@ namespace Korzh.DbUtils.Packing
                 throw new ZipFilePackerException("No more entries to unpack");
             }
             var entry = _zipArchive.Entries[_unpackingEntry];
+            _unpackingEntry++;
             return entry.Open();
         }
     }
