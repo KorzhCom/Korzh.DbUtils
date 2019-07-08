@@ -18,14 +18,14 @@ namespace Korzh.DbUtils.Export
 
         public void Export()
         {
-            var tables = _dbReader.GetDatasets();
-            if (tables.Count > 0) {
+            var datasets = _dbReader.GetDatasets();
+            if (datasets.Count > 0) {
                 _dataPacker.StartPacking();
                 try {
-                    foreach (var tableName in tables) {
-                        using (var stream = GetPackerStream(tableName))
-                        using (var reader = _dbReader.GetDataReaderForTable(tableName)) {
-                            _datasetExporter.ExportDataset(reader, stream, tableName);
+                    foreach (var table in datasets) {
+                        using (var stream = GetPackerStream(table.Name))
+                        using (var reader = _dbReader.GetDataReaderForTable(table.Name)) {
+                            _datasetExporter.ExportDataset(reader, stream, table.Name);
                         }
                     }
                 }
