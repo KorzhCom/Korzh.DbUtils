@@ -69,8 +69,18 @@ namespace Korzh.DbUtils.EntityFrameworkCore
                 }
             }
 
+            var tableSchema = entityType.Relational().Schema;
+            var fullTableName = string.IsNullOrEmpty(tableSchema) 
+                ? tableName
+                : tableSchema + "." + tableName;
+
             DbContext.Add(item);
+
+            DbContext.Database.OpenConnection();
+            var sql = "SET IDENTITY_INSERT " + fullTableName + " ON";
+            var strategy = DbContext.Database.ExecuteSqlCommand(sql);// ExecuteSqlCommand(sql, fullTableName);
             DbContext.SaveChanges();
+            DbContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT " + fullTableName + " OFF");
         }
 
 
