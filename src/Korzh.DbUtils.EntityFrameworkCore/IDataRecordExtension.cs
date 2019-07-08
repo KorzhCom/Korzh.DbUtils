@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Korzh.DbUtils.EntityFrameworkCore
 {
-    public static class IDataRecordExtentions
+    public static class IDataRecordExtension
     {
 
         public static bool TryGetProperty<T>(this IDataRecord dataRecord, string name, out T value)
