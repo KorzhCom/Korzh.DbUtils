@@ -5,26 +5,26 @@ namespace Korzh.DbUtils.Export
 {
     public class DbExporter
     {
-        private readonly IDbBridge _dbBridge;
+        private readonly IDbReader _dbReader;
         private readonly IDatasetExporter _datasetExporter;
         private readonly IDataPacker _dataPacker;
 
-        public DbExporter(IDbBridge dbBridge, IDatasetExporter dataSetExporter, IDataPacker packer)
+        public DbExporter(IDbReader dbReader, IDatasetExporter dataSetExporter, IDataPacker packer)
         {
-            _dbBridge = dbBridge;
+            _dbReader = dbReader;
             _datasetExporter = dataSetExporter;
             _dataPacker = packer;
         }
 
         public void Export()
         {
-            var tables = _dbBridge.GetTableNames();
+            var tables = _dbReader.GetTableNames();
             if (tables.Count > 0) {
                 _dataPacker.StartPacking();
                 try {
                     foreach (var tableName in tables) {
                         using (var stream = GetPackerStream(tableName))
-                        using (var reader = _dbBridge.GetDataReaderForTable(tableName)) {
+                        using (var reader = _dbReader.GetDataReaderForTable(tableName)) {
                             _datasetExporter.ExportDataset(reader, stream, tableName);
                         }
                     }

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Data;
 
-namespace Korzh.DbUtils.Import
+namespace Korzh.DbUtils
 {
     public interface IDatasetImporter
     {

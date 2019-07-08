@@ -7,13 +7,13 @@ namespace Korzh.DbUtils.Import
 
     public class DbImporter
     {
-        private readonly IDbBridge _dbBridge;
+        private readonly IDbWriter _dbWriter;
         private readonly IDatasetImporter _datasetImporter;
         private readonly IDataUnpacker _dataUnpacker;
 
-        public DbImporter(IDbBridge dbBridge, IDatasetImporter datasetImporter, IDataUnpacker unpacker)
+        public DbImporter(IDbWriter dbWriter, IDatasetImporter datasetImporter, IDataUnpacker unpacker)
         {
-            _dbBridge = dbBridge;
+            _dbWriter = dbWriter;
             _datasetImporter = datasetImporter;
             _dataUnpacker = unpacker;
         }
@@ -26,7 +26,7 @@ namespace Korzh.DbUtils.Import
                     using (var datasetStream = _dataUnpacker.NextDatasetStream()) {
                         _datasetImporter.StartImport(datasetStream);
                         while (_dataUnpacker.HasData()) {
-                            _dbBridge.WriteRecord(_datasetImporter.NextRecord());
+                            _dbWriter.WriteRecord(_datasetImporter.NextRecord());
                         }
                         _datasetImporter.FinishImport();
                     }

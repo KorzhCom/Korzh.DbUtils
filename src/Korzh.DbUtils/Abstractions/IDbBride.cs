@@ -10,11 +10,18 @@ namespace Korzh.DbUtils
         IDbConnection GetConnection();
 
         IReadOnlyCollection<string> GetTableNames();
+    }
+
+    public interface IDbReader : IDbBridge
+    {
 
         IDataReader GetDataReaderForTable(string tableName);
 
         IDataReader GetDataReaderForSql(string sql);
+    }
 
+    public interface IDbWriter : IDbBridge
+    {
         void WriteRecord(IDataRecord record);
     }
 }

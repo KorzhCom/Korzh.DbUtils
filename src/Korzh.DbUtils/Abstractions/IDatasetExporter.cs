@@ -7,7 +7,7 @@ using System.Text;
 /// <summary>
 /// Contains all classes which implement exporting operations.
 /// </summary>
-namespace Korzh.DbUtils.Export
+namespace Korzh.DbUtils
 {
     public interface IDatasetExporter
     {

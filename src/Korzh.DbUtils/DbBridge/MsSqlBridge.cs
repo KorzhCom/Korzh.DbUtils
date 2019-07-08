@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Korzh.DbUtils.DbBridges
 {
-    public class MsSqlBridge : IDbBridge
+    public class MsSqlBridge : IDbReader, IDbWriter
     {
 
         private SqlConnection _connection = null;

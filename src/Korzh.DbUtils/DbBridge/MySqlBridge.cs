@@ -8,7 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace Korzh.DbUtils.DbBridges
 {
-    public class MySqlBride : IDbBridge
+    public class MySqlBride : IDbReader, IDbWriter
     {
         private MySqlConnection _connection = null;
         private string _connectionString;
