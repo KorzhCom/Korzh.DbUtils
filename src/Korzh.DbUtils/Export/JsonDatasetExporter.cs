@@ -35,7 +35,7 @@ namespace Korzh.DbUtils.Export
 
                 writer.WritePropertyName("schema");
                 writer.WriteStartObject();  //schema object start
-                WriteSchemaProperties(writer);
+                WriteSchemaProperties(writer, dataReader);
                 writer.WriteEndObject();    //schema object end
 
                 writer.WritePropertyName("data");
@@ -62,8 +62,19 @@ namespace Korzh.DbUtils.Export
             }
         }
 
-        protected virtual void WriteSchemaProperties(JsonWriter writer)
+        protected virtual void WriteSchemaProperties(JsonWriter writer, IDataReader dataReader)
         {
+            writer.WritePropertyName("colums");
+            writer.WriteStartArray(); //data fields start
+            var schema = dataReader.GetSchemaTable();
+            foreach (DataColumn column in schema.Columns) {
+                writer.WritePropertyName("name");
+                writer.WriteValue(column.ColumnName);
+
+                writer.WritePropertyName("type");
+                writer.WriteValue(column.DataType.ToString());
+            }
+            writer.WriteEndArray(); //data fields end
         }
     }
 }
