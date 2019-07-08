@@ -73,7 +73,7 @@ namespace Korzh.DbUtils.DbBridges
             return tables.AsReadOnly();
         }
 
-        public void WriteRecord(IDataRecord record)
+        public void WriteRecord(string tableName, IDataRecord record)
         {
             WriteToConsole(record);
         }

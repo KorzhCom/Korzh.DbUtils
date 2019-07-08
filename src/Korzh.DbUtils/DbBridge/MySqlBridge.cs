@@ -67,9 +67,22 @@ namespace Korzh.DbUtils.DbBridges
             return tables.AsReadOnly();
         }
 
-        public void WriteRecord(IDataRecord record)
+        public void WriteRecord(string tableName, IDataRecord record)
         {
-            throw new NotImplementedException();
+            var sqlBuilder = new StringBuilder(100);
+            sqlBuilder.AppendFormat("INSERT INTO `0` (", tableName);
+
+            for (var i = 0; i < record.FieldCount; i++) {
+                sqlBuilder.AppendFormat("`{0}`, ",  record.GetName(i));
+            }
+
+            sqlBuilder.Remove(sqlBuilder.Length - 2, 2);
+            sqlBuilder.Append(") VALUES (");
+
+            for (var i = 0; i < record.FieldCount; i++) {
+           //     sqlBuilder.AppendFormat("`{0}`, ", );
+            }
+
         }
     }
 }
