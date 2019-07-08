@@ -98,8 +98,6 @@ namespace Korzh.DbUtils.EntityFrameworkCore
 
     public class DbContextBridge<TDbContext> : DbContextBridge where TDbContext : DbContext
     {
-        public DbContextBridge() 
-            : base( Activator.CreateInstance<TDbContext>())
-        { }
+        public DbContextBridge(TDbContext dbContext) : base(dbContext) { }
     }
 }

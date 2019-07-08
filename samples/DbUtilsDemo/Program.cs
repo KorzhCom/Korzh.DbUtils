@@ -40,8 +40,8 @@ namespace DbUtilsDemo
         static void ExportImportDb(DbConnection connection)
         {
             CheckConnection(connection);
-            var datasetExporter = new XmlDatasetExporter();
-            //var datasetExporter = new JsonDatasetExporter();
+            //var datasetExporter = new XmlDatasetExporter();
+            var datasetExporter = new JsonDatasetExporter();
             var bridge = new MsSqlBridge(connection as SqlConnection);
             //var packer = new FileFolderPacker("Data");
             var packer = new ZipFilePacker("EqDemoDb.zip");
@@ -51,8 +51,8 @@ namespace DbUtilsDemo
             Console.WriteLine($"Exporting database...");
             exporter.Export();
 
-            //var datasetImporter = new JsonDatasetImporter();
-            var datasetImporter = new XmlDatasetImporter();
+            var datasetImporter = new JsonDatasetImporter();
+            //var datasetImporter = new XmlDatasetImporter();
             var importer = new DbImporter(bridge, datasetImporter, packer);
             Console.WriteLine($"Importing database...");
             importer.Import();
