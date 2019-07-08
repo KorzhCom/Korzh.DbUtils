@@ -45,7 +45,8 @@ namespace Korzh.DbUtils.EntityFrameworkCore
             var tables = new List<DatasetInfo>(entityTypes.Count());
 
             foreach (var entityType in entityTypes) {
-                if (tables.FirstOrDefault(t => t.Name == entityType.Relational().TableName) != null)
+                var tableName = entityType.Relational().TableName;
+                if (tables.FirstOrDefault(t => t.Name == tableName) == null)
                     DetermineTableOrder(null, entityType, ref tables);
             }
 
@@ -79,19 +80,21 @@ namespace Korzh.DbUtils.EntityFrameworkCore
                 throw new DbContextBridgeException($"Loop is detected between tables. Unable to find the right order for tables.");
             }
 
+            var curTableName = curEntityType.Relational().TableName;
             var refereneces = curEntityType.GetReferencingForeignKeys();
             if (refereneces.Any()) {
                 foreach (var reference in refereneces) {
                     var refTableName = reference.DeclaringEntityType.Relational().TableName;
 
-                    if (tables.FirstOrDefault(t => t.Name == refTableName) != null
-                        && refTableName != curEntityType.Relational().TableName) {
+                    if (tables.FirstOrDefault(t => t.Name == refTableName) == null
+                        && refTableName != curTableName) 
+                    {
                         DetermineTableOrder(startEntityType, reference.DeclaringEntityType, ref tables);
                     }
                 }
             }
 
-            if (tables.FirstOrDefault(t => t.Name == curEntityType.Relational().TableName) != null)
+            if (tables.FirstOrDefault(t => t.Name == curTableName) == null)
                 tables.Add(new DatasetInfo(curEntityType.Relational().TableName));
         }
     }
