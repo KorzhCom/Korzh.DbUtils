@@ -10,29 +10,34 @@ namespace Korzh.DbUtils.Import
         private XmlTextReader _xmlReader;
         private bool _isEndOfData = false;
 
-        public void StartImport(Stream datasetStream)
+        public DatasetInfo StartImport(Stream datasetStream)
         {
+            _isEndOfData = true;
+            var datasetInfo = new DatasetInfo();
             _xmlReader = new XmlTextReader(new StreamReader(datasetStream));
-            _xmlReader.Read();
-            if (_xmlReader.NodeType != XmlNodeType.Element) {
-                throw new DatasetImporterException($"Wrong file format at {_xmlReader.LineNumber}:{_xmlReader.LinePosition}");
+            if (!ReadToElement("Dataset")) {
+                throw new DatasetImporterException($"Wrong file format. No 'Dataset' element");
             }
+
+            datasetInfo.Name = _xmlReader.GetAttribute("name");
+
             _isEndOfData = false;
 
             if (!ReadToElement("Schema")) {
-                _isEndOfData = true;
                 throw new DatasetImporterException($"Wrong file format. No 'Schema' element");
             }
-            _xmlReader.Read();
+
             ReadSchema();
+
             if (!ReadToElement("Data")) {
-                _isEndOfData = true;
                 throw new DatasetImporterException($"Wrong file format. No 'Data' element");
             }
 
-            if (!ReadToElement("Row")) {
-                _isEndOfData = true;
+            if (ReadToElement("Row")) {
+                _isEndOfData = false;
             }
+
+            return datasetInfo;
         }
 
         private bool ReadToElement(string nodeName)

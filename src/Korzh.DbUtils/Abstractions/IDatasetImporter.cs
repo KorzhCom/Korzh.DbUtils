@@ -6,7 +6,7 @@ namespace Korzh.DbUtils
 {
     public interface IDatasetImporter
     {
-        void StartImport(Stream datasetStream);
+        DatasetInfo StartImport(Stream datasetStream);
 
         bool HasRecords();
 

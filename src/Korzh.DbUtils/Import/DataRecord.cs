@@ -28,7 +28,7 @@ namespace Korzh.DbUtils
 
         public void SetProperty(string name, object value)
         {
-            _properties[name] = value.ToString();
+            _properties[name] = value?.ToString();
             _keys.Add(name);
         }
 

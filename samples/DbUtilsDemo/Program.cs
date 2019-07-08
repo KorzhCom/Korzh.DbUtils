@@ -4,6 +4,12 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.IO;
 
+using Korzh.DbUtils;
+using Korzh.DbUtils.Import;
+using Korzh.DbUtils.Export;
+using Korzh.DbUtils.DbBridges;
+using Korzh.DbUtils.Packing;
+
 namespace DbUtilsDemo
 {
     class Program
@@ -13,7 +19,7 @@ namespace DbUtilsDemo
             var connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EqDemoDb07;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             var connection = new SqlConnection(connectionString);
             //ExportTable(connection, "Customers");
-            ExportDb(connection);
+            ExportImportDb(connection);
         }
 
 
@@ -31,19 +37,26 @@ namespace DbUtilsDemo
             }
         }
 
-        static void ExportDb(DbConnection connection)
+        static void ExportImportDb(DbConnection connection)
         {
             CheckConnection(connection);
-            //var datasetExporter = new Korzh.DbUtils.Export.XmlDatasetExporter();
-            var datasetExporter = new Korzh.DbUtils.Export.JsonDatasetExporter();
-            var bridge = new Korzh.DbUtils.DbBridges.MsSqlBridge(connection as SqlConnection);
-            //var packer = new Korzh.DbUtils.Packers.FileFolderPacker("Data");
-            var packer = new Korzh.DbUtils.Packing.ZipFilePacker("EqDemoDb.zip");
+            var datasetExporter = new XmlDatasetExporter();
+            //var datasetExporter = new JsonDatasetExporter();
+            var bridge = new MsSqlBridge(connection as SqlConnection);
+            //var packer = new FileFolderPacker("Data");
+            var packer = new ZipFilePacker("EqDemoDb.zip");
 
-            var exporter = new Korzh.DbUtils.Export.DbExporter(bridge, datasetExporter, packer);
+            var exporter = new DbExporter(bridge, datasetExporter, packer);
 
             Console.WriteLine($"Exporting database...");
             exporter.Export();
+
+            //var datasetImporter = new JsonDatasetImporter();
+            var datasetImporter = new XmlDatasetImporter();
+            var importer = new DbImporter(bridge, datasetImporter, packer);
+            Console.WriteLine($"Importing database...");
+            importer.Import();
+
             Console.WriteLine($"Done!");
         }
 
