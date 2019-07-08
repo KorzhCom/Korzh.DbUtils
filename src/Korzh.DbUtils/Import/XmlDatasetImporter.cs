@@ -93,7 +93,7 @@ namespace Korzh.DbUtils.Import
                         throw new DatasetImporterException($"Wrong file format. No 'n' attribute in a row");
                     }
 
-                    ReadOneRecordField(record, fieldName, _xmlReader.ReadElementContentAsObject());
+                    ReadOneRecordField(record, fieldName, _xmlReader.ReadElementContentAsString());
                 }
                 else if (_xmlReader.NodeType == XmlNodeType.EndElement) {
                     break;
@@ -101,14 +101,15 @@ namespace Korzh.DbUtils.Import
             }
         }
 
-        protected virtual void ReadOneRecordField(DataRecord record, string fieldName, object value)
+        protected virtual void ReadOneRecordField(DataRecord record, string fieldName, string value)
         {
-            record.SetProperty(fieldName, value);
+            record.SetProperty(fieldName, _datasetInfo.Columns[fieldName].Type, value);
         }
 
         public void FinishImport()
         {
             _xmlReader.Close();
+            _datasetInfo = null;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Korzh.DbUtils
     public class DataRecord: IDataRecord
     {
 
-        private readonly Dictionary<string, string> _properties = new Dictionary<string, string>();
+        private readonly Dictionary<string, object> _properties = new Dictionary<string, object>();
 
         private readonly List<string> _keys = new List<string>();
 
@@ -20,28 +20,30 @@ namespace Korzh.DbUtils
 
         public object this[int i] => _properties[_keys[i]];
 
-        public void SetProperty(string name, string value)
+        public void SetProperty(string name, object value)
         {
             _properties[name] = value;
             _keys.Add(name);
         }
 
-        public void SetProperty(string name, object value)
+        public void SetProperty(string name, Type valueType, string value)
         {
-            _properties[name] = value?.ToString();
-            _keys.Add(name);
+            SetProperty(name, value.CastToType(valueType));
+        }
+
+        public void SetProperty(string name, string valueType, string value)
+        {
+            SetProperty(name, Type.GetType(valueType), value);
         }
 
         public bool GetBoolean(int i)
         {
-            var value = _properties[_keys[i]];
-            return bool.Parse(value);
+            return (bool)GetValue(i);
         }
 
         public byte GetByte(int i)
         {
-            var value = _properties[_keys[i]];
-            return byte.Parse(value);
+            return (byte)GetValue(i);
         }
 
         public long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
@@ -51,19 +53,12 @@ namespace Korzh.DbUtils
 
         public char GetChar(int i)
         {
-            var value = _properties[_keys[i]];
-            var charArray = value.ToCharArray();
-
-            if (charArray.LongLength > 0) {
-                return charArray[0];
-            }
-
-            return '\0';
+            return (char)GetValue(i);
         }
 
         public long GetChars(int i, long fieldoffset, char[] buffer, int bufferoffset, int length)
         {
-            var value = _properties[_keys[i]];
+            var value = GetString(i);
             var charArray = value.ToCharArray();
 
             long count = 0;
@@ -81,27 +76,22 @@ namespace Korzh.DbUtils
 
         public string GetDataTypeName(int i)
         {
-            throw new NotImplementedException();
+            return GetValue(i).GetType().ToString();
         }
 
         public DateTime GetDateTime(int i)
         {
-            string value = _properties[_keys[i]];
-            DateTime result = DateTime.MinValue;
-            DateTime.TryParse(value, out result);
-            return result;
+            return (DateTime)GetValue(i);
         }
 
         public decimal GetDecimal(int i)
         {
-            var value = _properties[_keys[i]];
-            return decimal.Parse(value);
+            return (decimal)GetValue(i);
         }
 
         public double GetDouble(int i)
         {
-            var value = _properties[_keys[i]];
-            return double.Parse(value);
+            return (double)GetValue(i);
         }
 
         public Type GetFieldType(int i)
@@ -111,31 +101,27 @@ namespace Korzh.DbUtils
 
         public float GetFloat(int i)
         {
-            var value = _properties[_keys[i]];
-            return float.Parse(value);
+            return (float)GetValue(i);
         }
 
         public Guid GetGuid(int i)
         {
-            throw new NotImplementedException();
+            return (Guid)GetValue(i);
         }
 
         public short GetInt16(int i)
         {
-            var value = _properties[_keys[i]];
-            return short.Parse(value);
+            return (short)GetValue(i);
         }
 
         public int GetInt32(int i)
         {
-            var value = _properties[_keys[i]];
-            return int.Parse(value);
+            return (int)GetValue(i);
         }
 
         public long GetInt64(int i)
         {
-            var value = _properties[_keys[i]];
-            return long.Parse(value);
+            return (long)GetValue(i);
         }
 
         public string GetName(int i)
@@ -150,7 +136,7 @@ namespace Korzh.DbUtils
 
         public string GetString(int i)
         {
-            return _properties[_keys[i]];
+            return (string)GetValue(i);
         }
 
         public object GetValue(int i)
@@ -165,8 +151,73 @@ namespace Korzh.DbUtils
 
         public bool IsDBNull(int i)
         {
-            var value = _properties[_keys[i]];
+            var value = GetValue(i);
             return value == null;
+        }
+
+    }
+
+    internal static class StringExtentions
+    {
+
+        public static object CastToType(this string value, Type type)
+        {
+            if (type == typeof(string))
+                return value;
+
+            //Possibly it would be better to rewrite
+            //without this extensions
+            if (value == null)
+                return type.GetDefaultValue();
+
+            if (type == typeof(int)
+                || type == typeof(int?))
+                return int.Parse(value);
+
+            if (type == typeof(short)
+               || type == typeof(short?))
+                return short.Parse(value);
+
+            if (type == typeof(byte)
+               || type == typeof(byte?))
+                return byte.Parse(value);
+
+            if (type == typeof(long)
+               || type == typeof(long?))
+                return long.Parse(value);
+
+            if (type == typeof(float)
+              || type == typeof(float?))
+                return float.Parse(value);
+
+            if (type == typeof(double)
+              || type == typeof(double?))
+                return double.Parse(value);
+
+            if (type == typeof(char)
+              || type == typeof(char?))
+                return double.Parse(value);
+
+            //if (type == )
+
+            if (type == typeof(DateTime)
+               || type == typeof(DateTime?))
+                return DateTime.Parse(value);
+
+            if (type == typeof(DateTimeOffset)
+               || type == typeof(DateTimeOffset?))
+                return DateTimeOffset.Parse(value);
+
+            if (type == typeof(Guid)
+                || type == typeof(Guid))
+                return Guid.Parse(value);
+
+            if (type == typeof(TimeSpan)
+                || type == typeof(TimeSpan))
+                return TimeSpan.Parse(value);
+
+            throw new InvalidCastException("Unknown type to case: " + type.ToString());
+
         }
     }
 }

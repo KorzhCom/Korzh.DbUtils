@@ -37,7 +37,7 @@ namespace Korzh.DbUtils.EntityFrameworkCore
                     return true;
                 }
 
-                if (IsNullable(type)
+                if (type.IsNullable()
                     && dataRecord.IsDBNull(i))
                 {
 
@@ -90,6 +90,12 @@ namespace Korzh.DbUtils.EntityFrameworkCore
                     return true;
                 }
 
+                if (type == typeof(Guid)
+                    || type == typeof(Guid?)) {
+                    value = dataRecord.GetGuid(i);
+                    return true;
+                }
+
                 if (type == typeof(DateTime)
                     || type == typeof(DateTime?)) {
                     value = dataRecord.GetDateTime(i);
@@ -118,27 +124,9 @@ namespace Korzh.DbUtils.EntityFrameworkCore
                 return true;
             }
             catch {
-                value = GetDefaultValue(type);
+                value = type.GetDefaultValue();
                 return false;
             }
-        }
-        private static bool IsNullable(Type type)
-        {
-            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
-        }
-
-        private static object GetDefaultValue(Type type)
-        {
-            if (type == null)
-                throw new ArgumentNullException(nameof(type));
-
-            Expression<Func<object>> e = Expression.Lambda<Func<object>>(
-                Expression.Convert(
-                    Expression.Default(type), typeof(object)
-                )
-            );
-
-            return e.Compile()();
         }
 
     }
