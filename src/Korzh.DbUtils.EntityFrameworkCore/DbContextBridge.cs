@@ -39,14 +39,13 @@ namespace Korzh.DbUtils.EntityFrameworkCore
             return DbContext.Database.GetDbConnection();
         }
 
-        public IReadOnlyCollection<string> GetDatasets()
+        public IReadOnlyCollection<DatasetInfo> GetDatasets()
         {
             var entityTypes = DbContext.Model.GetEntityTypes();
-            var tables = new List<string>(entityTypes.Count());
+            var tables = new List<DatasetInfo>(entityTypes.Count());
 
-            foreach (var entityType in entityTypes)
-            {
-                if (!tables.Contains(entityType.Relational().TableName))
+            foreach (var entityType in entityTypes) {
+                if (tables.FirstOrDefault(t => t.Name == entityType.Relational().TableName) != null)
                     DetermineTableOrder(null, entityType, ref tables);
             }
 
@@ -74,7 +73,7 @@ namespace Korzh.DbUtils.EntityFrameworkCore
         }
 
 
-        private void DetermineTableOrder(IEntityType startEntityType, IEntityType curEntityType, ref List<string> tables)
+        private void DetermineTableOrder(IEntityType startEntityType, IEntityType curEntityType, ref List<DatasetInfo> tables)
         {
             if (startEntityType == curEntityType) {
                 throw new DbContextInitializerException($"Loop is detected between tables. Unable to find the right order for tables.");
@@ -85,14 +84,16 @@ namespace Korzh.DbUtils.EntityFrameworkCore
                 foreach (var reference in refereneces) {
                     var refTableName = reference.DeclaringEntityType.Relational().TableName;
 
-                    if (!tables.Contains(refTableName) && refTableName != curEntityType.Relational().TableName) {
+                    if (tables.FirstOrDefault(t => t.Name == refTableName) != null 
+                        && refTableName != curEntityType.Relational().TableName)
+                    {
                         DetermineTableOrder(startEntityType, reference.DeclaringEntityType, ref tables);
                     }
                 }
             }
 
-            if (!tables.Contains(curEntityType.Relational().TableName))
-                tables.Add(curEntityType.Relational().TableName);
+            if (tables.FirstOrDefault(t => t.Name == curEntityType.Relational().TableName) != null)
+                tables.Add(new DatasetInfo(curEntityType.Relational().TableName));
         }
     }
 
