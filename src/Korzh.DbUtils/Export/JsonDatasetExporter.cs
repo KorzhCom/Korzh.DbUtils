@@ -17,7 +17,7 @@ namespace Korzh.DbUtils.Export
         {          
         }
 
-        public string FormatExtension => "json";
+        public string FileExtension => "json";
 
         public void ExportDataset(IDataReader dataReader, Stream outStream, string datasetName = null)
         {

@@ -7,7 +7,7 @@ namespace Korzh.DbUtils
 {
     public interface IDataPacker
     {
-        void StartPacking();
+        void StartPacking(string fileExtension);
 
         Stream OpenStreamForPacking(string datasetName);
 

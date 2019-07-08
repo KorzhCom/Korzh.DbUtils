@@ -20,7 +20,7 @@ namespace Korzh.DbUtils.Export
         {
             var datasets = _dbReader.GetDatasets();
             if (datasets.Count > 0) {
-                _dataPacker.StartPacking();
+                _dataPacker.StartPacking(_datasetExporter.FileExtension);
                 try {
                     foreach (var table in datasets) {
                         using (var stream = GetPackerStream(table.Name))
@@ -37,7 +37,7 @@ namespace Korzh.DbUtils.Export
 
         protected virtual Stream GetPackerStream(string datasetName)
         {
-            return _dataPacker.OpenStreamForPacking(datasetName + "." + _datasetExporter.FormatExtension);
+            return _dataPacker.OpenStreamForPacking(datasetName);
         }
     }
 }

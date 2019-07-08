@@ -12,6 +12,8 @@ namespace Korzh.DbUtils.Import
         private JsonTextReader _jsonReader;
         private bool _isEndOfData = false;
 
+        public string FileExtension => "json";
+
         public DatasetInfo StartImport(Stream datasetStream)
         {
 

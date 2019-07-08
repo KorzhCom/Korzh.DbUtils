@@ -13,6 +13,6 @@ namespace Korzh.DbUtils
     {
         void ExportDataset(IDataReader reader, Stream outStream, string datasetName = null);
 
-        string FormatExtension { get; }
+        string FileExtension { get; }
     }
 }

@@ -15,6 +15,7 @@ namespace Korzh.DbUtils.Packing
         private readonly string _fileName;
         private ILogger _logger; 
         private ZipArchive _zipArchive;
+        private string _fileExtension;
 
         public ZipFilePacker(string fileName, ILogger logger = null)
         {
@@ -27,8 +28,9 @@ namespace Korzh.DbUtils.Packing
             _logger = logger;
         }
 
-        public void StartPacking()
+        public void StartPacking(string fileExtension)
         {
+            _fileExtension = fileExtension;
             _zipArchive = ZipFile.Open(_fileName, ZipArchiveMode.Update);
             var entryNames = _zipArchive.Entries.Select(e => e.Name).ToList();
             foreach (var name in entryNames)
@@ -40,9 +42,9 @@ namespace Korzh.DbUtils.Packing
             _logger?.LogInformation("Start writting to file: " + _fileName);
         }
 
-        public Stream OpenStreamForPacking(string entryName)
+        public Stream OpenStreamForPacking(string datasetName)
         {
-            var entry = _zipArchive.CreateEntry(entryName);
+            var entry = _zipArchive.CreateEntry(datasetName + "." + _fileExtension);
             return entry.Open();
         }
 
@@ -57,9 +59,11 @@ namespace Korzh.DbUtils.Packing
 
         private int _unpackingEntry = 0;
 
-        public void StartUnpacking()
+        public void StartUnpacking(string fileExtension)
         {
             _zipArchive = ZipFile.Open(_fileName, ZipArchiveMode.Read);
+            _fileExtension = fileExtension;
+
             _unpackingEntry = 0;
 
             _logger?.LogInformation("Start unpacking" + _fileName);
@@ -75,8 +79,9 @@ namespace Korzh.DbUtils.Packing
             return _unpackingEntry < _zipArchive.Entries.Count;
         }
 
-        public Stream OpenStreamForUnpacking(string entryName)
+        public Stream OpenStreamForUnpacking(string datasetName)
         {
+            var entryName = datasetName + "." + _fileExtension;
             var entry = _zipArchive.Entries.FirstOrDefault(e => e.Name == entryName);
             return entry.Open();
         }
