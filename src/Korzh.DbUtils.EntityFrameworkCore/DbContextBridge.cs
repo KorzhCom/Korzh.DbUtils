@@ -15,12 +15,12 @@ namespace Korzh.DbUtils.EntityFrameworkCore
     }
 
 
-    public class DbContextBridge : IDbBridge, IDbWriter
+    public class DbContextBridge : IDbWriter
     {
 
         protected DbContext DbContext;
 
-        protected readonly Dictionary<string, IEntityType> TableEntityTypes 
+        protected readonly Dictionary<string, IEntityType> TableEntityTypes
             = new Dictionary<string, IEntityType>();
 
         public DbContextBridge(DbContext dbContext)
@@ -84,9 +84,8 @@ namespace Korzh.DbUtils.EntityFrameworkCore
                 foreach (var reference in refereneces) {
                     var refTableName = reference.DeclaringEntityType.Relational().TableName;
 
-                    if (tables.FirstOrDefault(t => t.Name == refTableName) != null 
-                        && refTableName != curEntityType.Relational().TableName)
-                    {
+                    if (tables.FirstOrDefault(t => t.Name == refTableName) != null
+                        && refTableName != curEntityType.Relational().TableName) {
                         DetermineTableOrder(startEntityType, reference.DeclaringEntityType, ref tables);
                     }
                 }
@@ -97,8 +96,12 @@ namespace Korzh.DbUtils.EntityFrameworkCore
         }
     }
 
-    public class DbContextBridge<TDbContext>: DbContextBridge where TDbContext : DbContext
+    public class DbContextBridge<TDbContext> : DbContextBridge where TDbContext : DbContext
     {
-        public DbContextBridge(TDbContext dbContext) : base(dbContext) {}
+        public DbContextBridge(TDbContext dbContext) : base(dbContext) { }
+    }
+
+    public class DbContextInitializer2<TDbContext> : DbInitializer where TDbContext : DbContext
+    {
     }
 }
