@@ -44,17 +44,19 @@ namespace Korzh.DbUtils.Packing
 
         public void FinishUnpacking()
         {
-            throw new NotImplementedException();
         }
 
         public bool HasData()
         {
-            throw new NotImplementedException();
+            return Directory.GetFiles(_folderPath).Length > 0;
         }
 
-        public Stream OpenStreamForUnpacking(string entryName)
+        public Stream OpenStreamForUnpacking(string datasetName)
         {
-            throw new NotImplementedException();
+            var filePath = Path.Combine(_folderPath, datasetName + "." + _fileExtension);
+            return File.Exists(filePath) 
+                ? File.OpenRead(filePath) 
+                : null;
         }
     }
 }
