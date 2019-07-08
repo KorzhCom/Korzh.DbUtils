@@ -38,7 +38,7 @@ namespace Korzh.DbUtils.Export
                 }
 
                 writer.WriteStartElement("Schema");
-                WriteDatasetSchema(writer);
+                WriteDatasetSchema(writer, dataReader);
                 writer.WriteEndElement();
 
                 writer.WriteStartElement("Data");
@@ -68,8 +68,17 @@ namespace Korzh.DbUtils.Export
             }
         }
 
-        protected virtual void WriteDatasetSchema(XmlTextWriter writer)
+        protected virtual void WriteDatasetSchema(XmlTextWriter writer, IDataReader dataReader)
         {
+            writer.WriteStartElement("Columns");
+            var schema = dataReader.GetSchemaTable();
+            foreach (DataColumn column in schema.Columns) {
+                writer.WriteStartElement("Col");
+                writer.WriteAttributeString("name", column.ColumnName);
+                writer.WriteAttributeString("type", column.DataType.ToString());
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
         }
     }
 }
