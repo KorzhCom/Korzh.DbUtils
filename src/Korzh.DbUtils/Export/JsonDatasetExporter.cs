@@ -68,14 +68,14 @@ namespace Korzh.DbUtils.Export
             writer.WritePropertyName("columns");
             writer.WriteStartArray(); //data fields start
             var schema = dataReader.GetSchemaTable();
-            foreach (DataColumn column in schema.Columns) {
+            foreach (DataRow row in schema.Rows) {
                 writer.WriteStartObject();
 
                 writer.WritePropertyName("name");
-                writer.WriteValue(column.ColumnName);
+                writer.WriteValue(row["ColumnName"].ToString());
 
                 writer.WritePropertyName("type");
-                writer.WriteValue(column.DataType.ToString());
+                writer.WriteValue(row["DataType"].ToString());
 
                 writer.WriteEndObject();
             }

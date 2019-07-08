@@ -72,10 +72,10 @@ namespace Korzh.DbUtils.Export
         {
             writer.WriteStartElement("Columns");
             var schema = dataReader.GetSchemaTable();
-            foreach (DataColumn column in schema.Columns) {
+            foreach (DataRow row in schema.Rows) {
                 writer.WriteStartElement("Col");
-                writer.WriteAttributeString("name", column.ColumnName);
-                writer.WriteAttributeString("type", column.DataType.ToString());
+                writer.WriteAttributeString("name", row["ColumnName"].ToString());
+                writer.WriteAttributeString("type", row["DataType"].ToString());
                 writer.WriteEndElement();
             }
             writer.WriteEndElement();

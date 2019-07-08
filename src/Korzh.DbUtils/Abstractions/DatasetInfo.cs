@@ -9,18 +9,20 @@ namespace Korzh.DbUtils
     {
         public string Name { get; private set; }
 
-        public string Type {get; private set;}
+        public Type Type {get; private set;}
+
+        public string TypeName => Type.ToString();
 
         public ColumnInfo(string name, string type)
         {
             Name = name;
-            Type = type;
+            Type = Type.GetType(type);
         }
 
         public ColumnInfo(string name, Type type)
         {
             Name = name;
-            Type = type.ToString();
+            Type = type;
         }
 
     }
