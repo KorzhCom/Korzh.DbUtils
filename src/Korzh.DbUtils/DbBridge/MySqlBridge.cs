@@ -8,81 +8,51 @@ using MySql.Data.MySqlClient;
 
 namespace Korzh.DbUtils.DbBridges
 {
-    public class MySqlBride : IDbReader, IDbWriter
+    public class MySqlBride : BaseDbBridge
     {
-        private MySqlConnection _connection = null;
-        private readonly string _connectionString;
-
-        public MySqlBride(string connectionString)
+        public MySqlBride(string connectionString) : base(connectionString)
         {
-            _connectionString = connectionString;
         }
 
-        public MySqlBride(MySqlConnection connection)
+        public MySqlBride(MySqlConnection connection) : base(connection)
         {
-            _connection = connection;
-            _connectionString = connection.ConnectionString;
         }
 
-        private void CheckConnection()
+        protected override DbConnection CreateConnection(string connectionString)
         {
-            if (_connection == null) {
-                _connection = new MySqlConnection(_connectionString);
-            }
-
-            if (_connection.State != ConnectionState.Open) {
-                _connection.Open();
-            }
+            return new MySqlConnection(connectionString);
         }
 
-        public IDbConnection GetConnection()
+        protected override void ExtractDatasetList(IList<DatasetInfo> datasets)
         {
-            CheckConnection();
-            return _connection;
-        }
-
-        public IDataReader GetDataReaderForSql(string sql)
-        {
-            var command = _connection.CreateCommand();
-            command.CommandText = sql;
-            command.CommandType = CommandType.Text;
-
-            return command.ExecuteReader(CommandBehavior.SequentialAccess);
-        }
-
-        public IDataReader GetDataReaderForTable(string tableName)
-        {
-            return GetDataReaderForSql("SELECT * FROM `" + tableName + "`");
-        }
-
-        public IReadOnlyCollection<DatasetInfo> GetDatasets()
-        {
-            var tables = new List<DatasetInfo>();
             using (var dataReader = GetDataReaderForSql("SHOW TABLES")) {
                 while (dataReader.Read()) {
                     string tableName = dataReader.GetString(0);
-                    tables.Add(new DatasetInfo(tableName));
+                    datasets.Add(new DatasetInfo(tableName));
                 }
             }
-            return tables.AsReadOnly();
         }
 
-        public void WriteRecord(string tableName, IDataRecord record)
+        protected override string GenerateInsertStatement(string tableName, IDataRecord record)
         {
-            var sqlBuilder = new StringBuilder(100);
-            sqlBuilder.AppendFormat("INSERT INTO `0` (", tableName);
+            var sb = new StringBuilder(100);
+            sb.AppendFormat("INSERT INTO `0` (", tableName);
 
             for (var i = 0; i < record.FieldCount; i++) {
-                sqlBuilder.AppendFormat("`{0}`, ",  record.GetName(i));
+                sb.AppendFormat("`{0}`, ", record.GetName(i));
             }
 
-            sqlBuilder.Remove(sqlBuilder.Length - 2, 2);
-            sqlBuilder.Append(") VALUES (");
+            sb.Remove(sb.Length - 2, 2);
+            sb.Append(") VALUES (");
 
             for (var i = 0; i < record.FieldCount; i++) {
-           //     sqlBuilder.AppendFormat("`{0}`, ", );
+                //sqlBuilder.AppendFormat("`{0}`, ", );
             }
 
+            //!!!!!!!!!!!!!!!! NOT IMPLEMENTED COMPLETELY YET
+
+
+            return sb.ToString();
         }
     }
 }

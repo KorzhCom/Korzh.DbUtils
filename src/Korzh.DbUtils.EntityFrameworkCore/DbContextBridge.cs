@@ -126,6 +126,18 @@ namespace Korzh.DbUtils.EntityFrameworkCore
             if (tables.FirstOrDefault(t => t.Name == curTableName) == null)
                 tables.Add(new DatasetInfo(curEntityType.Relational().TableName));
         }
+
+        public void StartSeeding()
+        {
+            // Get all constraints and save them
+            // Turn all constraints off
+        }
+
+        public void FinishSeeding()
+        {
+            //Turn all saved constraints on
+            //Clear the list of constraints
+        }
     }
 
     public class DbContextBridge<TDbContext> : DbContextBridge where TDbContext : DbContext

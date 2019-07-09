@@ -1,83 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Text;
 
 
 namespace Korzh.DbUtils.DbBridges
 {
-    public class MsSqlBridge : IDbReader, IDbWriter
+    public class MsSqlBridge : BaseDbBridge
     {
-
-        private SqlConnection _connection = null;
-        private readonly string _connectionString;
-
-        public MsSqlBridge(string connectionString)
+        public MsSqlBridge(string connectionString) : base(connectionString)
         {
-            _connectionString = connectionString;
         }
 
-        public MsSqlBridge(SqlConnection connection)
+        public MsSqlBridge(SqlConnection connection) : base(connection)
         {
-            _connection = connection;
-            _connectionString = connection.ConnectionString;
         }
 
-        private void CheckConnection()
+        protected override DbConnection CreateConnection(string connectionString)
         {
-            if (_connection == null) {
-                _connection = new SqlConnection(_connectionString);
-            }
-
-            if (_connection.State != ConnectionState.Open) {
-                _connection.Open();
-            }
+            return new SqlConnection(connectionString);
         }
 
-        public IDbConnection GetConnection()
+        protected override void ExtractDatasetList(IList<DatasetInfo> datasets)
         {
-            CheckConnection();
-            return _connection;
-        }
-
-        public IDataReader GetDataReaderForSql(string sql)
-        {
-            var connection = GetConnection();
-
-            var command = connection.CreateCommand();
-            command.CommandText = sql;
-            command.CommandType = CommandType.Text;
-
-            return command.ExecuteReader(CommandBehavior.SequentialAccess);
-        }
-
-        public IDataReader GetDataReaderForTable(string tableName)
-        {
-            return GetDataReaderForSql("SELECT * FROM [" + tableName + "]");
-        }
-
-        public IReadOnlyCollection<DatasetInfo> GetDatasets()
-        {
-            CheckConnection();
-            DataTable schemaTable = _connection.GetSchema(SqlClientMetaDataCollectionNames.Tables);
-            var tables = new List<DatasetInfo>();
+            DataTable schemaTable = Connection.GetSchema(SqlClientMetaDataCollectionNames.Tables);
 
             foreach (DataRow row in schemaTable.Rows) {
                 string tableType = (string)row["TABLE_TYPE"];
                 string tableName = (string)row["TABLE_NAME"];
                 if (tableType == "BASE TABLE") {
-                    tables.Add(new DatasetInfo(tableName));
+                    datasets.Add(new DatasetInfo(tableName));
                 }
             }
-
-            return tables.AsReadOnly();
         }
 
-        public void WriteRecord(string tableName, IDataRecord record)
+        protected override string GenerateInsertStatement(string tableName, IDataRecord record)
         {
             WriteToConsole(record);
+            return "";
         }
+
 
         //!!!!!!!!!!!!!!!! Just for testing. Remove before release
         private void WriteToConsole(IDataRecord record)
