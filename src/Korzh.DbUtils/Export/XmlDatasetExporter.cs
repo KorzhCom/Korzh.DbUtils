@@ -12,7 +12,7 @@ namespace Korzh.DbUtils.Export
 {
     public class XmlDatasetExporter: IDatasetExporter
     {
-        private ILogger _logger = null;
+        private readonly ILogger _logger = null;
 
         public XmlDatasetExporter()
         {

@@ -3,128 +3,60 @@
   "schema": {
     "columns": [
       {
-        "name": "ColumnName",
-        "type": "System.String"
-      },
-      {
-        "name": "ColumnOrdinal",
+        "name": "OrderID",
         "type": "System.Int32"
       },
       {
-        "name": "ColumnSize",
+        "name": "OrderDate",
+        "type": "System.DateTime"
+      },
+      {
+        "name": "RequiredDate",
+        "type": "System.DateTime"
+      },
+      {
+        "name": "ShippedDate",
+        "type": "System.DateTime"
+      },
+      {
+        "name": "Freight",
+        "type": "System.Decimal"
+      },
+      {
+        "name": "CustomerID",
+        "type": "System.String"
+      },
+      {
+        "name": "EmployeeID",
         "type": "System.Int32"
       },
       {
-        "name": "NumericPrecision",
-        "type": "System.Int16"
-      },
-      {
-        "name": "NumericScale",
-        "type": "System.Int16"
-      },
-      {
-        "name": "IsUnique",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsKey",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "BaseServerName",
-        "type": "System.String"
-      },
-      {
-        "name": "BaseCatalogName",
-        "type": "System.String"
-      },
-      {
-        "name": "BaseColumnName",
-        "type": "System.String"
-      },
-      {
-        "name": "BaseSchemaName",
-        "type": "System.String"
-      },
-      {
-        "name": "BaseTableName",
-        "type": "System.String"
-      },
-      {
-        "name": "DataType",
-        "type": "System.Type"
-      },
-      {
-        "name": "AllowDBNull",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "ProviderType",
+        "name": "ShipVia",
         "type": "System.Int32"
       },
       {
-        "name": "IsAliased",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsExpression",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsIdentity",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsAutoIncrement",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsRowVersion",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsHidden",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsLong",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsReadOnly",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "ProviderSpecificDataType",
-        "type": "System.Type"
-      },
-      {
-        "name": "DataTypeName",
+        "name": "ShipName",
         "type": "System.String"
       },
       {
-        "name": "XmlSchemaCollectionDatabase",
+        "name": "ShipAddress",
         "type": "System.String"
       },
       {
-        "name": "XmlSchemaCollectionOwningSchema",
+        "name": "ShipCity",
         "type": "System.String"
       },
       {
-        "name": "XmlSchemaCollectionName",
+        "name": "ShipRegion",
         "type": "System.String"
       },
       {
-        "name": "UdtAssemblyQualifiedName",
+        "name": "ShipPostalCode",
         "type": "System.String"
       },
       {
-        "name": "NonVersionedProviderType",
-        "type": "System.Int32"
-      },
-      {
-        "name": "IsColumnSet",
-        "type": "System.Boolean"
+        "name": "ShipCountry",
+        "type": "System.String"
       }
     ]
   },

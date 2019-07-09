@@ -59,10 +59,11 @@ namespace Korzh.DbUtils.Import
         protected virtual void ReadSchema()
         {
             if (ReadToElement("Columns")) {
-                while (_xmlReader.Read()
-                    && _xmlReader.NodeType == XmlNodeType.Element) {
+                while (_xmlReader.Read() 
+                    && _xmlReader.NodeType != XmlNodeType.EndElement) {
 
-                    _datasetInfo.AddColumn(new ColumnInfo(_xmlReader.GetAttribute("name"), _xmlReader.GetAttribute("type")));
+                    if (_xmlReader.NodeType == XmlNodeType.Element)
+                      _datasetInfo.AddColumn(new ColumnInfo(_xmlReader.GetAttribute("name"), _xmlReader.GetAttribute("type")));
                 }
             }
         }
@@ -93,7 +94,7 @@ namespace Korzh.DbUtils.Import
                         throw new DatasetImporterException($"Wrong file format. No 'n' attribute in a row");
                     }
 
-                    ReadOneRecordField(record, fieldName, _xmlReader.ReadElementContentAsString());
+                    ReadOneRecordField(record, fieldName);
                 }
                 else if (_xmlReader.NodeType == XmlNodeType.EndElement) {
                     break;
@@ -101,9 +102,12 @@ namespace Korzh.DbUtils.Import
             }
         }
 
-        protected virtual void ReadOneRecordField(DataRecord record, string fieldName, string value)
+        protected virtual void ReadOneRecordField(DataRecord record, string fieldName)
         {
-            record.SetProperty(fieldName, _datasetInfo.Columns[fieldName].DataType, value);
+            var fieldType = _datasetInfo.Columns[fieldName].DataType;
+            object value = _xmlReader.ReadElementContentAs(fieldType, null);
+
+            record[fieldName] = value;
         }
 
         public void FinishImport()

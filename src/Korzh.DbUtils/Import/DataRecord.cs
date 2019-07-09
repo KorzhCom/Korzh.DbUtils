@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq.Expressions;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 
 namespace Korzh.DbUtils
 {
 
-    public class DataRecord: IDataRecord
+    public class DataRecord : IDataRecord
     {
 
         private readonly Dictionary<string, object> _properties = new Dictionary<string, object>();
@@ -16,25 +18,24 @@ namespace Korzh.DbUtils
 
         public int FieldCount => _properties.Count;
 
-        public object this[string name] => _properties[name];
+        public object this[string name]
+        {
+            get 
+            {
+                return _properties[name];
+            }
+
+            set 
+            {
+                _properties[name] = value;
+                if (!_keys.Contains(name)) {
+                    _keys.Add(name);
+                }
+            }
+        }
 
         public object this[int i] => _properties[_keys[i]];
 
-        public void SetProperty(string name, object value)
-        {
-            _properties[name] = value;
-            _keys.Add(name);
-        }
-
-        public void SetProperty(string name, Type valueType, string value)
-        {
-            SetProperty(name, value.CastToType(valueType));
-        }
-
-        public void SetProperty(string name, string valueType, string value)
-        {
-            SetProperty(name, Type.GetType(valueType), value);
-        }
 
         public bool GetBoolean(int i)
         {
@@ -48,7 +49,29 @@ namespace Korzh.DbUtils
 
         public long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
         {
-            throw new NotImplementedException();
+            var value = GetValue(i);
+
+            if (value != null) {
+
+                BinaryFormatter bf = new BinaryFormatter();
+                byte[] b;
+                using (MemoryStream ms = new MemoryStream()) {
+                    bf.Serialize(ms, value);
+                    b = ms.ToArray();
+                }
+
+                if (buffer == null) {
+                    return b.LongLength;
+                }
+
+                if (bufferoffset < b.Length) {
+                    length = bufferoffset + length <= b.Length ? length : b.Length - bufferoffset;
+                    Array.Copy(b, bufferoffset, buffer, 0, length);
+                    return length;
+                }
+            }
+
+            return 0;
         }
 
         public char GetChar(int i)
@@ -59,14 +82,15 @@ namespace Korzh.DbUtils
         public long GetChars(int i, long fieldoffset, char[] buffer, int bufferoffset, int length)
         {
             var value = GetString(i);
-            var charArray = value.ToCharArray();
+            var b = value.ToCharArray();
 
-            long count = 0;
-            for (var index = fieldoffset; index < charArray.LongLength; index++) {
-                buffer[bufferoffset - 1 + count] = charArray[index];
+            if (bufferoffset < b.Length) {
+                length = bufferoffset + length <= b.Length ? length : b.Length - bufferoffset;
+                Array.Copy(b, bufferoffset, buffer, 0, length);
+                return length;
             }
 
-            return count;
+            return 0;
         }
 
         public IDataReader GetData(int i)
@@ -155,69 +179,5 @@ namespace Korzh.DbUtils
             return value == null;
         }
 
-    }
-
-    internal static class StringExtentions
-    {
-
-        public static object CastToType(this string value, Type type)
-        {
-            if (type == typeof(string))
-                return value;
-
-            //Possibly it would be better to rewrite
-            //without this extensions
-            if (value == null)
-                return type.GetDefaultValue();
-
-            if (type == typeof(int)
-                || type == typeof(int?))
-                return int.Parse(value);
-
-            if (type == typeof(short)
-               || type == typeof(short?))
-                return short.Parse(value);
-
-            if (type == typeof(byte)
-               || type == typeof(byte?))
-                return byte.Parse(value);
-
-            if (type == typeof(long)
-               || type == typeof(long?))
-                return long.Parse(value);
-
-            if (type == typeof(float)
-              || type == typeof(float?))
-                return float.Parse(value);
-
-            if (type == typeof(double)
-              || type == typeof(double?))
-                return double.Parse(value);
-
-            if (type == typeof(char)
-              || type == typeof(char?))
-                return double.Parse(value);
-
-            //if (type == )
-
-            if (type == typeof(DateTime)
-               || type == typeof(DateTime?))
-                return DateTime.Parse(value);
-
-            if (type == typeof(DateTimeOffset)
-               || type == typeof(DateTimeOffset?))
-                return DateTimeOffset.Parse(value);
-
-            if (type == typeof(Guid)
-                || type == typeof(Guid))
-                return Guid.Parse(value);
-
-            if (type == typeof(TimeSpan)
-                || type == typeof(TimeSpan))
-                return TimeSpan.Parse(value);
-
-            throw new InvalidCastException("Unknown type to case: " + type.ToString());
-
-        }
     }
 }

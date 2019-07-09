@@ -1,9 +1,11 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Text;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Korzh.DbUtils.Import
 {
@@ -49,7 +51,7 @@ namespace Korzh.DbUtils.Import
             if (_jsonReader.TokenType != JsonToken.StartArray) {
                 throw new DatasetImporterException($"Wrong file format at {_jsonReader.LineNumber}:{_jsonReader.LinePosition}");
             }
-            
+
             //read first object start
             if (!_jsonReader.Read() || _jsonReader.TokenType != JsonToken.StartObject) {
                 _isEndOfData = true;
@@ -75,7 +77,7 @@ namespace Korzh.DbUtils.Import
                 throw new DatasetImporterException($"Wrong file format at {_jsonReader.LineNumber}:{_jsonReader.LinePosition}");
             }
 
-            if (ReadToProperty("columns"))  {
+            if (ReadToProperty("columns")) {
 
                 _jsonReader.Read();
                 if (_jsonReader.TokenType != JsonToken.StartArray) {
@@ -143,7 +145,7 @@ namespace Korzh.DbUtils.Import
                 if (_jsonReader.TokenType == JsonToken.PropertyName) {
                     var fieldName = _jsonReader.Value.ToString();
                     _jsonReader.Read();
-                    ReadOneRecordField(record, fieldName, _jsonReader.Value);
+                    ReadOneRecordField(record, fieldName);
                 }
                 else if (_jsonReader.TokenType == JsonToken.EndObject) {
                     break;
@@ -151,20 +153,27 @@ namespace Korzh.DbUtils.Import
             }
         }
 
-        protected virtual void ReadOneRecordField(DataRecord record, string fieldName, object value)
+        protected virtual void ReadOneRecordField(DataRecord record, string fieldName)
         {
-            if (_datasetInfo.Columns.TryGetValue(fieldName, out var colInfo)) {
-                record.SetProperty(fieldName, colInfo.DataType, value.ToString());
-            }
-            else {
-                record.SetProperty(fieldName, value);
-            }
+            var fieldType = _datasetInfo.Columns[fieldName].DataType;
+            object value = _jsonReader.ReadAs(fieldType);
+
+            record[fieldName] = value;
         }
 
         public void FinishImport()
         {
             _jsonReader.Close();
             _datasetInfo = null;
+        }
+    }
+
+    static class JsonReaderExtensions {
+
+        public static object ReadAs(this JsonReader jsonReader, Type type)
+        {
+            var token = JToken.ReadFrom(jsonReader);
+            return token.ToObject(type);
         }
     }
 }
