@@ -65,8 +65,11 @@ namespace Korzh.DbUtils.MySql
             if (type.IsInt64())
                 return MySqlDbType.Int64;
 
-            if (type.IsFloat() || type.IsDouble())
+            if (type.IsFloat())
                 return MySqlDbType.Float;
+
+            if (type.IsDouble())
+                return MySqlDbType.Double;
 
             if (type.IsDecimal())
                 return MySqlDbType.Decimal;
