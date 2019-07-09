@@ -23,5 +23,9 @@ namespace Korzh.DbUtils
     public interface IDbWriter : IDbBridge
     {
         void WriteRecord(string tableName, IDataRecord record);
+
+        void StartSeeding();
+
+        void FinishSeeding();
     }
 }

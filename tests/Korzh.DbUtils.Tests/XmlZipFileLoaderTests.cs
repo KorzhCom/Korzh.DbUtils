@@ -6,8 +6,6 @@ using System.Linq;
 using Xunit;
 using FluentAssertions;
 
-using Korzh.DbUtils.Loaders;
-
 namespace Korzh.DbUtils.Tests
 {
     public class XmlZipFileLoaderTests
