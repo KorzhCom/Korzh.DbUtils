@@ -53,12 +53,7 @@ namespace Korzh.DbUtils
 
             if (value != null) {
 
-                BinaryFormatter bf = new BinaryFormatter();
-                byte[] b;
-                using (MemoryStream ms = new MemoryStream()) {
-                    bf.Serialize(ms, value);
-                    b = ms.ToArray();
-                }
+                byte[] b = (byte[])value;
 
                 if (buffer == null) {
                     return b.LongLength;
@@ -66,7 +61,7 @@ namespace Korzh.DbUtils
 
                 if (bufferoffset < b.Length) {
                     length = bufferoffset + length <= b.Length ? length : b.Length - bufferoffset;
-                    Array.Copy(b, bufferoffset, buffer, 0, length);
+                    Array.Copy(b, fieldOffset, buffer, bufferoffset, length);
                     return length;
                 }
             }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.IO;
+using System.Text;
 using System.Xml;
 
 namespace Korzh.DbUtils.Import
@@ -18,7 +19,7 @@ namespace Korzh.DbUtils.Import
         {
             _isEndOfData = true;
 
-            _xmlReader = new XmlTextReader(new StreamReader(datasetStream));
+            _xmlReader = new XmlTextReader(new StreamReader(datasetStream, Encoding.UTF8));
             if (!ReadToElement("Dataset")) {
                 throw new DatasetImporterException($"Wrong file format. No 'Dataset' element");
             }

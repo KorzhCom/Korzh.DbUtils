@@ -47,7 +47,7 @@ namespace Korzh.DbUtils.Export
                     writer.WriteStartObject();
                     foreach (var column in columns) {
                         var value = dataReader.GetValue(dataReader.GetOrdinal(column));
-                        if (value.GetType() != typeof(DBNull)) { 
+                        if (value.GetType() != typeof(DBNull)) {
                             writer.WritePropertyName(column);
                             writer.WriteValue(value);
 
