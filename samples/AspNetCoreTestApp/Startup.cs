@@ -62,9 +62,11 @@ namespace AspNetCoreTestApp
 
             using (var initializer = Korzh.DbUtils.DbInitializer.Create(options => {
                 //options.UseDbContext(dbContext);
-                options.UseDbContext<AppDbContext>(app.ApplicationServices, false);  //options => options.UseSqlServer(Configuration.GetConnectionString("EqDbDemo"))
-                //options.UseJsonFormat();
-                //options.UseFileFolder("App_Data\\DbInitData");
+                //options.UseDbContext<AppDbContext>(app.ApplicationServices, false);  //options => options.UseSqlServer(Configuration.GetConnectionString("EqDbDemo"))
+                options.UseSqlServer(Configuration.GetConnectionString("EqDbDemo"));
+                options.UseJsonImporter();
+                options.UseFileFolderPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "InitialData"));
+                //options.UseZipPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "dataseed.zip"));
             })) 
             {
                 initializer.Run();
