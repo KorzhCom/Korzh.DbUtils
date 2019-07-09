@@ -101,7 +101,7 @@ namespace Korzh.DbUtils.SqlServer
         protected override void TurnOnContraints()
         {
             using (var command = GetConnection().CreateCommand()) {
-                command.CommandText = @"EXRC sp_MSforeachtable ""ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all""";
+                command.CommandText = @"EXEC sp_MSforeachtable ""ALTER TABLE ? CHECK CONSTRAINT all""";
                 command.CommandType = CommandType.Text;
 
                 command.ExecuteNonQuery();

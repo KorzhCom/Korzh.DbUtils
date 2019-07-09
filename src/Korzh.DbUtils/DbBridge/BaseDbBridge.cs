@@ -92,17 +92,17 @@ namespace Korzh.DbUtils
         protected string GenerateInsertStatement(string tableName, IDataRecord record)
         {
             var sb = new StringBuilder(100);
-            sb.AppendFormat("INSERT INTO 0 (", Quote1 + tableName + Quote2);
+            sb.AppendFormat("INSERT INTO {0} ( ", Quote1 + tableName + Quote2);
 
             for (var i = 0; i < record.FieldCount; i++) {
-                sb.AppendFormat("`{0}`, ", record.GetName(i));
+                sb.AppendFormat("{0}, ", record.GetName(i));
             }
 
             sb.Remove(sb.Length - 2, 2);
-            sb.Append(") VALUES (");
+            sb.Append(") VALUES ( ");
 
             for (var i = 0; i < record.FieldCount; i++) {
-                sb.AppendFormat("0, ", ToParameterName(record.GetName(i)));
+                sb.AppendFormat("{0}, ", ToParameterName(record.GetName(i)));
             }
 
             sb.Remove(sb.Length - 2, 2);
