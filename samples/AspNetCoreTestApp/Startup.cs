@@ -64,6 +64,7 @@ namespace AspNetCoreTestApp
             using (var context = scope.ServiceProvider.GetService<AppDbContext>()) {
                 if (context.Database.EnsureCreated()) {
                     Korzh.DbUtils.DbInitializer.Create(options => {
+                        options.NeedDataSeeding = true;
                         //options.UseDbContext(dbContext);
                         //options.UseDbContext<AppDbContext>(app.ApplicationServices, false);  //options => options.UseSqlServer(Configuration.GetConnectionString("EqDbDemo"))
                         options.UseSqlServer(Configuration.GetConnectionString("EqDbDemo"));

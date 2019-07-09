@@ -84,10 +84,41 @@ namespace Korzh.DbUtils
             command.CommandText = GenerateInsertStatement(tableName, record);
             command.CommandType = CommandType.Text;
 
+            AddParameters(command, record);
+
             command.ExecuteNonQuery();
         }
 
-        protected abstract string GenerateInsertStatement(string tableName, IDataRecord record);
+        protected string GenerateInsertStatement(string tableName, IDataRecord record)
+        {
+            var sb = new StringBuilder(100);
+            sb.AppendFormat("INSERT INTO 0 (", Quote1 + tableName + Quote2);
+
+            for (var i = 0; i < record.FieldCount; i++) {
+                sb.AppendFormat("`{0}`, ", record.GetName(i));
+            }
+
+            sb.Remove(sb.Length - 2, 2);
+            sb.Append(") VALUES (");
+
+            for (var i = 0; i < record.FieldCount; i++) {
+                sb.AppendFormat("0, ", ToParameterName(record.GetName(i)));
+            }
+
+            sb.Remove(sb.Length - 2, 2);
+            sb.Append(");");
+
+            return sb.ToString();
+
+        }
+
+        protected abstract void AddParameters(IDbCommand command, IDataRecord record);
+      
+
+        protected string ToParameterName(string name)
+        {
+            return "@" + name.ToLowerInvariant().Replace(' ', '_');
+        }
 
         public void StartSeeding()
         {

@@ -23,6 +23,7 @@ namespace Korzh.DbUtils.Import
             _dataUnpacker.StartUnpacking(_datasetImporter.FileExtension);
             try {
                 var datasets = _dbWriter.GetDatasets();
+                _dbWriter.StartSeeding();
                 foreach (var table in datasets) {
                     using (var datasetStream = _dataUnpacker.OpenStreamForUnpacking(table.Name)) {
                         if (datasetStream != null) {
@@ -38,6 +39,7 @@ namespace Korzh.DbUtils.Import
                 }
             }
             finally {
+                _dbWriter.FinishSeeding();
                 _dataUnpacker.FinishUnpacking();
             }
         }

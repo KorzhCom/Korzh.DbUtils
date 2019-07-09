@@ -35,15 +35,62 @@ namespace Korzh.DbUtils.SqlServer
             }
         }
 
-        protected override string GenerateInsertStatement(string tableName, IDataRecord record)
+        protected override void AddParameters(IDbCommand command, IDataRecord record)
         {
-            WriteToConsole(record);
-            return "";
+  
+            for (int i = 0; i < record.FieldCount; i++) {
+                var parameter = new SqlParameter(ToParameterName(record.GetName(i)), record.GetValue(i))
+                {
+                    Direction = ParameterDirection.Input,
+                    SqlDbType = GetDbTypeByClrType(record.GetFieldType(i))
+                };
+
+                command.Parameters.Add(parameter);
+            }
+        }
+
+        protected SqlDbType GetDbTypeByClrType(Type type)
+        {
+            if (type.IsBool())
+                return SqlDbType.Bit;
+
+            if (type.IsByte())
+                return SqlDbType.Char;
+
+            if (type.IsInt16())
+                return SqlDbType.SmallInt;
+
+            if (type.IsInt32())
+                return SqlDbType.Int;
+
+            if (type.IsInt64())
+                return SqlDbType.BigInt;
+
+            if (type.IsFloat() || type.IsDouble())
+                return SqlDbType.Float;
+
+            if (type == typeof(string))
+                return SqlDbType.Text;
+
+            if (type.IsChar())
+                return SqlDbType.Char;
+
+            if (type == typeof(byte[]))
+                return SqlDbType.Binary;
+
+            if (type.IsDateTime())
+                return SqlDbType.DateTime;
+
+            if (type.IsDateTimeOffset())
+                return SqlDbType.DateTime2;
+
+            return SqlDbType.Text;
+        
         }
 
         protected override void TurnOffContraints()
         {
-            using (var command = Connection.CreateCommand()) {
+            using (var command = GetConnection().CreateCommand()) {
                 command.CommandText = @"EXEC sp_MSforeachtable ""ALTER TABLE ? NOCHECK CONSTRAINT all""";
                 command.CommandType = CommandType.Text;
 
@@ -53,7 +100,7 @@ namespace Korzh.DbUtils.SqlServer
 
         protected override void TurnOnContraints()
         {
-            using (var command = Connection.CreateCommand()) {
+            using (var command = GetConnection().CreateCommand()) {
                 command.CommandText = @"EXRC sp_MSforeachtable ""ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all""";
                 command.CommandType = CommandType.Text;
 
@@ -63,8 +110,8 @@ namespace Korzh.DbUtils.SqlServer
 
         protected override void TurnOffAutoIncrement()
         {
-            using (var command = Connection.CreateCommand()) {
-                command.CommandText = @"EXEC sp_MSforeachtable @command1=""SET IDENTITY_INSERT ? OFF"",
+            using (var command = GetConnection().CreateCommand()) {
+                command.CommandText = @"EXEC sp_MSforeachtable @command1=""SET IDENTITY_INSERT ? ON"",
                                        @whereand = ' AND EXISTS (SELECT 1 FROM sys.columns WHERE object_id = o.id  AND is_identity = 1)'";
                 command.CommandType = CommandType.Text;
 
@@ -74,8 +121,8 @@ namespace Korzh.DbUtils.SqlServer
 
         protected override void TurnOnAutoIncrement()
         {
-            using (var command = Connection.CreateCommand()) {
-                command.CommandText = @"EXEC sp_MSforeachtable @command1=""SET IDENTITY_INSERT ? ON"",
+            using (var command = GetConnection().CreateCommand()) {
+                command.CommandText = @"EXEC sp_MSforeachtable @command1=""SET IDENTITY_INSERT ? OFF"",
                                        @whereand = ' AND EXISTS (SELECT 1 FROM sys.columns WHERE object_id = o.id  AND is_identity = 1)'";
                 command.CommandType = CommandType.Text;
 
