@@ -60,17 +60,20 @@ namespace AspNetCoreTestApp
 
             app.UseMvc();
 
-            using (var initializer = Korzh.DbUtils.DbInitializer.Create(options => {
-                //options.UseDbContext(dbContext);
-                //options.UseDbContext<AppDbContext>(app.ApplicationServices, false);  //options => options.UseSqlServer(Configuration.GetConnectionString("EqDbDemo"))
-                options.UseSqlServer(Configuration.GetConnectionString("EqDbDemo"));
-                options.UseJsonImporter();
-                options.UseFileFolderPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "InitialData"));
-                //options.UseZipPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "dataseed.zip"));
-            })) 
-            {
-                initializer.Run();
-            } 
+            using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            using (var context = scope.ServiceProvider.GetService<AppDbContext>()) {
+                if (context.Database.EnsureCreated()) {
+                    Korzh.DbUtils.DbInitializer.Create(options => {
+                        //options.UseDbContext(dbContext);
+                        //options.UseDbContext<AppDbContext>(app.ApplicationServices, false);  //options => options.UseSqlServer(Configuration.GetConnectionString("EqDbDemo"))
+                        options.UseSqlServer(Configuration.GetConnectionString("EqDbDemo"));
+                        options.UseJsonImporter();
+                        options.UseFileFolderPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "InitialData"));
+                        //options.UseZipPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "dataseed.zip"));
+                    })
+                    .Run();
+                }
+            }
         }
     }
 }
