@@ -5,8 +5,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Text;
 
-
-namespace Korzh.DbUtils.DbBridges
+namespace Korzh.DbUtils.SqlServer
 {
     public class MsSqlBridge : BaseDbBridge
     {

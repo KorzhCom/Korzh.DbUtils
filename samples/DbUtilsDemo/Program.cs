@@ -8,7 +8,7 @@ using System.Linq;
 using Korzh.DbUtils;
 using Korzh.DbUtils.Import;
 using Korzh.DbUtils.Export;
-using Korzh.DbUtils.DbBridges;
+using Korzh.DbUtils.SqlServer;
 using Korzh.DbUtils.Packing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
