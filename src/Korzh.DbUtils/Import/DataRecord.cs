@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq.Expressions;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 
 namespace Korzh.DbUtils
@@ -47,7 +49,29 @@ namespace Korzh.DbUtils
 
         public long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
         {
-            throw new NotImplementedException();
+            var value = GetValue(i);
+
+            if (value != null) {
+
+                BinaryFormatter bf = new BinaryFormatter();
+                byte[] b;
+                using (MemoryStream ms = new MemoryStream()) {
+                    bf.Serialize(ms, value);
+                    b = ms.ToArray();
+                }
+
+                if (buffer == null) {
+                    return b.LongLength;
+                }
+
+                if (bufferoffset < b.Length) {
+                    length = bufferoffset + length <= b.Length ? length : b.Length - bufferoffset;
+                    Array.Copy(b, bufferoffset, buffer, 0, length);
+                    return length;
+                }
+            }
+
+            return 0;
         }
 
         public char GetChar(int i)
@@ -58,14 +82,15 @@ namespace Korzh.DbUtils
         public long GetChars(int i, long fieldoffset, char[] buffer, int bufferoffset, int length)
         {
             var value = GetString(i);
-            var charArray = value.ToCharArray();
+            var b = value.ToCharArray();
 
-            long count = 0;
-            for (var index = fieldoffset; index < charArray.LongLength; index++) {
-                buffer[bufferoffset - 1 + count] = charArray[index];
+            if (bufferoffset < b.Length) {
+                length = bufferoffset + length <= b.Length ? length : b.Length - bufferoffset;
+                Array.Copy(b, bufferoffset, buffer, 0, length);
+                return length;
             }
 
-            return count;
+            return 0;
         }
 
         public IDataReader GetData(int i)

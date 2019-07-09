@@ -45,6 +45,28 @@ namespace Korzh.DbUtils.EntityFrameworkCore
                     return true;
                 }
 
+                if (type == typeof(byte)
+                  || type == typeof(byte?))
+                {
+                    value = dataRecord.GetByte(i);
+                    return true;
+                }
+
+                if (type == typeof(byte[])) {
+
+                    long size = dataRecord.GetBytes(i, 0, null, 0, 0); //get the length of data 
+                    var result = new byte[size];
+                    int bufferSize = 1024;
+                    long bytesRead = 0;
+                    int curPos = 0;
+                    while (bytesRead < size)
+                    {
+                        bytesRead += dataRecord.GetBytes(i, curPos, result, curPos, bufferSize);
+                        curPos += bufferSize;
+                    }
+                    value = result;
+                    return true;
+                }
 
                 if (type == typeof(int)
                     || type == typeof(int?))
