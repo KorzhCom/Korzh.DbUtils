@@ -11,7 +11,7 @@ namespace Korzh.DbUtils.DbBridges
     {
 
         private SqlConnection _connection = null;
-        private string _connectionString;
+        private readonly string _connectionString;
 
         public MsSqlBridge(string connectionString)
         {
@@ -84,7 +84,7 @@ namespace Korzh.DbUtils.DbBridges
         {
             StringBuilder sb = new StringBuilder();
             for (var i = 0; i < record.FieldCount; i++) {
-                sb.Append(record.GetString(i) + "; ");
+                sb.Append(record.GetValue(i).ToString() + "; ");
             }
             Console.WriteLine(sb.ToString());
         }

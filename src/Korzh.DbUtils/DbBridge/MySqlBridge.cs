@@ -11,7 +11,7 @@ namespace Korzh.DbUtils.DbBridges
     public class MySqlBride : IDbReader, IDbWriter
     {
         private MySqlConnection _connection = null;
-        private string _connectionString;
+        private readonly string _connectionString;
 
         public MySqlBride(string connectionString)
         {

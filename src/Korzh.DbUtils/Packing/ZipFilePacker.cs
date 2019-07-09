@@ -13,7 +13,7 @@ namespace Korzh.DbUtils.Packing
     public class ZipFilePacker : IDataPacker, IDataUnpacker
     {
         private readonly string _fileName;
-        private ILogger _logger; 
+        private readonly ILogger _logger; 
         private ZipArchive _zipArchive;
         private string _fileExtension;
 

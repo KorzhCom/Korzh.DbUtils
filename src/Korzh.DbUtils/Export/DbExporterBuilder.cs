@@ -63,7 +63,7 @@ namespace Korzh.DbUtils.Export
                     throw new DbExportBuilderException("Unknown Database type");
             }
 
-            return this;
+           // return this;
 
         }
 

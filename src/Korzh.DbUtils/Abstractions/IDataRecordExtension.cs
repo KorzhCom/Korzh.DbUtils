@@ -57,7 +57,7 @@ namespace Korzh.DbUtils.EntityFrameworkCore
                 if (type == typeof(bool)
                     || type == typeof(bool?))
                 {
-                    value = dataRecord.GetInt16(i);
+                    value = dataRecord.GetBoolean(i);
                     return true;
                 }
 

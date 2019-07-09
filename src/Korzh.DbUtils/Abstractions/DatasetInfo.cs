@@ -11,7 +11,7 @@ namespace Korzh.DbUtils
 
         public Type DataType {get; private set;}
 
-        public string TypeName => DataType.ToString();
+        public string DataTypeName => DataType.ToString();
 
         public ColumnInfo(string name, string type)
         {
