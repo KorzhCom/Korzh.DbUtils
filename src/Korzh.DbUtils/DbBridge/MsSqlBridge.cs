@@ -29,8 +29,9 @@ namespace Korzh.DbUtils.SqlServer
             foreach (DataRow row in schemaTable.Rows) {
                 string tableType = (string)row["TABLE_TYPE"];
                 string tableName = (string)row["TABLE_NAME"];
+                string tableSchema = (string)row["TABLE_SCHEMA"];
                 if (tableType == "BASE TABLE") {
-                    datasets.Add(new DatasetInfo(tableName));
+                    datasets.Add(new DatasetInfo(tableName, tableSchema));
                 }
             }
         }
@@ -69,6 +70,9 @@ namespace Korzh.DbUtils.SqlServer
             if (type.IsFloat() || type.IsDouble())
                 return SqlDbType.Float;
 
+            if (type.IsDecimal())
+                return SqlDbType.Decimal;
+
             if (type == typeof(string))
                 return SqlDbType.Text;
 
@@ -76,7 +80,7 @@ namespace Korzh.DbUtils.SqlServer
                 return SqlDbType.Char;
 
             if (type == typeof(byte[]))
-                return SqlDbType.Binary;
+                return SqlDbType.VarBinary;
 
             if (type.IsDateTime())
                 return SqlDbType.DateTime;
@@ -88,42 +92,41 @@ namespace Korzh.DbUtils.SqlServer
         
         }
 
-        protected override void TurnOffContraints()
+        protected override void TurnOffContraints(DatasetInfo table)
         {
             using (var command = GetConnection().CreateCommand()) {
-                command.CommandText = @"EXEC sp_MSforeachtable ""ALTER TABLE ? NOCHECK CONSTRAINT all""";
+                command.CommandText = $"ALTER TABLE {GetTableFullName(table)} NOCHECK CONSTRAINT all";
                 command.CommandType = CommandType.Text;
 
                 command.ExecuteNonQuery();
             }
         }
 
-        protected override void TurnOnContraints()
+        protected override void TurnOnContraints(DatasetInfo table)
         {
             using (var command = GetConnection().CreateCommand()) {
-                command.CommandText = @"EXEC sp_MSforeachtable ""ALTER TABLE ? CHECK CONSTRAINT all""";
+                command.CommandText = $"ALTER TABLE {GetTableFullName(table)} CHECK CONSTRAINT all";
                 command.CommandType = CommandType.Text;
 
                 command.ExecuteNonQuery();
             }
         }
 
-        protected override void TurnOffAutoIncrement()
+        protected override void TurnOffAutoIncrement(DatasetInfo table)
         {
             using (var command = GetConnection().CreateCommand()) {
-                command.CommandText = @"EXEC sp_MSforeachtable @command1=""SET IDENTITY_INSERT ? ON"",
-                                       @whereand = ' AND EXISTS (SELECT 1 FROM sys.columns WHERE object_id = o.id  AND is_identity = 1)'";
+                command.CommandText = $"if exists (select 1 from sys.columns c where c.object_id = object_id('{GetTableFullName(table)}') and c.is_identity =1) begin SET IDENTITY_INSERT {GetTableFullName(table)} ON end";
                 command.CommandType = CommandType.Text;
 
                 command.ExecuteNonQuery();
             }
         }
 
-        protected override void TurnOnAutoIncrement()
+        protected override void TurnOnAutoIncrement(DatasetInfo table)
         {
             using (var command = GetConnection().CreateCommand()) {
-                command.CommandText = @"EXEC sp_MSforeachtable @command1=""SET IDENTITY_INSERT ? OFF"",
-                                       @whereand = ' AND EXISTS (SELECT 1 FROM sys.columns WHERE object_id = o.id  AND is_identity = 1)'";
+                command.CommandText = $"if exists (select 1 from sys.columns c where c.object_id = object_id('{GetTableFullName(table)}') and c.is_identity = 1) begin SET IDENTITY_INSERT {GetTableFullName(table)} OFF end";
+
                 command.CommandType = CommandType.Text;
 
                 command.ExecuteNonQuery();

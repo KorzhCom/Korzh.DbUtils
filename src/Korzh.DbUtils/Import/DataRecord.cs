@@ -95,7 +95,7 @@ namespace Korzh.DbUtils
 
         public string GetDataTypeName(int i)
         {
-            return GetValue(i).GetType().ToString();
+            return GetFieldType(i).ToString();
         }
 
         public DateTime GetDateTime(int i)
@@ -115,7 +115,7 @@ namespace Korzh.DbUtils
 
         public Type GetFieldType(int i)
         {
-            return typeof(string);
+            return GetValue(i).GetType();
         }
 
         public float GetFloat(int i)

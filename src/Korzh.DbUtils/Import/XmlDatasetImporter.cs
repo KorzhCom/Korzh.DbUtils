@@ -24,7 +24,7 @@ namespace Korzh.DbUtils.Import
                 throw new DatasetImporterException($"Wrong file format. No 'Dataset' element");
             }
 
-            var datasetInfo = new DatasetInfo(_xmlReader.GetAttribute("name"));
+            var datasetInfo = new DatasetInfo(_xmlReader.GetAttribute("name"), ""); // add schema here
             _datasetInfo = datasetInfo;
 
             _isEndOfData = false;

@@ -76,12 +76,12 @@ namespace Korzh.DbUtils
 
         protected abstract void ExtractDatasetList(IList<DatasetInfo> datasets);
 
-        public void WriteRecord(string tableName, IDataRecord record)
+        public void WriteRecord(DatasetInfo table, IDataRecord record)
         {
             var connection = GetConnection();
 
             var command = connection.CreateCommand();
-            command.CommandText = GenerateInsertStatement(tableName, record);
+            command.CommandText = GenerateInsertStatement(table, record);
             command.CommandType = CommandType.Text;
 
             AddParameters(command, record);
@@ -89,13 +89,13 @@ namespace Korzh.DbUtils
             command.ExecuteNonQuery();
         }
 
-        protected string GenerateInsertStatement(string tableName, IDataRecord record)
+        protected string GenerateInsertStatement(DatasetInfo table, IDataRecord record)
         {
             var sb = new StringBuilder(100);
-            sb.AppendFormat("INSERT INTO {0} ( ", Quote1 + tableName + Quote2);
+            sb.AppendFormat("INSERT INTO {0} ( ", GetTableFullName(table));
 
             for (var i = 0; i < record.FieldCount; i++) {
-                sb.AppendFormat("{0}, ", record.GetName(i));
+                sb.AppendFormat("{0}{1}{2}, ", Quote1, record.GetName(i), Quote2);
             }
 
             sb.Remove(sb.Length - 2, 2);
@@ -120,28 +120,40 @@ namespace Korzh.DbUtils
             return "@" + name.ToLowerInvariant().Replace(' ', '_');
         }
 
-        public void StartSeeding()
+        public void StartSeeding(DatasetInfo table)
         {
             // Get all constraints and save them
             // Turn all constraints off
-            TurnOffContraints();
-            TurnOffAutoIncrement();
+            TurnOffContraints(table);
+            TurnOffAutoIncrement(table);
         }
 
-        protected abstract void TurnOffContraints();
+        protected abstract void TurnOffContraints(DatasetInfo table);
 
-        protected abstract void TurnOffAutoIncrement();
+        protected abstract void TurnOffAutoIncrement(DatasetInfo table);
 
-        protected abstract void TurnOnContraints();
+        protected abstract void TurnOnContraints(DatasetInfo table);
 
-        protected abstract void TurnOnAutoIncrement();
+        protected abstract void TurnOnAutoIncrement(DatasetInfo table);
 
-        public void FinishSeeding()
+        public void FinishSeeding(DatasetInfo table)
         {
-            TurnOnContraints();
-            TurnOnAutoIncrement();
+            TurnOnContraints(table);
+            TurnOnAutoIncrement(table);
             //Turn all saved constraints on
             //Clear the list of constraints
+        }
+
+        protected virtual string GetTableFullName(DatasetInfo table)
+        {
+            var result = "";
+            if (!string.IsNullOrEmpty(table.Schema)) {
+                result += Quote1 + table.Schema + Quote2 + ".";
+            }
+
+            result += Quote1 + table.Name + Quote2;
+
+            return result;
         }
     }
 }

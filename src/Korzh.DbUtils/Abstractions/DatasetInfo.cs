@@ -32,13 +32,16 @@ namespace Korzh.DbUtils
     {
         public string Name { get; private set; }
 
+        public string Schema { get; private set; }
+
         public IReadOnlyDictionary<string, ColumnInfo> Columns => _columns;
 
         private Dictionary<string, ColumnInfo> _columns = new Dictionary<string, ColumnInfo>();
 
-        public DatasetInfo(string name)
+        public DatasetInfo(string name, string schema)
         {
             Name = name;
+            Schema = schema;
         }
 
         public void AddColumn(ColumnInfo column)

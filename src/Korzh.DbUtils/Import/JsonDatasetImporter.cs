@@ -34,7 +34,7 @@ namespace Korzh.DbUtils.Import
                 throw new DatasetImporterException($"Wrong file format. No 'schema' property");
             }
 
-            var datasetInfo = new DatasetInfo(_jsonReader.ReadAsString());
+            var datasetInfo = new DatasetInfo(_jsonReader.ReadAsString(), "");
             _datasetInfo = datasetInfo;
 
             if (!ReadToProperty("schema")) {
