@@ -63,7 +63,7 @@ namespace AspNetCoreTestApp
                 //options.UseFileFolder("App_Data\\DbInitData");
             })) 
             {
-                //initializer.Run();
+                initializer.Run();
             } 
         }
     }
