@@ -24,23 +24,19 @@ namespace Korzh.DbUtils.Import
             var datasets = _dbWriter.GetDatasets();
             foreach (var table in datasets) {
                 _dbWriter.StartSeeding(table);
-                try
-                {
+                try {
                     using (var datasetStream = _dataUnpacker.OpenStreamForUnpacking(table.Name)) {
                         if (datasetStream != null) {
                             var dataset = _datasetImporter.StartImport(datasetStream);
-                            Console.WriteLine($"Reading {dataset.Name}..."); //!!!!!!!!!!!!!!!!!!!!!
-                            while (_datasetImporter.HasRecords())
-                            {
+                            while (_datasetImporter.HasRecords()) {
                                 _dbWriter.WriteRecord(table, _datasetImporter.NextRecord());
                             }
                             _datasetImporter.FinishImport();
-                            Console.WriteLine(""); //!!!!!!!!!!!!!!!!!
                         }
                     }
                 }
                 catch (Exception ex) {
-                    Console.WriteLine(ex.Message + ":" + ex.StackTrace);
+                    Console.WriteLine(ex.Message + ":" + ex.StackTrace); //remove in future or make with logging
                 }
                 finally {
                     _dbWriter.FinishSeeding(table);

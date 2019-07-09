@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Data;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq.Expressions;
 
-namespace Korzh.DbUtils.EntityFrameworkCore
+namespace Korzh.DbUtils
 {
     public static class IDataRecordExtension
     {
