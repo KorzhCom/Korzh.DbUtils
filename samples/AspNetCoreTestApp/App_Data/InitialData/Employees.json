@@ -3,128 +3,76 @@
   "schema": {
     "columns": [
       {
-        "name": "ColumnName",
-        "type": "System.String"
-      },
-      {
-        "name": "ColumnOrdinal",
+        "name": "EmployeeID",
         "type": "System.Int32"
       },
       {
-        "name": "ColumnSize",
+        "name": "LastName",
+        "type": "System.String"
+      },
+      {
+        "name": "FirstName",
+        "type": "System.String"
+      },
+      {
+        "name": "Title",
+        "type": "System.String"
+      },
+      {
+        "name": "TitleOfCourtesy",
+        "type": "System.String"
+      },
+      {
+        "name": "BirthDate",
+        "type": "System.DateTime"
+      },
+      {
+        "name": "HireDate",
+        "type": "System.DateTime"
+      },
+      {
+        "name": "Address",
+        "type": "System.String"
+      },
+      {
+        "name": "City",
+        "type": "System.String"
+      },
+      {
+        "name": "Region",
+        "type": "System.String"
+      },
+      {
+        "name": "PostalCode",
+        "type": "System.String"
+      },
+      {
+        "name": "Country",
+        "type": "System.String"
+      },
+      {
+        "name": "HomePhone",
+        "type": "System.String"
+      },
+      {
+        "name": "Extension",
+        "type": "System.String"
+      },
+      {
+        "name": "Photo",
+        "type": "System.Byte[]"
+      },
+      {
+        "name": "PhotoPath",
+        "type": "System.String"
+      },
+      {
+        "name": "Notes",
+        "type": "System.String"
+      },
+      {
+        "name": "ReportsTo",
         "type": "System.Int32"
-      },
-      {
-        "name": "NumericPrecision",
-        "type": "System.Int16"
-      },
-      {
-        "name": "NumericScale",
-        "type": "System.Int16"
-      },
-      {
-        "name": "IsUnique",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsKey",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "BaseServerName",
-        "type": "System.String"
-      },
-      {
-        "name": "BaseCatalogName",
-        "type": "System.String"
-      },
-      {
-        "name": "BaseColumnName",
-        "type": "System.String"
-      },
-      {
-        "name": "BaseSchemaName",
-        "type": "System.String"
-      },
-      {
-        "name": "BaseTableName",
-        "type": "System.String"
-      },
-      {
-        "name": "DataType",
-        "type": "System.Type"
-      },
-      {
-        "name": "AllowDBNull",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "ProviderType",
-        "type": "System.Int32"
-      },
-      {
-        "name": "IsAliased",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsExpression",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsIdentity",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsAutoIncrement",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsRowVersion",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsHidden",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsLong",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsReadOnly",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "ProviderSpecificDataType",
-        "type": "System.Type"
-      },
-      {
-        "name": "DataTypeName",
-        "type": "System.String"
-      },
-      {
-        "name": "XmlSchemaCollectionDatabase",
-        "type": "System.String"
-      },
-      {
-        "name": "XmlSchemaCollectionOwningSchema",
-        "type": "System.String"
-      },
-      {
-        "name": "XmlSchemaCollectionName",
-        "type": "System.String"
-      },
-      {
-        "name": "UdtAssemblyQualifiedName",
-        "type": "System.String"
-      },
-      {
-        "name": "NonVersionedProviderType",
-        "type": "System.Int32"
-      },
-      {
-        "name": "IsColumnSet",
-        "type": "System.Boolean"
       }
     ]
   },

@@ -3,128 +3,48 @@
   "schema": {
     "columns": [
       {
-        "name": "ColumnName",
+        "name": "CustomerID",
         "type": "System.String"
       },
       {
-        "name": "ColumnOrdinal",
-        "type": "System.Int32"
-      },
-      {
-        "name": "ColumnSize",
-        "type": "System.Int32"
-      },
-      {
-        "name": "NumericPrecision",
-        "type": "System.Int16"
-      },
-      {
-        "name": "NumericScale",
-        "type": "System.Int16"
-      },
-      {
-        "name": "IsUnique",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsKey",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "BaseServerName",
+        "name": "CompanyName",
         "type": "System.String"
       },
       {
-        "name": "BaseCatalogName",
+        "name": "Address",
         "type": "System.String"
       },
       {
-        "name": "BaseColumnName",
+        "name": "City",
         "type": "System.String"
       },
       {
-        "name": "BaseSchemaName",
+        "name": "Region",
         "type": "System.String"
       },
       {
-        "name": "BaseTableName",
+        "name": "PostalCode",
         "type": "System.String"
       },
       {
-        "name": "DataType",
-        "type": "System.Type"
-      },
-      {
-        "name": "AllowDBNull",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "ProviderType",
-        "type": "System.Int32"
-      },
-      {
-        "name": "IsAliased",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsExpression",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsIdentity",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsAutoIncrement",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsRowVersion",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsHidden",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsLong",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsReadOnly",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "ProviderSpecificDataType",
-        "type": "System.Type"
-      },
-      {
-        "name": "DataTypeName",
+        "name": "Country",
         "type": "System.String"
       },
       {
-        "name": "XmlSchemaCollectionDatabase",
+        "name": "ContactName",
         "type": "System.String"
       },
       {
-        "name": "XmlSchemaCollectionOwningSchema",
+        "name": "ContactTitle",
         "type": "System.String"
       },
       {
-        "name": "XmlSchemaCollectionName",
+        "name": "Phone",
         "type": "System.String"
       },
       {
-        "name": "UdtAssemblyQualifiedName",
+        "name": "Fax",
         "type": "System.String"
-      },
-      {
-        "name": "NonVersionedProviderType",
-        "type": "System.Int32"
-      },
-      {
-        "name": "IsColumnSet",
-        "type": "System.Boolean"
       }
     ]
   },

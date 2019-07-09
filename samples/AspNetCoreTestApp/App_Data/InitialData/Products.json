@@ -3,127 +3,43 @@
   "schema": {
     "columns": [
       {
-        "name": "ColumnName",
+        "name": "ProductID",
+        "type": "System.Int32"
+      },
+      {
+        "name": "ProductName",
         "type": "System.String"
       },
       {
-        "name": "ColumnOrdinal",
+        "name": "SupplierID",
         "type": "System.Int32"
       },
       {
-        "name": "ColumnSize",
+        "name": "CategoryID",
         "type": "System.Int32"
       },
       {
-        "name": "NumericPrecision",
+        "name": "QuantityPerUnit",
+        "type": "System.String"
+      },
+      {
+        "name": "UnitPrice",
+        "type": "System.Decimal"
+      },
+      {
+        "name": "UnitsInStock",
         "type": "System.Int16"
       },
       {
-        "name": "NumericScale",
+        "name": "UnitsOnOrder",
         "type": "System.Int16"
       },
       {
-        "name": "IsUnique",
-        "type": "System.Boolean"
+        "name": "ReorderLevel",
+        "type": "System.Int16"
       },
       {
-        "name": "IsKey",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "BaseServerName",
-        "type": "System.String"
-      },
-      {
-        "name": "BaseCatalogName",
-        "type": "System.String"
-      },
-      {
-        "name": "BaseColumnName",
-        "type": "System.String"
-      },
-      {
-        "name": "BaseSchemaName",
-        "type": "System.String"
-      },
-      {
-        "name": "BaseTableName",
-        "type": "System.String"
-      },
-      {
-        "name": "DataType",
-        "type": "System.Type"
-      },
-      {
-        "name": "AllowDBNull",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "ProviderType",
-        "type": "System.Int32"
-      },
-      {
-        "name": "IsAliased",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsExpression",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsIdentity",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsAutoIncrement",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsRowVersion",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsHidden",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsLong",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "IsReadOnly",
-        "type": "System.Boolean"
-      },
-      {
-        "name": "ProviderSpecificDataType",
-        "type": "System.Type"
-      },
-      {
-        "name": "DataTypeName",
-        "type": "System.String"
-      },
-      {
-        "name": "XmlSchemaCollectionDatabase",
-        "type": "System.String"
-      },
-      {
-        "name": "XmlSchemaCollectionOwningSchema",
-        "type": "System.String"
-      },
-      {
-        "name": "XmlSchemaCollectionName",
-        "type": "System.String"
-      },
-      {
-        "name": "UdtAssemblyQualifiedName",
-        "type": "System.String"
-      },
-      {
-        "name": "NonVersionedProviderType",
-        "type": "System.Int32"
-      },
-      {
-        "name": "IsColumnSet",
+        "name": "Discontinued",
         "type": "System.Boolean"
       }
     ]
