@@ -1,9 +1,4 @@
-﻿using System;
-
-using Korzh.DbUtils;
-using Korzh.DbUtils.Packing;
-
-namespace Microsoft.Extensions.DependencyInjection
+﻿namespace Korzh.DbUtils.Packing;
 {
     public static class DataPackingExtensions
     {

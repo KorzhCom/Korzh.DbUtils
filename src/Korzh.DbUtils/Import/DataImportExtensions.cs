@@ -1,9 +1,4 @@
-﻿using System;
-
-using Korzh.DbUtils;
-using Korzh.DbUtils.Import;
-
-namespace Microsoft.Extensions.DependencyInjection
+﻿namespace Korzh.DbUtils.Import
 {
     public static class DataImportExtensions
     {

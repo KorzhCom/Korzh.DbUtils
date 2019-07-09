@@ -126,21 +126,10 @@ namespace Korzh.DbUtils.SqlServer
         {
             using (var command = GetConnection().CreateCommand()) {
                 command.CommandText = $"if exists (select 1 from sys.columns c where c.object_id = object_id('{GetTableFullName(table)}') and c.is_identity = 1) begin SET IDENTITY_INSERT {GetTableFullName(table)} OFF end";
-
                 command.CommandType = CommandType.Text;
 
                 command.ExecuteNonQuery();
             }
-        }
-
-        //!!!!!!!!!!!!!!!! Just for testing. Remove before release
-        private void WriteToConsole(IDataRecord record)
-        {
-            StringBuilder sb = new StringBuilder();
-            for (var i = 0; i < record.FieldCount; i++) {
-                sb.Append(record.GetValue(i).ToString() + "; ");
-            }
-            Console.WriteLine(sb.ToString());
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-
-using Korzh.DbUtils;
-using Korzh.DbUtils.SqlServer;
-
-namespace Microsoft.Extensions.DependencyInjection
+﻿namespace Korzh.DbUtils.SqlServer
 {
     public static class DbMsSqlBridgeExtensions
     {

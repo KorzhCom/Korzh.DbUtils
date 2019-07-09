@@ -122,8 +122,6 @@ namespace Korzh.DbUtils
 
         public void StartSeeding(DatasetInfo table)
         {
-            // Get all constraints and save them
-            // Turn all constraints off
             TurnOffContraints(table);
             TurnOffAutoIncrement(table);
         }
@@ -140,8 +138,6 @@ namespace Korzh.DbUtils
         {
             TurnOnContraints(table);
             TurnOnAutoIncrement(table);
-            //Turn all saved constraints on
-            //Clear the list of constraints
         }
 
         protected virtual string GetTableFullName(DatasetInfo table)
