@@ -42,6 +42,47 @@ namespace Korzh.DbUtils.DbBridges
             return "";
         }
 
+        protected override void TurnOffContraints()
+        {
+            using (var command = Connection.CreateCommand()) {
+                command.CommandText = @"EXEC sp_MSforeachtable ""ALTER TABLE ? NOCHECK CONSTRAINT all""";
+                command.CommandType = CommandType.Text;
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        protected override void TurnOnContraints()
+        {
+            using (var command = Connection.CreateCommand()) {
+                command.CommandText = @"EXRC sp_MSforeachtable ""ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all""";
+                command.CommandType = CommandType.Text;
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        protected override void TurnOffAutoIncrement()
+        {
+            using (var command = Connection.CreateCommand()) {
+                command.CommandText = @"EXEC sp_MSforeachtable @command1=""SET IDENTITY_INSERT ? OFF"",
+                                       @whereand = ' AND EXISTS (SELECT 1 FROM sys.columns WHERE object_id = o.id  AND is_identity = 1)'";
+                command.CommandType = CommandType.Text;
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        protected override void TurnOnAutoIncrement()
+        {
+            using (var command = Connection.CreateCommand()) {
+                command.CommandText = @"EXEC sp_MSforeachtable @command1=""SET IDENTITY_INSERT ? ON"",
+                                       @whereand = ' AND EXISTS (SELECT 1 FROM sys.columns WHERE object_id = o.id  AND is_identity = 1)'";
+                command.CommandType = CommandType.Text;
+
+                command.ExecuteNonQuery();
+            }
+        }
 
         //!!!!!!!!!!!!!!!! Just for testing. Remove before release
         private void WriteToConsole(IDataRecord record)

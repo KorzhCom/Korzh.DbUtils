@@ -93,10 +93,22 @@ namespace Korzh.DbUtils
         {
             // Get all constraints and save them
             // Turn all constraints off
+            TurnOffContraints();
+            TurnOffAutoIncrement();
         }
+
+        protected abstract void TurnOffContraints();
+
+        protected abstract void TurnOffAutoIncrement();
+
+        protected abstract void TurnOnContraints();
+
+        protected abstract void TurnOnAutoIncrement();
 
         public void FinishSeeding()
         {
+            TurnOnContraints();
+            TurnOnAutoIncrement();
             //Turn all saved constraints on
             //Clear the list of constraints
         }
