@@ -18,8 +18,6 @@ namespace Korzh.DbUtils
 
         private DbInitializerOptions _options;
 
-
-
         public DbInitializer(DbInitializerOptions options)
         {
             _dbImporter = new DbImporter(options.DbWriter, options.DatasetImporter, options.Unpacker);
@@ -84,6 +82,7 @@ namespace Korzh.DbUtils
         public IDatasetImporter DatasetImporter { get; set; }
 
         public IDataUnpacker Unpacker { get; set; }
+
         public bool NeedDataSeeding { get; set; } = false;
 
         public IList<IDisposable> DisposableObjects { get; } = new List<IDisposable>();

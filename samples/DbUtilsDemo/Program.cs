@@ -3,12 +3,15 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.IO;
+using System.Linq;
 
 using Korzh.DbUtils;
 using Korzh.DbUtils.Import;
 using Korzh.DbUtils.Export;
 using Korzh.DbUtils.DbBridges;
 using Korzh.DbUtils.Packing;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DbUtilsDemo
 {
@@ -16,10 +19,11 @@ namespace DbUtilsDemo
     {
         static void Main(string[] args)
         {
-            var connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EqDemoDb07;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            var connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EqDemoDb21;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             var connection = new SqlConnection(connectionString);
             //ExportTable(connection, "Customers");
-            ExportImportDb(connection);
+            //ExportImportDb(connection);
+            TestInsertIdentityOn(connection);
         }
 
 
@@ -81,5 +85,90 @@ namespace DbUtilsDemo
 
             return command;
         }
+
+
+        private static AppDbContext _dbContext = null;
+
+        private static AppDbContext GetDbContext(DbConnection connection)
+        {
+            if (_dbContext == null) {
+                var builder = new DbContextOptionsBuilder<AppDbContext>();
+                builder.UseSqlServer(connection);
+
+                _dbContext = new AppDbContext(builder.Options);
+            }
+            return _dbContext;
+        }
+
+        private static void TestInsertIdentityOn(DbConnection connection)
+        {
+            var supplier = new Models.Supplier {
+                Id = 1,
+                Address = "Bla-bla",
+                City = "London",
+                CompanyName = "Bla Company",
+                ContactName = "John Doe",
+                ContactTitle = "MR.",
+                Country = "GB",
+                HomePage = "https://www.johndoe.com",
+                PostalCode = "1111"
+            };
+
+            var dbContext = GetDbContext(connection);
+
+            dbContext.Suppliers.Add(supplier);
+
+            dbContext.SaveChangesWithIdentity(dbContext.Model.FindEntityType(typeof(Models.Supplier)));
+
+            //var fullTableName = "Suppliers";
+            ////dbContext.Model.FindEntityType(typeof(Models.Supplier)).Relational().`
+
+            //Console.WriteLine($"Openning the connection...");
+            //dbContext.Database.OpenConnection();
+            ////DbContext.Database.BeginTransaction(); //not necessary actually
+
+            //foreach (var sequence in dbContext.Model.Relational().Sequences) {
+            //    Console.WriteLine($"SEQ: {sequence.Name}: {sequence.ClrType} : {sequence.Schema}");
+            //}
+
+            //var baseSql = "SET IDENTITY_INSERT \"" + fullTableName + "\"";
+
+            //Console.WriteLine($"Setting IDENTITY_INSERT ON...");
+            //dbContext.Database.ExecuteSqlCommand(baseSql + " ON");
+            //Console.WriteLine($"Saving changes...");
+            //dbContext.SaveChanges();
+            //Console.WriteLine($"Setting IDENTITY_INSERT OFF...");
+            //dbContext.Database.ExecuteSqlCommand(baseSql + " OFF");
+        }
+    }
+
+
+    public static class DbContextExtensions
+    {
+        #pragma warning disable EF1000
+        public static int SaveChangesWithIdentity(this DbContext dbContext, params IEntityType[] entityTypes)
+        {
+            dbContext.Database.OpenConnection();
+            var baseSql = "SET IDENTITY_INSERT ";
+
+            var tableNames = entityTypes.Select(et => {
+                var etr = et.Relational();
+                var tableSchema = etr.Schema;
+                return string.IsNullOrEmpty(tableSchema)
+                    ? etr.TableName
+                    : tableSchema + "." + etr.TableName + "";
+            });
+
+            foreach (var tableName in tableNames) {
+                dbContext.Database.ExecuteSqlCommand(baseSql + tableName + " ON");
+            }
+            var result = dbContext.SaveChanges();
+
+            foreach (var tableName in tableNames) {
+                dbContext.Database.ExecuteSqlCommand(baseSql + tableName + " OFF");
+            }
+            return result;
+        }
+        #pragma warning restore EF1000
     }
 }
