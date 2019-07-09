@@ -19,11 +19,15 @@ namespace DbUtilsDemo
     {
         static void Main(string[] args)
         {
-            var connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EqDemoDb21;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            var connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EqDemoDb07;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             var connection = new SqlConnection(connectionString);
             //ExportTable(connection, "Customers");
             //ExportImportDb(connection);
-            TestInsertIdentityOn(connection);
+            ExportImportDb(connection);
+
+            //TestBinaryImport();
+
+            Console.ReadKey();
         }
 
 
@@ -44,8 +48,8 @@ namespace DbUtilsDemo
         static void ExportImportDb(DbConnection connection)
         {
             CheckConnection(connection);
-            var datasetExporter = new XmlDatasetExporter();
-            //var datasetExporter = new JsonDatasetExporter();
+            //var datasetExporter = new XmlDatasetExporter();
+            var datasetExporter = new JsonDatasetExporter();
             var bridge = new MsSqlBridge(connection as SqlConnection);
             var packer = new FileFolderPacker("Data");
             //var packer = new ZipFilePacker("EqDemoDb.zip");
@@ -55,8 +59,8 @@ namespace DbUtilsDemo
             Console.WriteLine($"Exporting database...");
             exporter.Export();
 
-            //var datasetImporter = new JsonDatasetImporter();
-            var datasetImporter = new XmlDatasetImporter();
+            var datasetImporter = new JsonDatasetImporter();
+            //var datasetImporter = new XmlDatasetImporter();
             var importer = new DbImporter(bridge, datasetImporter, packer);
             Console.WriteLine($"Importing database...");
             importer.Import();
@@ -139,6 +143,80 @@ namespace DbUtilsDemo
             //dbContext.SaveChanges();
             //Console.WriteLine($"Setting IDENTITY_INSERT OFF...");
             //dbContext.Database.ExecuteSqlCommand(baseSql + " OFF");
+        }
+
+        private static void TestBinaryImport() {
+
+            var barr = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0x08,
+            0x01, 0x02, 0x03, 0x04, 0x05, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0x08,
+            0x01, 0x02, 0x03, 0x04, 0x05, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0x08,
+            0x01, 0x02, 0x03, 0x04, 0x05, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0x08,
+            0x01, 0x02, 0x03, 0x04, 0x05, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0x08,
+            0x01, 0x02, 0x03, 0x04, 0x05, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0x08,
+            0x01, 0x02, 0x03, 0x04, 0x05, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0x08,
+            0x01, 0x02, 0x03, 0x04, 0x05, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0x08,
+            0x01, 0x02, 0x03, 0x04, 0x05, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0x08,
+            0x01, 0x02, 0x03, 0x04, 0x05, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0x08,
+            0x01, 0x02, 0x03, 0x04, 0x05, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0x08,
+            0x01, 0x02, 0x03, 0x04, 0x05, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0x08};
+
+
+            var dt = new DataTable();
+            dt.Columns.Add(new DataColumn("Id", typeof(string)));
+            dt.Columns.Add(new DataColumn("ByteTest", typeof(byte[])));
+
+            dt.Rows.Add("test", barr);
+
+            var de = new JsonDatasetExporter();
+            var di = new JsonDatasetImporter();
+
+            var ms = new MemoryStream();
+            de.ExportDataset(dt.CreateDataReader(), ms, "test set");
+
+            var result = ms.ToArray();
+            ms = new MemoryStream(result);
+
+            DataRecord record = null; 
+            try {
+                var dataInfo = di.StartImport(ms);
+                while (di.HasRecords()) {
+                    record = (DataRecord)di.NextRecord();
+                }
+            }
+            finally {
+                di.FinishImport();
+            }
+
+            var newBArr = (byte[])record["ByteTest"];
+
+            Console.Write("Original: ");
+            foreach (var b in barr) {
+                Console.Write(b.ToString("X2") + " ");
+            }
+            Console.WriteLine();
+
+            Console.Write("Result: ");
+            foreach (var b in newBArr)
+            {
+                Console.Write(b.ToString("X2") + " ");
+            }
+            Console.WriteLine();
+
+            bool areEqual = barr.Length == newBArr.Length;
+
+            if (areEqual) {
+                for (var i = 0; i < barr.Length; i++) {
+                    if (barr[i] != newBArr[i]) {
+                        areEqual = false;
+                        break;
+                    }
+
+                }
+
+            }
+
+            Console.WriteLine("Equal: " + areEqual.ToString());
+
         }
     }
 }

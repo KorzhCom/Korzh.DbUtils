@@ -22,7 +22,7 @@ namespace Korzh.DbUtils.Import
         public DatasetInfo StartImport(Stream datasetStream)
         {
 
-            _jsonReader = new JsonTextReader(new StreamReader(datasetStream));
+            _jsonReader = new JsonTextReader(new StreamReader(datasetStream, Encoding.UTF8));
             _jsonReader.Read();
             if (_jsonReader.TokenType != JsonToken.StartObject) {
                 throw new DatasetImporterException($"Wrong file format at {_jsonReader.LineNumber}:{_jsonReader.LinePosition}");
@@ -172,8 +172,8 @@ namespace Korzh.DbUtils.Import
 
         public static object ReadAs(this JsonReader jsonReader, Type type)
         {
-            var token = JToken.ReadFrom(jsonReader);
-            return token.ToObject(type);
+            var serializer = JsonSerializer.CreateDefault();
+            return serializer.Deserialize(jsonReader, type);
         }
     }
 }
