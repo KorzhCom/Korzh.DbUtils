@@ -103,7 +103,7 @@ namespace Korzh.DbUtils.Import
 
         protected virtual void ReadOneRecordField(DataRecord record, string fieldName, string value)
         {
-            record.SetProperty(fieldName, _datasetInfo.Columns[fieldName].Type, value);
+            record.SetProperty(fieldName, _datasetInfo.Columns[fieldName].DataType, value);
         }
 
         public void FinishImport()

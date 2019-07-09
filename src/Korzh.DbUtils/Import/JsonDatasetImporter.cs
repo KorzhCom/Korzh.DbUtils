@@ -153,7 +153,12 @@ namespace Korzh.DbUtils.Import
 
         protected virtual void ReadOneRecordField(DataRecord record, string fieldName, object value)
         {
-            record.SetProperty(fieldName, _datasetInfo.Columns[fieldName].Type, value.ToString());
+            if (_datasetInfo.Columns.TryGetValue(fieldName, out var colInfo)) {
+                record.SetProperty(fieldName, colInfo.DataType, value.ToString());
+            }
+            else {
+                record.SetProperty(fieldName, value);
+            }
         }
 
         public void FinishImport()

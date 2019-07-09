@@ -77,10 +77,11 @@ namespace Korzh.DbUtils.EntityFrameworkCore
             DbContext.Add(item);
 
             DbContext.Database.OpenConnection();
-            var sql = "SET IDENTITY_INSERT " + fullTableName + " ON";
-            var strategy = DbContext.Database.ExecuteSqlCommand(sql);// ExecuteSqlCommand(sql, fullTableName);
+            //DbContext.Database.BeginTransaction(); //not necessary actually
+            DbContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT " + fullTableName + " ON");
             DbContext.SaveChanges();
             DbContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT " + fullTableName + " OFF");
+            //DbContext.Database.CommitTransaction();
         }
 
 
