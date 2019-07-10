@@ -3,6 +3,8 @@ using System.IO;
 using System.Text;
 using System.Xml;
 
+using Microsoft.Extensions.Logging;
+
 namespace Korzh.DbUtils.Import
 {
     public class XmlDatasetImporter : IDatasetImporter
@@ -13,6 +15,15 @@ namespace Korzh.DbUtils.Import
         public string FileExtension => "xml";
 
         private DatasetInfo _datasetInfo;
+
+        private ILogger _logger;
+
+        public XmlDatasetImporter() { }
+
+        public XmlDatasetImporter(ILoggerFactory loggerFactory)
+        {
+            _logger = loggerFactory?.CreateLogger("Korzh.DbUtils");
+        }
 
         public DatasetInfo StartImport(Stream datasetStream)
         {
@@ -25,6 +36,7 @@ namespace Korzh.DbUtils.Import
 
             var datasetInfo = new DatasetInfo(_xmlReader.GetAttribute("name"), ""); // add schema here
             _datasetInfo = datasetInfo;
+            _logger?.LogInformation("Start import dataset: " + _datasetInfo?.Name);
 
             _isEndOfData = false;
 
@@ -41,6 +53,7 @@ namespace Korzh.DbUtils.Import
             if (ReadToElement("Row")) {
                 _isEndOfData = false;
             }
+
 
             return datasetInfo;
         }
@@ -113,6 +126,7 @@ namespace Korzh.DbUtils.Import
         public void FinishImport()
         {
             _xmlReader.Close();
+            _logger?.LogInformation("Finish import dataset: " + _datasetInfo?.Name);
             _datasetInfo = null;
         }
     }

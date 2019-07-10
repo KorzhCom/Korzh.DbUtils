@@ -4,6 +4,8 @@ using System.Data;
 using System.Data.Common;
 using System.Text;
 
+using Microsoft.Extensions.Logging;
+
 namespace Korzh.DbUtils
 {
 
@@ -16,6 +18,8 @@ namespace Korzh.DbUtils
     {
 
         protected DbConnection Connection = null;
+        protected readonly ILogger Logger = null;
+
         private readonly string _connectionString;
 
         public BaseDbBridge(string connectionString)
@@ -23,10 +27,20 @@ namespace Korzh.DbUtils
             _connectionString = connectionString;
         }
 
+        public BaseDbBridge(string connectionString, ILoggerFactory loggerFactory): this(connectionString)
+        {
+            Logger = loggerFactory?.CreateLogger("Korzh.DbUtils");
+        }
+
         protected BaseDbBridge(DbConnection connection)
         {
             Connection = connection;
             _connectionString = connection.ConnectionString;
+        }
+
+        protected BaseDbBridge(DbConnection connection, ILoggerFactory loggerFactory): this(connection)
+        {
+            Logger = loggerFactory?.CreateLogger("Korzh.DbUtils");
         }
 
         protected void CheckConnection()
@@ -56,6 +70,8 @@ namespace Korzh.DbUtils
             var command = connection.CreateCommand();
             command.CommandText = sql;
             command.CommandType = CommandType.Text;
+
+            Logger?.LogInformation(command.CommandText);
 
             return command.ExecuteReader(CommandBehavior.SequentialAccess);
         }
@@ -95,6 +111,8 @@ namespace Korzh.DbUtils
             command.CommandType = CommandType.Text;
 
             AddParameters(command, record);
+
+            Logger?.LogInformation(command.CommandText);
 
             command.ExecuteNonQuery();
         }
@@ -139,6 +157,7 @@ namespace Korzh.DbUtils
             }
 
             CurrentSeedingTable = table;
+            Logger?.LogInformation("Start seeding: " + GetTableFullName(CurrentSeedingTable));
             TurnOffConstraints();
             TurnOffAutoIncrement();
         }
@@ -155,6 +174,7 @@ namespace Korzh.DbUtils
         {
             TurnOnConstraints();
             TurnOnAutoIncrement();
+            Logger?.LogInformation("Finish seeding: " + GetTableFullName(CurrentSeedingTable));
             CurrentSeedingTable = null;
         }
 

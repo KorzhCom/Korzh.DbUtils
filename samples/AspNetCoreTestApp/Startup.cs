@@ -8,8 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 using Korzh.DbUtils;
+using Korzh.DbUtils.Import;
 
 namespace AspNetCoreTestApp
 {
@@ -70,7 +72,7 @@ namespace AspNetCoreTestApp
                         options.UseJsonImporter();
                         options.UseFileFolderPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "InitialData"));
                         //options.UseZipPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "dataseed.zip"));
-                    })
+                    }, scope.ServiceProvider.GetRequiredService<ILoggerFactory>())
                     .Run();
                 }
             }

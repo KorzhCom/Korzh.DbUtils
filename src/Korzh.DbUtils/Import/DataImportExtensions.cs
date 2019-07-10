@@ -9,12 +9,12 @@ namespace Korzh.DbUtils
     {
         public static void UseJsonImporter(this DbInitializerOptions options)
         {
-            options.DatasetImporter = new JsonDatasetImporter();
+            options.DatasetImporter = new JsonDatasetImporter(options.LoggerFactory);
         }
 
         public static void UseXmlImporter(this DbInitializerOptions options)
         {
-            options.DatasetImporter = new XmlDatasetImporter();
+            options.DatasetImporter = new XmlDatasetImporter(options.LoggerFactory);
         }
 
 
