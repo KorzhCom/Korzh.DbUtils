@@ -1,4 +1,6 @@
-﻿namespace Korzh.DbUtils.SqlServer
+﻿using Korzh.DbUtils.SqlServer;
+
+namespace Korzh.DbUtils
 {
     public static class DbMsSqlBridgeExtensions
     {
