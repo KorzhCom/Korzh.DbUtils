@@ -20,10 +20,10 @@ namespace Korzh.DbTool
             command.Description = "Exports some DB to a backup archive in the specified format (XML, JSON)";
             command.HelpOption("-?|-h|--help");
 
+            command.Options.Add(options.FormatOption);
+            command.Options.Add(options.LocalConfigFilePathOption);
+
             var connectionArgument = command.Argument("<connection ID>", "The ID of the some previously registered connection");
-            command.Option("--format|-f",
-                               "Exporting/importing format (xml | json)",
-                               CommandOptionType.SingleValue);
 
             command.OnExecute(() => {
                 (new ExportCommand(options, connectionArgument.Value))
