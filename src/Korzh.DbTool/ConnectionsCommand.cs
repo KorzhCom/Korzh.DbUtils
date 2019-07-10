@@ -19,8 +19,8 @@ namespace Korzh.DbTool
             command.Options.Add(options.LocalConfigFilePathOption);
 
             // add connections subcommands
-            command.Command("add", c => AddConnectionCommand.Configure(c, options));
-            command.Command("remove", c => RemoveConnectionCommand.Configure(c, options));
+            command.Command("add", c => ConnectionsAddCommand.Configure(c, options));
+            command.Command("remove", c => ConnectionsRemoveCommand.Configure(c, options));
             command.Command("list", c => ConnectionsListCommand.Configure(c, options));
 
             command.OnExecute(new ConnectionsCommand(command).Run);
@@ -41,7 +41,7 @@ namespace Korzh.DbTool
         }
     }
 
-    public class AddConnectionCommand : ICommand
+    public class ConnectionsAddCommand : ICommand
     {
 
         public static void Configure(CommandLineApplication command, GlobalOptions options)
@@ -51,10 +51,30 @@ namespace Korzh.DbTool
 
             command.Options.Add(options.LocalConfigFilePathOption);
 
-            command.Option("--dbtype", "Database type: mssql, mysql", CommandOptionType.SingleValue);
-            //command.Option("--cs");
+            var connectionIdArg = command.Argument("Connection ID", "The connection ID stored in the configuration");
+            var dbTypeArg = command.Argument("Database type", "The database type (mssql, mysql)");
+            var connectionStringArg = command.Argument("Connection string", "The connection string to add");
 
+            command.OnExecute(new ConnectionsAddCommand(connectionIdArg, dbTypeArg, connectionStringArg, options.LocalConfigFilePathOption).Run);
+        }
 
+        private readonly CommandArgument _connectionIdArg;
+        private readonly CommandArgument _dbTypeArg;
+        private readonly CommandArgument _connectionStringArg;
+
+        private readonly CommandOption _localConfigFilePathOption;
+
+        public ConnectionsAddCommand(
+            CommandArgument connectionIdArg, 
+            CommandArgument dbTypeArg, 
+            CommandArgument connectionStringArg,
+            CommandOption localConfigFilePathOption)
+        {
+            _connectionIdArg = connectionIdArg;
+            _dbTypeArg = dbTypeArg;
+            _connectionStringArg = connectionStringArg;
+
+            _localConfigFilePathOption = localConfigFilePathOption;
         }
 
         public int Run()
@@ -63,7 +83,7 @@ namespace Korzh.DbTool
         }
     }
 
-    public class RemoveConnectionCommand : ICommand
+    public class ConnectionsRemoveCommand : ICommand
     {
         public static void Configure(CommandLineApplication command, GlobalOptions options)
         {
@@ -81,6 +101,18 @@ namespace Korzh.DbTool
         public static void Configure(CommandLineApplication command, GlobalOptions options)
         {
 
+            command.Description = "Shows list of the connections stored in the configuration file.";
+
+            command.Options.Add(options.LocalConfigFilePathOption);
+
+            command.OnExecute(new ConnectionsListCommand(options.LocalConfigFilePathOption).Run);
+        }
+
+        private readonly CommandOption _localConfigFilePathOption;
+
+        public ConnectionsListCommand(CommandOption localConfigFilePathOption)
+        {
+            _localConfigFilePathOption = localConfigFilePathOption;
         }
 
         public int Run()
