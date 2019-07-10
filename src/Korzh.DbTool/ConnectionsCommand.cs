@@ -1,32 +1,43 @@
-﻿using McMaster.Extensions.CommandLineUtils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
+using McMaster.Extensions.CommandLineUtils;
+
 namespace Korzh.DbTool
 {
+
     public class ConnectionsCommand : ICommand
     {
 
         public static void Configure(CommandLineApplication command, GlobalOptions options)
         {
-            command.Description = "Manipulates with connections";
+            command.Description = "Manipulates with connections (add, remove, list)";
             command.HelpOption("-?|-h|--help");
 
-            var addSubcommand = command.Command("add", c=> AddConnectionCommand.Configure(c, options));
+            // add local config option
+            command.Options.Add(options.LocalConfigFilePathOption);
 
-           
+            // add connections subcommands
+            command.Command("add", c => AddConnectionCommand.Configure(c, options));
+            command.Command("remove", c => RemoveConnectionCommand.Configure(c, options));
+            command.Command("list", c => ConnectionsListCommand.Configure(c, options));
+
+            command.OnExecute(new ConnectionsCommand(command).Run);
         }
 
-        public ConnectionsCommand()
+        private CommandLineApplication _command;
+
+        public ConnectionsCommand(CommandLineApplication command)
         {
-
+            _command = command;
         }
-
 
         public int Run()
         {
-            throw new NotImplementedException();
+            _command.ShowHelp();
+
+            return 0;
         }
     }
 
@@ -35,6 +46,14 @@ namespace Korzh.DbTool
 
         public static void Configure(CommandLineApplication command, GlobalOptions options)
         {
+            command.Description = "Adds connection to configuration (add, remove, list)";
+            command.HelpOption("-?|-h|--help");
+
+            command.Options.Add(options.LocalConfigFilePathOption);
+
+            command.Option("--dbtype", "Database type: mssql, mysql", CommandOptionType.SingleValue);
+            //command.Option("--cs");
+
 
         }
 
@@ -44,9 +63,9 @@ namespace Korzh.DbTool
         }
     }
 
-    public class DeleteConnectionCommand : ICommand
+    public class RemoveConnectionCommand : ICommand
     {
-        public static void Configure(CommandLineApplication command)
+        public static void Configure(CommandLineApplication command, GlobalOptions options)
         {
 
         }
@@ -57,9 +76,9 @@ namespace Korzh.DbTool
         }
     }
 
-    public class ListConncetionsCommand : ICommand
+    public class ConnectionsListCommand : ICommand
     {
-        public static void Configure(CommandLineApplication command)
+        public static void Configure(CommandLineApplication command, GlobalOptions options)
         {
 
         }

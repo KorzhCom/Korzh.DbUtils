@@ -25,11 +25,8 @@ namespace Korzh.DbTool
 
             var connectionArgument = command.Argument("<connection ID>", "The ID of the some previously registered connection");
 
-            command.OnExecute(() => {
-                (new ExportCommand(options, connectionArgument.Value))
-                    .Run();
-                return 0;
-            });
+            command.OnExecute(new ExportCommand(options, connectionArgument.Value).Run);
+
         }
 
         private readonly string _connectionId;

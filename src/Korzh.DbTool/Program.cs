@@ -50,11 +50,9 @@ namespace Korzh.DbTool
 
             // Register commands
             app.Command("export", c => ExportCommand.Configure(c, options));
+            app.Command("connections", c => ConnectionsCommand.Configure(c, options));
 
-            app.OnExecute(() => {
-                (new RootCommand(app, options)).Run();
-                return 0;
-            });
+            app.OnExecute(new RootCommand(app, options).Run);
         }
 
         private readonly CommandLineApplication _app;
