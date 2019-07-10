@@ -56,9 +56,6 @@ namespace Korzh.DbUtils
         {
             if (!disposedValue) {
                 if (disposing) {
-                    foreach (var obj in _options.DisposableObjects) {
-                        obj.Dispose();
-                    }
                 }
 
                 disposedValue = true;
@@ -84,8 +81,6 @@ namespace Korzh.DbUtils
         public IDataUnpacker Unpacker { get; set; }
 
         public bool NeedDataSeeding { get; set; } = false;
-
-        public IList<IDisposable> DisposableObjects { get; } = new List<IDisposable>();
 
         public DbInitializerOptions() {
             InitialDataFolder = System.IO.Path.Combine("App_Data", "InitialData");
