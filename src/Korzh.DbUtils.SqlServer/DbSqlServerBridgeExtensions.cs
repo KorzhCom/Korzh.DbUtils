@@ -1,12 +1,10 @@
-﻿using Korzh.DbUtils.SqlServer;
-
-namespace Korzh.DbUtils
+﻿namespace Korzh.DbUtils
 {
     public static class DbSqlServerBridgeExtensions
     {
         public static void UseSqlServer(this DbInitializerOptions options, string connectionString)
         {
-            options.DbWriter = new SqlServerBridge(connectionString, options.LoggerFactory);
+            options.DbWriter = new Korzh.DbUtils.SqlServer.SqlServerBridge(connectionString, options.LoggerFactory);
         }
     }
 }

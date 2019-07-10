@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Korzh.DbUtils.Packing
+namespace Korzh.DbUtils
 {
     public interface IDataUnpacker
     {
