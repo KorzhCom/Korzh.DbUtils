@@ -64,9 +64,9 @@ namespace Korzh.DbUtils
 
         protected virtual string Quote2 => "]";
 
-        public IDataReader GetDataReaderForTable(string tableName)
+        public IDataReader GetDataReaderForTable(DatasetInfo table)
         {
-            return GetDataReaderForSql("SELECT * FROM " + Quote1 + tableName + Quote2);
+            return GetDataReaderForSql("SELECT * FROM " + GetTableFullName(table));
         }
 
         public IReadOnlyCollection<DatasetInfo> GetDatasets()
@@ -137,7 +137,6 @@ namespace Korzh.DbUtils
             if (CurrentSeedingTable != null) {
                 throw new DbBridgeException("Seeding is not finised. Call FinishSeeding() before start another one.");
             }
-
 
             CurrentSeedingTable = table;
             TurnOffConstraints();

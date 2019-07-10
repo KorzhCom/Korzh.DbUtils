@@ -171,7 +171,7 @@ namespace DbUtilsDemo
             var di = new JsonDatasetImporter();
 
             var ms = new MemoryStream();
-            de.ExportDataset(dt.CreateDataReader(), ms, "test set");
+            de.ExportDataset(dt.CreateDataReader(), ms, new DatasetInfo("test set", ""));
 
             var result = ms.ToArray();
             ms = new MemoryStream(result);
