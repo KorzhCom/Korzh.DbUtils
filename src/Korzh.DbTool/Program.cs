@@ -11,9 +11,6 @@ using McMaster.Extensions.CommandLineUtils;
 
 namespace Korzh.DbTool
 {
-    [HelpOption]
-    [Command(Name = "DbTool", Description = "Command-line utility for different DB operations (exporting, importing, etc.)")]
-    [Subcommand]
     class Program
     {
         public static int Main(string[] args)
