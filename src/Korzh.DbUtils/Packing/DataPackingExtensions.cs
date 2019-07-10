@@ -1,4 +1,7 @@
-﻿namespace Korzh.DbUtils.Packing
+﻿
+using Korzh.DbUtils.Packing;
+
+namespace Korzh.DbUtils
 {
     public static class DataPackingExtensions
     {
