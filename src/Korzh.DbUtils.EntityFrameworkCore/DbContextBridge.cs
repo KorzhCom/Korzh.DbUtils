@@ -55,8 +55,10 @@ namespace Korzh.DbUtils.EntityFrameworkCore
             return tables;
         }
 
-        public void WriteRecord(DatasetInfo table, IDataRecord record)
+        public void WriteRecord(IDataRecord record)
         {
+            var table = _currentDataset;
+
             var entityType = TableEntityTypes[table.Name];
             if (entityType == null) {
                 throw new DbContextBridgeException("The table doesn't exist: " + table.Name);
@@ -126,14 +128,17 @@ namespace Korzh.DbUtils.EntityFrameworkCore
             if (tables.FirstOrDefault(t => t.Name == curTableName) == null)
                 tables.Add(new DatasetInfo(curEntityType.Relational().TableName, curEntityType.Relational().Schema));
         }
-    
+
+        private DatasetInfo _currentDataset;
+
         public void StartSeeding(DatasetInfo table)
         {
+            _currentDataset = table;
             // Get all constraints and save them
             // Turn all constraints off
         }
 
-        public void FinishSeeding(DatasetInfo table)
+        public void FinishSeeding()
         {
             //Turn all saved constraints on
             //Clear the list of constraints
