@@ -8,24 +8,17 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class DbContextBridgeExtensions
     {
-        public static void UseDbContext<DbContextType>(this DbInitializerOptions options, IServiceProvider serviceProvider, bool useMigrations) 
-            where DbContextType : DbContext
+        public static void UseDbContext(this DbInitializerOptions options, DbContext dbContext, bool useMigrations) 
         {
 
-            var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            options.DisposableObjects.Add(scope);
-
-            var context = scope.ServiceProvider.GetService<DbContextType>();
-            options.DisposableObjects.Add(context);
-
-            options.DbWriter = new DbContextBridge(context);
+            options.DbWriter = new DbContextBridge(dbContext);
 
             if (useMigrations) {
-                options.NeedDataSeeding = context.Database.GetPendingMigrations() == context.Database.GetMigrations();
-                context.Database.Migrate();
+                options.NeedDataSeeding = dbContext.Database.GetPendingMigrations() == dbContext.Database.GetMigrations();
+                dbContext.Database.Migrate();
             }
             else {
-                options.NeedDataSeeding = context.Database.EnsureCreated();
+                options.NeedDataSeeding = dbContext.Database.EnsureCreated();
             }
         }
     }
