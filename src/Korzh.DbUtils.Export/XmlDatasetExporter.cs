@@ -16,10 +16,17 @@ namespace Korzh.DbUtils.Export
         {
         }
 
+        public XmlDatasetExporter(ILoggerFactory loggerFactory)
+        {
+            _logger = loggerFactory?.CreateLogger("Korzh.DbUtils");
+        }
+
         public string FileExtension => "xml";
 
         public void ExportDataset(IDataReader dataReader, Stream outStream, DatasetInfo dataset = null)
         {
+            _logger?.LogInformation("Start saving dataset: " + dataset?.Name);
+
             var columns = new string[dataReader.FieldCount];
 
             for (int i = 0; i < dataReader.FieldCount; i++) {
@@ -62,7 +69,8 @@ namespace Korzh.DbUtils.Export
                 writer.WriteEndElement(); //Data
                 writer.WriteEndElement(); //Dataset
                 writer.WriteEndDocument();
-                _logger?.LogInformation("Finish saving dataset");
+
+                _logger?.LogInformation("Finish saving dataset: " + dataset?.Name);
             }
         }
 

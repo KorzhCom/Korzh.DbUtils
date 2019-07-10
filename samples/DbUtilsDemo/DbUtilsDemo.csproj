@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Korzh.DbUtils.Export\Korzh.DbUtils.Export.csproj" />
+    <ProjectReference Include="..\..\src\Korzh.DbUtils.Import\Korzh.DbUtils.Import.csproj" />
+    <ProjectReference Include="..\..\src\Korzh.DbUtils.MySql\Korzh.DbUtils.MySql.csproj" />
+    <ProjectReference Include="..\..\src\Korzh.DbUtils.SqlServer\Korzh.DbUtils.SqlServer.csproj" />
     <ProjectReference Include="..\..\src\Korzh.DbUtils\Korzh.DbUtils.csproj" />
   </ItemGroup>
 

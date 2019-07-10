@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+
+using Microsoft.Extensions.Logging;
+
 using Korzh.DbUtils.Import;
 using Korzh.DbUtils.Packing;
 
@@ -32,14 +35,14 @@ namespace Korzh.DbUtils
         }
 
 
-        public static DbInitializer Create(Action<DbInitializerOptions> initAction)
+        public static DbInitializer Create(Action<DbInitializerOptions> initAction, ILoggerFactory loggerFactory = null)
         {
-            var options = new DbInitializerOptions();
+            var options = new DbInitializerOptions(loggerFactory);
 
             initAction?.Invoke(options);
 
             if (options.DatasetImporter == null) {
-                options.DatasetImporter = new JsonDatasetImporter();
+                options.DatasetImporter = new JsonDatasetImporter(options.LoggerFactory);
             }
 
             if (options.Unpacker == null) {
@@ -82,8 +85,16 @@ namespace Korzh.DbUtils
 
         public bool NeedDataSeeding { get; set; } = false;
 
-        public DbInitializerOptions() {
+        public ILoggerFactory LoggerFactory { get; private set; }
+
+        public DbInitializerOptions()
+        {
             InitialDataFolder = System.IO.Path.Combine("App_Data", "InitialData");
+        }
+
+        public DbInitializerOptions(ILoggerFactory loggerFactory): this()
+        {
+            LoggerFactory = loggerFactory;
         }
     }
 }

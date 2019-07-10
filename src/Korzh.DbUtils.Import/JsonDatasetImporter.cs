@@ -4,8 +4,9 @@ using System.Data;
 using System.IO;
 using System.Text;
 
+using Microsoft.Extensions.Logging;
+
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Korzh.DbUtils.Import
 {
@@ -16,8 +17,16 @@ namespace Korzh.DbUtils.Import
 
         public string FileExtension => "json";
 
-
         private DatasetInfo _datasetInfo = null;
+
+        private ILogger _logger;
+
+        public JsonDatasetImporter() { }
+
+        public JsonDatasetImporter(ILoggerFactory loggerFactory)
+        {
+            _logger = loggerFactory?.CreateLogger("Korzh.DbUtils");
+        }
 
         public DatasetInfo StartImport(Stream datasetStream)
         {

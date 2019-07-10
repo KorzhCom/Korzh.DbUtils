@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 
+using Microsoft.Extensions.Logging;
+
 using MySql.Data.MySqlClient;
 
 namespace Korzh.DbUtils.MySql
@@ -13,7 +15,15 @@ namespace Korzh.DbUtils.MySql
         {
         }
 
+        public MySqlBride(string connectionString, ILoggerFactory loggerFactory) : base(connectionString, loggerFactory)
+        {
+        }
+
         public MySqlBride(MySqlConnection connection) : base(connection)
+        {
+        }
+
+        public MySqlBride(MySqlConnection connection, ILoggerFactory loggerFactory) : base(connection, loggerFactory)
         {
         }
 
@@ -63,6 +73,8 @@ namespace Korzh.DbUtils.MySql
                 command.CommandText = $"SET FOREIGN_KEY_CHECKS = 0;";
                 command.CommandType = CommandType.Text;
 
+                Logger?.LogInformation(command.CommandText);
+
                 command.ExecuteNonQuery();
             }
         }
@@ -72,6 +84,8 @@ namespace Korzh.DbUtils.MySql
             using (var command = GetConnection().CreateCommand()) {
                 command.CommandText = $"SET FOREIGN_KEY_CHECKS = 1;";
                 command.CommandType = CommandType.Text;
+
+                Logger?.LogInformation(command.CommandText);
 
                 command.ExecuteNonQuery();
             }

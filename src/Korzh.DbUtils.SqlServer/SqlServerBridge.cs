@@ -5,6 +5,8 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Text;
 
+using Microsoft.Extensions.Logging;
+
 namespace Korzh.DbUtils.SqlServer
 {
     public class SqlServerBridge : BaseDbBridge
@@ -13,7 +15,15 @@ namespace Korzh.DbUtils.SqlServer
         {
         }
 
+        public SqlServerBridge(string connectionString, ILoggerFactory loggerFactory) : base(connectionString, loggerFactory)
+        {
+        }
+
         public SqlServerBridge(SqlConnection connection) : base(connection)
+        {
+        }
+
+        public SqlServerBridge(SqlConnection connection, ILoggerFactory loggerFactory) : base(connection, loggerFactory)
         {
         }
 
@@ -56,6 +66,8 @@ namespace Korzh.DbUtils.SqlServer
                 command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentSeedingTable)} NOCHECK CONSTRAINT all";
                 command.CommandType = CommandType.Text;
 
+                Logger?.LogInformation(command.CommandText);
+
                 command.ExecuteNonQuery();
             }
         }
@@ -65,6 +77,8 @@ namespace Korzh.DbUtils.SqlServer
             using (var command = GetConnection().CreateCommand()) {
                 command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentSeedingTable)} CHECK CONSTRAINT all";
                 command.CommandType = CommandType.Text;
+
+                Logger?.LogInformation(command.CommandText);
 
                 command.ExecuteNonQuery();
             }
@@ -76,6 +90,8 @@ namespace Korzh.DbUtils.SqlServer
                 command.CommandText = $"IF EXISTS (SELECT 1 FROM sys.columns c WHERE c.object_id = object_id('{GetTableFullName(CurrentSeedingTable)}') AND c.is_identity =1) begin SET IDENTITY_INSERT {GetTableFullName(CurrentSeedingTable)} ON end";
                 command.CommandType = CommandType.Text;
 
+                Logger?.LogInformation(command.CommandText);
+
                 command.ExecuteNonQuery();
             }
         }
@@ -85,6 +101,8 @@ namespace Korzh.DbUtils.SqlServer
             using (var command = GetConnection().CreateCommand()) {
                 command.CommandText = $"IF EXISTS (SELECT 1 from sys.columns c WHERE c.object_id = object_id('{GetTableFullName(CurrentSeedingTable)}') AND c.is_identity = 1) begin SET IDENTITY_INSERT {GetTableFullName(CurrentSeedingTable)} OFF end";
                 command.CommandType = CommandType.Text;
+
+                Logger?.LogInformation(command.CommandText);
 
                 command.ExecuteNonQuery();
             }
