@@ -9,10 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using Korzh.DbUtils.Import;
-using Korzh.DbUtils.Packing;
-using Korzh.DbUtils.SqlServer;
-using Korzh.DbUtils.MySql;
+using Korzh.DbUtils;
 
 namespace AspNetCoreTestApp
 {
