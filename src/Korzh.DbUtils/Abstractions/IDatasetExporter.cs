@@ -8,7 +8,7 @@ namespace Korzh.DbUtils
 {
     public interface IDatasetExporter
     {
-        void ExportDataset(IDataReader reader, Stream outStream, string datasetName = null);
+        void ExportDataset(IDataReader reader, Stream outStream, DatasetInfo dataset = null);
 
         string FileExtension { get; }
     }

@@ -24,8 +24,8 @@ namespace Korzh.DbUtils.Export
                 try {
                     foreach (var table in datasets) {
                         using (var stream = GetPackerStream(table.Name))
-                        using (var reader = _dbReader.GetDataReaderForTable(table.Name)) {
-                            _datasetExporter.ExportDataset(reader, stream, table.Name);
+                        using (var reader = _dbReader.GetDataReaderForTable(table)) {
+                            _datasetExporter.ExportDataset(reader, stream, table);
                         }
                     }
                 }

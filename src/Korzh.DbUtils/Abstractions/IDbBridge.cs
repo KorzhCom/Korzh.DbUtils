@@ -13,7 +13,7 @@ namespace Korzh.DbUtils
     public interface IDbReader : IDbBridge
     {
 
-        IDataReader GetDataReaderForTable(string tableName);
+        IDataReader GetDataReaderForTable(DatasetInfo table);
 
         IDataReader GetDataReaderForSql(string sql);
     }

@@ -19,7 +19,7 @@ namespace Korzh.DbUtils.Export
 
         public string FileExtension => "json";
 
-        public void ExportDataset(IDataReader dataReader, Stream outStream, string datasetName = null)
+        public void ExportDataset(IDataReader dataReader, Stream outStream, DatasetInfo dataset = null)
         {
             var columns = new string[dataReader.FieldCount];
 
@@ -31,7 +31,7 @@ namespace Korzh.DbUtils.Export
 
                 writer.WriteStartObject();  //root object start
                 writer.WritePropertyName("name");
-                writer.WriteValue(datasetName);
+                writer.WriteValue(dataset?.Name);
 
                 writer.WritePropertyName("schema");
                 writer.WriteStartObject();  //schema object start

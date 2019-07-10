@@ -18,7 +18,7 @@ namespace Korzh.DbUtils.Export
 
         public string FileExtension => "xml";
 
-        public void ExportDataset(IDataReader dataReader, Stream outStream, string datasetName = null)
+        public void ExportDataset(IDataReader dataReader, Stream outStream, DatasetInfo dataset = null)
         {
             var columns = new string[dataReader.FieldCount];
 
@@ -31,8 +31,8 @@ namespace Korzh.DbUtils.Export
 
                 writer.WriteStartDocument();
                 writer.WriteStartElement("Dataset");
-                if (!string.IsNullOrEmpty(datasetName)) {
-                    writer.WriteAttributeString("name", datasetName);
+                if (!string.IsNullOrEmpty(dataset?.Name)) {
+                    writer.WriteAttributeString("name", dataset.Name);
                 }
 
                 writer.WriteStartElement("Schema");
