@@ -80,7 +80,7 @@ namespace Korzh.DbUtils.MySql
                 return MySqlDbType.VarChar;
 
             if (type == typeof(byte[]))
-                return MySqlDbType.LongBlob;
+                return MySqlDbType.VarBinary;
 
             if (type.IsDateTime() || type.IsDateTimeOffset())
                 return MySqlDbType.DateTime;
@@ -89,17 +89,17 @@ namespace Korzh.DbUtils.MySql
 
         }
 
-        protected override void TurnOffAutoIncrement(DatasetInfo table)
+        protected override void TurnOffAutoIncrement()
         {
             // NOTHING TO DO: THERE IS NO PROBLEM WITH AUTO_INCREMENT FIELDS
         }
 
-        protected override void TurnOnAutoIncrement(DatasetInfo table)
+        protected override void TurnOnAutoIncrement()
         {
             // NOTHING TO DO: THERE IS NO PROBLEM WITH AUTO_INCREMENT FIELDS
         }
 
-        protected override void TurnOffContraints(DatasetInfo table)
+        protected override void TurnOffContraints()
         {
             using (var command = GetConnection().CreateCommand()) {
                 command.CommandText = $"SET FOREIGN_KEY_CHECKS = 0;";
@@ -109,7 +109,7 @@ namespace Korzh.DbUtils.MySql
             }
         }
 
-        protected override void TurnOnContraints(DatasetInfo table)
+        protected override void TurnOnContraints()
         {
             using (var command = GetConnection().CreateCommand()) {
                 command.CommandText = $"SET FOREIGN_KEY_CHECKS = 1;";

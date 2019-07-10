@@ -9,7 +9,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using Korzh.DbUtils;
+using Korzh.DbUtils.Import;
+using Korzh.DbUtils.Packing;
+using Korzh.DbUtils.SqlServer;
+using Korzh.DbUtils.MySql;
 
 namespace AspNetCoreTestApp
 {
@@ -26,10 +29,9 @@ namespace AspNetCoreTestApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options => {
-                options.UseSqlServer(Configuration.GetConnectionString("EqDbDemo"), 
-                    sqlServerOptions => {
-                    });
-        });
+                //options.UseSqlServer(Configuration.GetConnectionString("EqDbDemo"));
+                options.UseMySQL(Configuration.GetConnectionString("EqDbDemoMySQL"));  
+            });
 
             services.Configure<CookiePolicyOptions>(options => {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -66,7 +68,8 @@ namespace AspNetCoreTestApp
                         options.NeedDataSeeding = true;
                         //options.UseDbContext(dbContext);
                         //options.UseDbContext<AppDbContext>(app.ApplicationServices, false);  //options => options.UseSqlServer(Configuration.GetConnectionString("EqDbDemo"))
-                        options.UseSqlServer(Configuration.GetConnectionString("EqDbDemo"));
+                        //options.UseSqlServer(Configuration.GetConnectionString("EqDbDemo"));
+                        options.UseMySQL(Configuration.GetConnectionString("EqDbDemoMySQL"));
                         options.UseJsonImporter();
                         options.UseFileFolderPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "InitialData"));
                         //options.UseZipPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "dataseed.zip"));

@@ -1,10 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Text;
 
 namespace Korzh.DbUtils
 {
+
+    public class DbBridgeException : Exception
+    {
+        public DbBridgeException(string message) : base(message) { }
+    }
+
     public abstract class BaseDbBridge : IDbReader, IDbWriter
     {
 
@@ -75,12 +82,16 @@ namespace Korzh.DbUtils
 
         protected abstract void ExtractDatasetList(IList<DatasetInfo> datasets);
 
-        public void WriteRecord(DatasetInfo table, IDataRecord record)
+        public void WriteRecord(IDataRecord record)
         {
+            if (CurrentSeedingTable == null) {
+                throw new DbBridgeException("");
+            }
+
             var connection = GetConnection();
 
             var command = connection.CreateCommand();
-            command.CommandText = GenerateInsertStatement(table, record);
+            command.CommandText = GenerateInsertStatement(CurrentSeedingTable, record);
             command.CommandType = CommandType.Text;
 
             AddParameters(command, record);
@@ -119,24 +130,28 @@ namespace Korzh.DbUtils
             return "@" + name.ToLowerInvariant().Replace(' ', '_');
         }
 
+        protected DatasetInfo CurrentSeedingTable;
+
         public void StartSeeding(DatasetInfo table)
         {
-            TurnOffContraints(table);
-            TurnOffAutoIncrement(table);
+            CurrentSeedingTable = table;
+            TurnOffContraints();
+            TurnOffAutoIncrement();
         }
 
-        protected abstract void TurnOffContraints(DatasetInfo table);
+        protected abstract void TurnOffContraints();
 
-        protected abstract void TurnOffAutoIncrement(DatasetInfo table);
+        protected abstract void TurnOffAutoIncrement();
 
-        protected abstract void TurnOnContraints(DatasetInfo table);
+        protected abstract void TurnOnContraints();
 
-        protected abstract void TurnOnAutoIncrement(DatasetInfo table);
+        protected abstract void TurnOnAutoIncrement();
 
-        public void FinishSeeding(DatasetInfo table)
+        public void FinishSeeding()
         {
-            TurnOnContraints(table);
-            TurnOnAutoIncrement(table);
+            TurnOnContraints();
+            TurnOnAutoIncrement();
+            CurrentSeedingTable = null;
         }
 
         protected virtual string GetTableFullName(DatasetInfo table)

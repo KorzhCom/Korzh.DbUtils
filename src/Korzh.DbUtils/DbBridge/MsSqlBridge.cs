@@ -92,40 +92,40 @@ namespace Korzh.DbUtils.SqlServer
         
         }
 
-        protected override void TurnOffContraints(DatasetInfo table)
+        protected override void TurnOffContraints()
         {
             using (var command = GetConnection().CreateCommand()) {
-                command.CommandText = $"ALTER TABLE {GetTableFullName(table)} NOCHECK CONSTRAINT all";
+                command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentSeedingTable)} NOCHECK CONSTRAINT all";
                 command.CommandType = CommandType.Text;
 
                 command.ExecuteNonQuery();
             }
         }
 
-        protected override void TurnOnContraints(DatasetInfo table)
+        protected override void TurnOnContraints()
         {
             using (var command = GetConnection().CreateCommand()) {
-                command.CommandText = $"ALTER TABLE {GetTableFullName(table)} CHECK CONSTRAINT all";
+                command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentSeedingTable)} CHECK CONSTRAINT all";
                 command.CommandType = CommandType.Text;
 
                 command.ExecuteNonQuery();
             }
         }
 
-        protected override void TurnOffAutoIncrement(DatasetInfo table)
+        protected override void TurnOffAutoIncrement()
         {
             using (var command = GetConnection().CreateCommand()) {
-                command.CommandText = $"if exists (select 1 from sys.columns c where c.object_id = object_id('{GetTableFullName(table)}') and c.is_identity =1) begin SET IDENTITY_INSERT {GetTableFullName(table)} ON end";
+                command.CommandText = $"if exists (select 1 from sys.columns c where c.object_id = object_id('{GetTableFullName(CurrentSeedingTable)}') and c.is_identity =1) begin SET IDENTITY_INSERT {GetTableFullName(CurrentSeedingTable)} ON end";
                 command.CommandType = CommandType.Text;
 
                 command.ExecuteNonQuery();
             }
         }
 
-        protected override void TurnOnAutoIncrement(DatasetInfo table)
+        protected override void TurnOnAutoIncrement()
         {
             using (var command = GetConnection().CreateCommand()) {
-                command.CommandText = $"if exists (select 1 from sys.columns c where c.object_id = object_id('{GetTableFullName(table)}') and c.is_identity = 1) begin SET IDENTITY_INSERT {GetTableFullName(table)} OFF end";
+                command.CommandText = $"if exists (select 1 from sys.columns c where c.object_id = object_id('{GetTableFullName(CurrentSeedingTable)}') and c.is_identity = 1) begin SET IDENTITY_INSERT {GetTableFullName(CurrentSeedingTable)} OFF end";
                 command.CommandType = CommandType.Text;
 
                 command.ExecuteNonQuery();
