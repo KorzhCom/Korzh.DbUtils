@@ -1,7 +1,6 @@
-﻿using System;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
-namespace Korzh.DbUtils
+namespace System
 {
     public static class TypeExtensions
     {

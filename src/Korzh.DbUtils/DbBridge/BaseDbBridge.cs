@@ -85,7 +85,7 @@ namespace Korzh.DbUtils
         public void WriteRecord(IDataRecord record)
         {
             if (CurrentSeedingTable == null) {
-                throw new DbBridgeException("");
+                throw new DbBridgeException("Seeding is not stared. Call StartSeeding() before." );
             }
 
             var connection = GetConnection();
@@ -134,22 +134,27 @@ namespace Korzh.DbUtils
 
         public void StartSeeding(DatasetInfo table)
         {
+            if (CurrentSeedingTable != null) {
+                throw new DbBridgeException("Seeding is not finised. Call FinishSeeding() before start another one.");
+            }
+
+
             CurrentSeedingTable = table;
-            TurnOffContraints();
+            TurnOffConstraints();
             TurnOffAutoIncrement();
         }
 
-        protected abstract void TurnOffContraints();
+        protected abstract void TurnOffConstraints();
 
         protected abstract void TurnOffAutoIncrement();
 
-        protected abstract void TurnOnContraints();
+        protected abstract void TurnOnConstraints();
 
         protected abstract void TurnOnAutoIncrement();
 
         public void FinishSeeding()
         {
-            TurnOnContraints();
+            TurnOnConstraints();
             TurnOnAutoIncrement();
             CurrentSeedingTable = null;
         }
