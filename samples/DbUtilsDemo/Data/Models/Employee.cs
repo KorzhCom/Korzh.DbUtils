@@ -62,6 +62,7 @@ namespace DbUtilsDemo.Models
         public string Extension { get; set; }
 
         [ScaffoldColumn(false)]
+        [Column(TypeName = "BLOB")]
         public byte[] Photo { get; set; }
 
         public string PhotoPath { get; set; }

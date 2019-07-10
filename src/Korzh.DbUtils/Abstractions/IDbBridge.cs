@@ -20,10 +20,10 @@ namespace Korzh.DbUtils
 
     public interface IDbWriter : IDbBridge
     {
-        void WriteRecord(DatasetInfo table, IDataRecord record);
+        void WriteRecord(IDataRecord record);
 
         void StartSeeding(DatasetInfo table);
 
-        void FinishSeeding(DatasetInfo table);
+        void FinishSeeding();
     }
 }

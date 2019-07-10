@@ -19,6 +19,7 @@ namespace DbUtilsDemo.Models
         public string Description { get; set; }
 
         [ScaffoldColumn(false)]
+        [Column(TypeName = "BLOB")]
         public byte[] Picture { get; set; } 
 
     }
