@@ -6,7 +6,7 @@ namespace Korzh.DbUtils.Packing
 {
     /// <summary>
     /// Implements <see cref="Korzh.DbUtils.IDataPacker" /> and <see cref="Korzh.DbUtils.IDataUnpacker" /> interfaces
-    /// to store the data as files in some folder. Each packed entry - is a one file.
+    /// to store the data as files in some folder. Each packed entry - is one file.
     /// </summary>
     /// <seealso cref="Korzh.DbUtils.IDataPacker" />
     /// <seealso cref="Korzh.DbUtils.IDataUnpacker" />
@@ -77,7 +77,7 @@ namespace Korzh.DbUtils.Packing
         }
 
         /// <summary>
-        /// Opens the stream for one entry we are going to unpack unpacking.
+        /// Opens the stream for one entry we are going to unpack.
         /// </summary>
         /// <param name="entryName">The name of the entry to unpack.</param>
         /// <returns>Stream.</returns>

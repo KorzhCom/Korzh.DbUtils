@@ -23,7 +23,7 @@ namespace Korzh.DbUtils
         void FinishUnpacking();
 
         /// <summary>
-        /// Opens the read stream for some packed entry.
+        /// Opens the stream for one entry we are going to unpack.
         /// </summary>
         /// <param name="entryName">The name of the entry (usually a table representation in some format) to unpack.</param>
         /// <returns>Stream.</returns>
