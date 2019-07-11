@@ -97,7 +97,7 @@ namespace Korzh.DbTool
             storage.Add(_arguments.ConnectionId, new ConnectionInfo(_arguments.DbType, _arguments.ConnectionString));
             storage.SaveChanges();
 
-            Console.WriteLine("Connection has been added.");
+            Console.WriteLine($"Connection {_arguments.ConnectionId} has been added.");
 
             return 0;
         }
@@ -135,7 +135,7 @@ namespace Korzh.DbTool
             storage.Remove(_connectionIdArg.Value);
             storage.SaveChanges();
 
-            Console.WriteLine("Connection has been removed.");
+            Console.WriteLine($"Connection {_connectionIdArg.Value} has been removed.");
 
             return 0;
         }
