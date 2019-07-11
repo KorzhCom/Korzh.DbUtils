@@ -1,7 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Korzh.DbUtils.EntityFrameworkCore</PackageId>
+    <Authors>Korzh.com</Authors>
+    <Description>DbBridge for Entity Framework Core</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Copyright>Copyright 2019 (c) Korzh.com. All rights reserved.</Copyright>
+    <PackageTags>database utility export import data seed</PackageTags>
+    <Configurations>Debug;Release</Configurations>
+    <DocumentationFile>Korzh.DbUtils.EntityFrameworkCore.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

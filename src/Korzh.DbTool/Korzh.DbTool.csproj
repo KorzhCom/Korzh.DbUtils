@@ -3,9 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-
     <RootNamespace>Korzh.DbTool</RootNamespace>
     <Product>dbadm</Product>
     <Version>1.0.0</Version>
@@ -13,14 +11,17 @@
     <FileVersion>1.0.0.10</FileVersion>
     <Title>Aistdoc</Title>
     <Description>
-      A .NET Core global tool that exports data base tables to xml or json. Supports MsSQLServer and MySQL.
+      A .NET Core global tool that allows you to export database data to XML or JSON. 
+	  The exported files can be used after that for DB seeding in your application with the help of Korzh.DbUtils library.
+	  Currently the tool supports MS SQL Server and MySQL connections. 
+	  To add other types of connections please create an issue on GitHub repository.
     </Description>
     <Authors>Sergiy Korzh, Anton Ivanenko</Authors>
-    <Copyright>Copyright 2018-2019 (c) Korzh.com. All rights reserved.</Copyright>
-    <RepositoryUrl>https://github.com/kedonec/Korzh.DbInitializer</RepositoryUrl>
+    <Copyright>Copyright 2019 (c) Korzh.com. All rights reserved.</Copyright>
+    <RepositoryUrl>https://github.com/kedonec/Korzh.DbUtils</RepositoryUrl>
 
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>dbadm</ToolCommandName>
+    <ToolCommandName>dbtool</ToolCommandName>
   </PropertyGroup>
 
   <ItemGroup>
