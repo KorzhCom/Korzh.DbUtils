@@ -18,7 +18,7 @@ namespace Korzh.DbUtils
 
         public DbInitializerOptions()
         {
-            InitialDataFolder = System.IO.Path.Combine("App_Data", "InitialData");
+            InitialDataFolder = System.IO.Path.Combine("App_Data", "DataSeed");
         }
 
         public DbInitializerOptions(ILoggerFactory loggerFactory) : this()

@@ -73,7 +73,7 @@ namespace AspNetCoreTestApp
                         options.UseFileFolderPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "InitialData"));
                         //options.UseZipPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "dataseed.zip"));
                     }, scope.ServiceProvider.GetRequiredService<ILoggerFactory>())
-                    .Run();
+                    .Seed();
                 }
             }
         }
