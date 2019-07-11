@@ -44,11 +44,6 @@ namespace Korzh.DbUtils.Packing
         {
         }
 
-        public bool HasData()
-        {
-            return Directory.GetFiles(_folderPath).Length > 0;
-        }
-
         public Stream OpenStreamForUnpacking(string datasetName)
         {
             var filePath = Path.Combine(_folderPath, datasetName + "." + _fileExtension);

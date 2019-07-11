@@ -52,16 +52,10 @@ namespace Korzh.DbUtils.Packing
             _logger?.LogInformation("Finish writting to file: " + _fileName);
         }
 
-        //private IEnumerable<ZipArchiveEntry> _unpackingEntries;
-
-        private int _unpackingEntry = 0;
-
         public void StartUnpacking(string fileExtension)
         {
             _zipArchive = ZipFile.Open(_fileName, ZipArchiveMode.Read);
             _fileExtension = fileExtension;
-
-            _unpackingEntry = 0;
 
             _logger?.LogInformation("Start unpacking" + _fileName);
         }
@@ -69,11 +63,6 @@ namespace Korzh.DbUtils.Packing
         public void FinishUnpacking()
         {
             _logger?.LogInformation("Finish unpacking" + _fileName);
-        }
-
-        public bool HasData()
-        {
-            return _unpackingEntry < _zipArchive.Entries.Count;
         }
 
         public Stream OpenStreamForUnpacking(string datasetName)
