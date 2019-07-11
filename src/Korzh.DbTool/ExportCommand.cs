@@ -23,7 +23,7 @@ namespace Korzh.DbTool
             command.Options.Add(options.FormatOption);
             command.Options.Add(options.LocalConfigFilePathOption);
 
-            var connectionArgument = command.Argument("<connection ID>", "The ID of the some previously registered connection");
+            var connectionArgument = command.Argument("<connection ID>", "The ID of some previously registered connection");
 
             command.OnExecute(new ExportCommand(options, connectionArgument.Value).Run);
 
