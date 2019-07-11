@@ -23,6 +23,10 @@ namespace Korzh.DbUtils.Export
                 _dataPacker.StartPacking(_datasetExporter.FileExtension);
                 try {
                     foreach (var table in datasets) {
+
+                        if (string.Equals(table.Name, "__EFMigrationsHistory", StringComparison.InvariantCultureIgnoreCase))
+                            continue;
+
                         using (var stream = GetPackerStream(table.Name))
                         using (var reader = _dbReader.GetDataReaderForTable(table)) {
                             _datasetExporter.ExportDataset(reader, stream, table);
