@@ -51,10 +51,10 @@ namespace Korzh.DbTool
 
             public Arguments(CommandLineApplication command)
             {
-                ConnectionIdArg = command.Argument("<Connection ID>", "The connection ID stored in the configuration")
+                ConnectionIdArg = command.Argument("<сonnection ID>", "The connection ID stored in the configuration")
                                          .IsRequired();
 
-                ConnectionStringArg = command.Argument("<Connection string>", "The connection string to add")
+                ConnectionStringArg = command.Argument("<сonnection string>", "The connection string to add")
                                              .IsRequired();
 
                 DbTypeArg = command.Argument("<Database type>", $"The database type ({DbTool.DbType.SqlServer}, {DbTool.DbType.MySql})")
@@ -110,7 +110,7 @@ namespace Korzh.DbTool
 
             command.Options.Add(options.LocalConfigFilePathOption);
 
-            var connectionIdArg = command.Argument("<Connection ID>", "The connection ID stored in the configuration")
+            var connectionIdArg = command.Argument("<сonnection ID>", "The connection ID stored in the configuration")
                                         .IsRequired();
 
             command.OnExecute(new ConnectionsRemoveCommand(connectionIdArg, options).Run);

@@ -62,7 +62,11 @@ namespace Korzh.DbTool
 
         public ConnectionInfo Get(string id)
         {
-            return _connections[id];
+            if (_connections.TryGetValue(id, out var info)) {
+                return info;
+            }
+
+            return null;
         }
 
         public void Add(string id, ConnectionInfo info)

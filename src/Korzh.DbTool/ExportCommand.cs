@@ -4,12 +4,15 @@ using System.Data.Common;
 using System.Data;
 using System.Data.SqlClient;
 
+using MySql.Data.MySqlClient;
+
 using McMaster.Extensions.CommandLineUtils;
 
-using Korzh.DbUtils.Export;
-using Korzh.DbUtils.SqlServer;
 using Korzh.DbUtils;
 using Korzh.DbUtils.Packing;
+using Korzh.DbUtils.Export;
+using Korzh.DbUtils.SqlServer;
+using Korzh.DbUtils.MySql;
 
 namespace Korzh.DbTool
 {
@@ -26,28 +29,33 @@ namespace Korzh.DbTool
             var connectionArgument = command.Argument("<connection ID>", "The ID of some previously registered connection")
                                             .IsRequired();
 
-            command.OnExecute(new ExportCommand(options, connectionArgument.Value).Run);
+            command.OnExecute(new ExportCommand(connectionArgument, options).Run);
 
         }
 
-        private readonly string _connectionId;
+        private readonly CommandArgument _connectionIdArg;
         private readonly GlobalOptions _options;
 
         private DbConnection _connection;
 
-        public ExportCommand(GlobalOptions options, string connectionId)
+        public ExportCommand(CommandArgument connectionIdArg, GlobalOptions options)
         {
             _options = options;
-            _connectionId = connectionId;
+            _connectionIdArg = connectionIdArg;
         }
 
-        private void CheckConnection()
+        private void InitConnection(ConnectionInfo info)
         {
-            if (_connection == null) {
-                //!!!!!!!!!!!!!!! replace with reading connection string from configuration
-                var connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EqDemoDb07;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
-                _connection = new SqlConnection(connectionString);
+            switch (info.DbType) {
+                case DbType.SqlServer:
+                    _connection = new SqlConnection(info.ConnectionString);
+                    break;
+                case DbType.MySql:
+                    _connection = new MySqlConnection(info.ConnectionString);
+                    break;
+                default:
+                    throw new Exception("Unknown connection type: " + info.DbType);
             }
 
             if (_connection.State != ConnectionState.Open) {
@@ -66,6 +74,19 @@ namespace Korzh.DbTool
             }
         }
 
+        private IDbReader GetDbReader()
+        {
+            if (_connection is SqlConnection) {
+                return new SqlServerBridge(_connection as SqlConnection);
+            }
+            else if (_connection is MySqlConnection){
+                return new MySqlBride(_connection as MySqlConnection);
+            }
+
+            return null;
+
+        }
+
         private IDataPacker GetPacker()
         {
             var zipFilePath = "export.zip";
@@ -74,18 +95,22 @@ namespace Korzh.DbTool
 
         public int Run()
         {
-            if (string.IsNullOrEmpty(_connectionId)) {
-                Console.WriteLine("No connection is specified");
+
+            var connectionId = _connectionIdArg.Value;
+            var storage = new ConnectionStorage(_options.ConfigFilePath);
+            var info = storage.Get(connectionId);
+            if (info == null) {
+                Console.WriteLine("Connection with current ID is not found: " + connectionId);
                 return -1;
             }
 
-            CheckConnection();
+            InitConnection(info);
 
-            var bridge = new SqlServerBridge(_connection as SqlConnection);
-            var exporter = new DbExporter(bridge, GetDatasetExporter(), GetPacker());
+            var exporter = new DbExporter(GetDbReader(), GetDatasetExporter(), GetPacker());
 
             Console.WriteLine($"Exporting database...");
             exporter.Export();
+            Console.WriteLine($"Exporting completed");
 
             return 0;
         }
