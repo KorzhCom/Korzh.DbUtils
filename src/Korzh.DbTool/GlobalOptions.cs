@@ -9,11 +9,13 @@ namespace Korzh.DbTool
 
         internal CommandOption FormatOption { get; set; }
 
-        public string Format {
-            get {
-                return FormatOption.HasValue() ? FormatOption.Value().ToLower() : "json";
-            }
-        }
+        public string Format => FormatOption.HasValue()
+                             ? FormatOption.Value().ToLower() 
+                             : "json";
+
+        public string ConfigFilePath => LocalConfigFilePathOption.HasValue()
+                                     ? LocalConfigFilePathOption.Value()
+                                     : Settings.GlobalConfigFilePath;
 
     }
 }

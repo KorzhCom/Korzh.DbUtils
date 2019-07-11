@@ -5,13 +5,6 @@ using Microsoft.Extensions.Logging;
 namespace Korzh.DbUtils.Export
 {
 
-    public static class DbType
-    {
-        public const string MsSqlServer = "mssql";
-
-        public const string MySql = "mysql";
-    }
-
     public class DbExportBuilderException : Exception
     {
         public DbExportBuilderException(string message) : base(message)

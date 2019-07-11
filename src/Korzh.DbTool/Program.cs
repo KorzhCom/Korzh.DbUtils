@@ -39,13 +39,16 @@ namespace Korzh.DbTool
 
             var options = new GlobalOptions();
 
-            options.LocalConfigFilePathOption = app.Option("--config|-c",
-                                           "Config file path",
-                                           CommandOptionType.SingleValue);
+            options.LocalConfigFilePathOption = 
+                            app.Option("--config|-c", 
+                                       "Config file path", 
+                                        CommandOptionType.SingleValue)
+                               .Accepts(configure => configure.ExistingFile("Configuration file does not exist"));
 
             options.FormatOption = app.Option("--format|-f",
-                               "Exporting/importing format (xml | json)",
-                               CommandOptionType.SingleValue);
+                                              "Exporting/importing format (xml | json)",
+                                              CommandOptionType.SingleValue)
+                                      .Accepts(config => config.Values(ignoreCase: true, "xml", "json"));
 
 
             // Register commands
@@ -71,6 +74,7 @@ namespace Korzh.DbTool
             Console.WriteLine("Current options:");
             Console.WriteLine("Config path:" + _options.LocalConfigFilePathOption.Value());
             Console.WriteLine("Format:" + _options.Format);
+
             return 0;
         }
     }
