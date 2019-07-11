@@ -2,7 +2,7 @@
 {
     public static class DbSqlServerBridgeExtensions
     {
-        public static void UseSqlServer(this DbInitializerOptions options, string connectionString)
+        public static void UseSqlServer(this IDbUtilsOptions options, string connectionString)
         {
             options.DbWriter = new Korzh.DbUtils.SqlServer.SqlServerBridge(connectionString, options.LoggerFactory);
         }
