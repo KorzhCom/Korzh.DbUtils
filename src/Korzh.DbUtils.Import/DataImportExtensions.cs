@@ -1,0 +1,36 @@
+﻿using System.Collections.Generic;
+using System.IO;
+
+using Korzh.DbUtils.Import;
+
+namespace Korzh.DbUtils
+{
+    public static class DataImportExtensions
+    {
+        public static void UseJsonImporter(this IDbUtilsOptions options)
+        {
+            options.DatasetImporter = new JsonDatasetImporter(options.LoggerFactory);
+        }
+
+        public static void UseXmlImporter(this IDbUtilsOptions options)
+        {
+            options.DatasetImporter = new XmlDatasetImporter(options.LoggerFactory);
+        }
+
+
+        public static void ImportToList(this IDatasetImporter importer, Stream inputStream, IList<DataRecord> outputList)
+        {
+            DataRecord record = null;
+            try {
+                var dataInfo = importer.StartImport(inputStream);
+                while (importer.HasRecords()) {
+                    record = (DataRecord)importer.NextRecord();
+                    outputList.Add(record);
+                }
+            }
+            finally {
+                importer.FinishImport();
+            }
+        }
+    }
+}

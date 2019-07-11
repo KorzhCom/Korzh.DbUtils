@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <RootNamespace>Korzh.DbTool</RootNamespace>
+    <Product>dbadm</Product>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.10</AssemblyVersion>
+    <FileVersion>1.0.0.10</FileVersion>
+    <Title>Aistdoc</Title>
+    <Description>
+      A .NET Core global tool that allows you to export database data to XML or JSON. 
+	  The exported files can be used after that for DB seeding in your application with the help of Korzh.DbUtils library.
+	  Currently the tool supports MS SQL Server and MySQL connections. 
+	  To add other types of connections please create an issue on GitHub repository.
+    </Description>
+    <Authors>Sergiy Korzh, Anton Ivanenko</Authors>
+    <Copyright>Copyright 2019 (c) Korzh.com. All rights reserved.</Copyright>
+    <RepositoryUrl>https://github.com/kedonec/Korzh.DbUtils</RepositoryUrl>
+
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>dbtool</ToolCommandName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.3.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Korzh.DbUtils.Export\Korzh.DbUtils.Export.csproj" />
+    <ProjectReference Include="..\Korzh.DbUtils.Import\Korzh.DbUtils.Import.csproj" />
+    <ProjectReference Include="..\Korzh.DbUtils.MySql\Korzh.DbUtils.MySql.csproj" />
+    <ProjectReference Include="..\Korzh.DbUtils.SqlServer\Korzh.DbUtils.SqlServer.csproj" />
+    <ProjectReference Include="..\Korzh.DbUtils\Korzh.DbUtils.csproj" />
+  </ItemGroup>
+
+</Project>
