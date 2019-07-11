@@ -112,7 +112,7 @@ namespace Korzh.DbTool
 
             command.Options.Add(options.LocalConfigFilePathOption);
 
-            var connectionIdArg = command.Argument("<сonnection ID>", "The connection ID stored in the configuration")
+            var connectionIdArg = command.Argument("<сonnection ID>", "The ID of the connection stored in the configuration")
                                         .IsRequired();
 
             command.OnExecute(new ConnectionsRemoveCommand(connectionIdArg, options).Run);
@@ -146,7 +146,7 @@ namespace Korzh.DbTool
         public static void Configure(CommandLineApplication command, GlobalOptions options)
         {
 
-            command.Description = "Shows list of the connections stored in the configuration file.";
+            command.Description = "Shows the list of connections.";
 
             command.Options.Add(options.LocalConfigFilePathOption);
 
@@ -173,7 +173,7 @@ namespace Korzh.DbTool
                 }
             }
             else {
-                Console.WriteLine("There is no connection stored in configuration file");
+                Console.WriteLine("No connections.");
             }
 
             return 0;
