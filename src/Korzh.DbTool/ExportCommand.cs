@@ -156,7 +156,7 @@ namespace Korzh.DbTool
 
             Console.WriteLine($"Exporting database...");
             exporter.Export();
-            Console.WriteLine($"Exporting completed");
+            Console.WriteLine($"Export completed");
 
             return 0;
         }
