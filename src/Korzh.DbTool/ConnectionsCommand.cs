@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 using McMaster.Extensions.CommandLineUtils;
 
@@ -44,42 +43,61 @@ namespace Korzh.DbTool
     public class ConnectionsAddCommand : ICommand
     {
 
+        public class Arguments {
+
+            public readonly CommandArgument ConnectionIdArg;
+            public readonly CommandArgument ConnectionStringArg;
+            public readonly CommandArgument DbTypeArg;
+
+            public Arguments(CommandLineApplication command)
+            {
+                ConnectionIdArg = command.Argument("<Connection ID>", "The connection ID stored in the configuration")
+                                         .IsRequired();
+
+                ConnectionStringArg = command.Argument("<Connection string>", "The connection string to add")
+                                             .IsRequired();
+
+                DbTypeArg = command.Argument("<Database type>", $"The database type ({DbTool.DbType.SqlServer}, {DbTool.DbType.MySql})")
+                                   .Accepts(config => config.Values(ignoreCase: true, DbTool.DbType.SqlServer, DbTool.DbType.MySql));
+            }
+
+            public string ConnectionId => ConnectionIdArg.Value;
+            public string ConnectionString => ConnectionStringArg.Value;
+            public string DbType => DbTypeArg.Values.Any() ? DbTypeArg.Value : DbTool.DbType.SqlServer;
+        }
+
         public static void Configure(CommandLineApplication command, GlobalOptions options)
         {
-            command.Description = "Adds connection to configuration (add, remove, list)";
+            command.Description = "Adds connection to configuration file";
             command.HelpOption("-?|-h|--help");
 
             command.Options.Add(options.LocalConfigFilePathOption);
 
-            var connectionIdArg = command.Argument("Connection ID", "The connection ID stored in the configuration");
-            var dbTypeArg = command.Argument("Database type", "The database type (mssql, mysql)");
-            var connectionStringArg = command.Argument("Connection string", "The connection string to add");
+            var argumets = new Arguments(command);
 
-            command.OnExecute(new ConnectionsAddCommand(connectionIdArg, dbTypeArg, connectionStringArg, options.LocalConfigFilePathOption).Run);
+            command.OnExecute(new ConnectionsAddCommand(argumets, options).Run);
         }
 
-        private readonly CommandArgument _connectionIdArg;
-        private readonly CommandArgument _dbTypeArg;
-        private readonly CommandArgument _connectionStringArg;
+        private readonly Arguments _arguments;
 
-        private readonly CommandOption _localConfigFilePathOption;
+        private readonly GlobalOptions _options;
 
-        public ConnectionsAddCommand(
-            CommandArgument connectionIdArg, 
-            CommandArgument dbTypeArg, 
-            CommandArgument connectionStringArg,
-            CommandOption localConfigFilePathOption)
+        public ConnectionsAddCommand(Arguments arguments, GlobalOptions globalOptions)
         {
-            _connectionIdArg = connectionIdArg;
-            _dbTypeArg = dbTypeArg;
-            _connectionStringArg = connectionStringArg;
-
-            _localConfigFilePathOption = localConfigFilePathOption;
+            _arguments = arguments;
+            _options = globalOptions;
         }
 
         public int Run()
         {
-            throw new NotImplementedException();
+            var storage = new ConnectionStorage(_options.ConfigFilePath);
+
+            storage.Add(_arguments.ConnectionId, new ConnectionInfo(_arguments.DbType, _arguments.ConnectionString));
+            storage.SaveChanges();
+
+            Console.WriteLine("Connection has been added.");
+
+            return 0;
         }
     }
 
@@ -87,12 +105,37 @@ namespace Korzh.DbTool
     {
         public static void Configure(CommandLineApplication command, GlobalOptions options)
         {
+            command.Description = "Removes connection from configuration file";
+            command.HelpOption("-?|-h|--help");
 
+            command.Options.Add(options.LocalConfigFilePathOption);
+
+            var connectionIdArg = command.Argument("<Connection ID>", "The connection ID stored in the configuration")
+                                        .IsRequired();
+
+            command.OnExecute(new ConnectionsRemoveCommand(connectionIdArg, options).Run);
+        }
+
+        private readonly CommandArgument _connectionIdArg;
+
+        private readonly GlobalOptions _options;
+
+        public ConnectionsRemoveCommand(CommandArgument connectionIdArg, GlobalOptions globalOptions)
+        {
+            _connectionIdArg = connectionIdArg;
+            _options = globalOptions;
         }
 
         public int Run()
         {
-            throw new NotImplementedException();
+            var storage = new ConnectionStorage(_options.ConfigFilePath);
+
+            storage.Remove(_connectionIdArg.Value);
+            storage.SaveChanges();
+
+            Console.WriteLine("Connection has been removed.");
+
+            return 0;
         }
     }
 
@@ -105,19 +148,33 @@ namespace Korzh.DbTool
 
             command.Options.Add(options.LocalConfigFilePathOption);
 
-            command.OnExecute(new ConnectionsListCommand(options.LocalConfigFilePathOption).Run);
+            command.OnExecute(new ConnectionsListCommand(options).Run);
         }
 
-        private readonly CommandOption _localConfigFilePathOption;
+        private readonly GlobalOptions _options;
 
-        public ConnectionsListCommand(CommandOption localConfigFilePathOption)
+        public ConnectionsListCommand(GlobalOptions globalOptions)
         {
-            _localConfigFilePathOption = localConfigFilePathOption;
+            _options = globalOptions;
         }
 
         public int Run()
         {
-            throw new NotImplementedException();
+            var storage = new ConnectionStorage(_options.ConfigFilePath);
+
+            var connections = storage.List();
+            if (connections.Any()) {
+                var location = _options.LocalConfigFilePathOption.HasValue() ? _options.LocalConfigFilePathOption.Value() : "global";
+                Console.WriteLine($"Connections ({location}): ");
+                foreach (var connection in connections) {
+                    Console.WriteLine("({0}) \"{1}\": \"{2}\"", connection.Info.DbType, connection.ConnectionId, connection.Info.ConnectionString);
+                }
+            }
+            else {
+                Console.WriteLine("There is no connection stored in configuration file");
+            }
+
+            return 0;
         }
     }
 

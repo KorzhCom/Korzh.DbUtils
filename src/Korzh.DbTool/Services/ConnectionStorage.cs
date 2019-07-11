@@ -15,6 +15,14 @@ namespace Korzh.DbTool
         public string DbType { get; set; }
 
         public string ConnectionString { get; set; }
+
+        public ConnectionInfo() { }
+
+        public ConnectionInfo(string dbType, string connectionString)
+        {
+            DbType = dbType;
+            ConnectionString = connectionString;
+        }
     }
 
     public class ConnectionListItem
@@ -30,24 +38,26 @@ namespace Korzh.DbTool
         }
     }
 
-    public class ConncetionStorage
+    public class ConnectionStorage
     {
 
         private readonly string _configFile;
 
         private readonly Dictionary<string, ConnectionInfo> _connections;
              
-        public ConncetionStorage(string configFile)
+        public ConnectionStorage(string configFile)
         {
             _configFile = configFile;
 
-            try {
+
+            if (File.Exists(_configFile)) {
                 var config = JObject.Parse(File.ReadAllText(_configFile));
                 _connections = config["connections"].ToObject<Dictionary<string, ConnectionInfo>>();
             }
-            catch {
+            else {
                 _connections = new Dictionary<string, ConnectionInfo>();
             }
+               
         }
 
         public ConnectionInfo Get(string id)
@@ -73,11 +83,12 @@ namespace Korzh.DbTool
         public void SaveChanges()
         {
             JObject config;
-            try {
+            if (File.Exists(_configFile)) {
                 config = JObject.Parse(File.ReadAllText(_configFile));
             }
-            catch {
+            else {
                 config = new JObject();
+                Directory.CreateDirectory(Path.GetDirectoryName(_configFile));
             }
 
             config["connections"] = JObject.FromObject(_connections);
