@@ -11,9 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using Korzh.DbUtils;
-using Korzh.DbUtils.Import;
 
-namespace AspNetCoreTestApp
+namespace DbUtilsDemo
 {
     public class Startup
     {
@@ -24,12 +23,10 @@ namespace AspNetCoreTestApp
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options => {
-                //options.UseSqlServer(Configuration.GetConnectionString("EqDbDemo"));
-                options.UseMySQL(Configuration.GetConnectionString("EqDbDemoMySQL"));  
+                options.UseSqlServer(Configuration.GetConnectionString("DbUtilsDemoDb01"));
             });
 
             services.Configure<CookiePolicyOptions>(options => {
@@ -42,7 +39,6 @@ namespace AspNetCoreTestApp
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment()) {
@@ -62,15 +58,12 @@ namespace AspNetCoreTestApp
 
             using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             using (var context = scope.ServiceProvider.GetService<AppDbContext>()) {
-                if (context.Database.EnsureCreated()) {
+                if (context.Database.EnsureCreated()) { //run initializer only for the newly created DB
                     Korzh.DbUtils.DbInitializer.Create(options => {
-                        options.NeedDataSeeding = true;
-                        //options.UseDbContext(dbContext);
-                        //options.UseDbContext<AppDbContext>(app.ApplicationServices, false);  //options => options.UseSqlServer(Configuration.GetConnectionString("EqDbDemo"))
-                        //options.UseSqlServer(Configuration.GetConnectionString("EqDbDemo"));
-                        options.UseMySQL(Configuration.GetConnectionString("EqDbDemoMySQL"));
+                        options.UseSqlServer(Configuration.GetConnectionString("DbUtilsDemoDb01"));
+                        //options.UseMySQL(Configuration.GetConnectionString("DbUtilsDemoDb02"));
                         options.UseJsonImporter();
-                        options.UseFileFolderPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "InitialData"));
+                        options.UseFileFolderPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "DataSeed"));
                         //options.UseZipPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "dataseed.zip"));
                     }, scope.ServiceProvider.GetRequiredService<ILoggerFactory>())
                     .Seed();

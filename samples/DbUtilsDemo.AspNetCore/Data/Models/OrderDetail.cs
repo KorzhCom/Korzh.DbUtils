@@ -1,7 +1,8 @@
 
 
 namespace DbUtilsDemo.Models
-{    
+{
+    
     public class OrderDetail
     {
         public int OrderID { get; set; }

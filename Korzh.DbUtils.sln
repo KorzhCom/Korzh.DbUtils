@@ -13,21 +13,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbTool", "src\Korzh.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.Tests", "tests\Korzh.DbUtils.Tests\Korzh.DbUtils.Tests.csproj", "{813D7CE2-162F-4E03-ABEA-F4685BBD0332}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.EntityFrameworkCore", "src\Korzh.DbUtils.EntityFrameworkCore\Korzh.DbUtils.EntityFrameworkCore.csproj", "{5F0CCD3F-764F-4CED-AFFC-3A1F42FAF518}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{FA1BBF18-4752-4BAE-92F1-4DE0D721A91E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbUtilsDemo", "samples\DbUtilsDemo\DbUtilsDemo.csproj", "{5A4889B8-8EB7-4242-A3A5-F177F9699799}"
+
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbUtilsDemo.AspNetCore", "samples\DbUtilsDemo.AspNetCore\DbUtilsDemo.AspNetCore.csproj", "{EA51C0C3-4D53-45A8-9E0D-D05B22B87B07}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreTestApp", "samples\AspNetCoreTestApp\AspNetCoreTestApp.csproj", "{EA51C0C3-4D53-45A8-9E0D-D05B22B87B07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.SqlServer", "src\Korzh.DbUtils.SqlServer\Korzh.DbUtils.SqlServer.csproj", "{7A941706-BE86-4477-8807-69CE52A60311}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korzh.DbUtils.SqlServer", "src\Korzh.DbUtils.SqlServer\Korzh.DbUtils.SqlServer.csproj", "{7A941706-BE86-4477-8807-69CE52A60311}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.MySql", "src\Korzh.DbUtils.MySql\Korzh.DbUtils.MySql.csproj", "{1BD3466E-C99E-4349-A78D-8D4FF650733F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korzh.DbUtils.MySql", "src\Korzh.DbUtils.MySql\Korzh.DbUtils.MySql.csproj", "{1BD3466E-C99E-4349-A78D-8D4FF650733F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.Export", "src\Korzh.DbUtils.Export\Korzh.DbUtils.Export.csproj", "{3CB45656-F4F8-4D90-B80F-D9DEC37EDAE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korzh.DbUtils.Export", "src\Korzh.DbUtils.Export\Korzh.DbUtils.Export.csproj", "{3CB45656-F4F8-4D90-B80F-D9DEC37EDAE5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korzh.DbUtils.Import", "src\Korzh.DbUtils.Import\Korzh.DbUtils.Import.csproj", "{E1CC26CA-5EDE-41C4-9298-454B28E1DC33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.Import", "src\Korzh.DbUtils.Import\Korzh.DbUtils.Import.csproj", "{E1CC26CA-5EDE-41C4-9298-454B28E1DC33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

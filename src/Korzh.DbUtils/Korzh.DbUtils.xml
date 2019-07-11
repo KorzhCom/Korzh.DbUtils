@@ -1,0 +1,588 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Korzh.DbUtils</name>
+    </assembly>
+    <members>
+        <member name="T:Korzh.DbUtils.ColumnInfo">
+            <summary>
+            Represents one column in database table.
+            </summary>
+        </member>
+        <member name="P:Korzh.DbUtils.ColumnInfo.Name">
+            <summary>
+            Gets the column name.
+            </summary>
+            <value>The name of the column.</value>
+        </member>
+        <member name="P:Korzh.DbUtils.ColumnInfo.DataType">
+            <summary>
+            Gets the type of the column (as CLR type).
+            </summary>
+            <value>The type of the column data.</value>
+        </member>
+        <member name="M:Korzh.DbUtils.ColumnInfo.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.ColumnInfo"/> class.
+            </summary>
+            <param name="name">The name of the column.</param>
+            <param name="type">The name of the CLR type for the new column.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.ColumnInfo.#ctor(System.String,System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.ColumnInfo"/> class.
+            </summary>
+            <param name="name">The name of the new column.</param>
+            <param name="type">The CLR type of the new column.</param>
+        </member>
+        <member name="T:Korzh.DbUtils.DatasetInfo">
+            <summary>
+            Represents one dataset (table) in some DB
+            </summary>
+        </member>
+        <member name="P:Korzh.DbUtils.DatasetInfo.Name">
+            <summary>
+            Gets the table name.
+            </summary>
+            <value>The name of the dataset (table).</value>
+        </member>
+        <member name="P:Korzh.DbUtils.DatasetInfo.Schema">
+            <summary>
+            Gets the table schema.
+            </summary>
+            <value>The schema name.</value>
+        </member>
+        <member name="P:Korzh.DbUtils.DatasetInfo.Columns">
+            <summary>
+            Gets the directioary which contains all table columns. 
+            The key of each entry is the name of the column.
+            The value - is an instance of <see cref="T:Korzh.DbUtils.ColumnInfo"/> class.
+            </summary>
+            <value>The list of columns.</value>
+        </member>
+        <member name="M:Korzh.DbUtils.DatasetInfo.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.DatasetInfo"/> class.
+            </summary>
+            <param name="name">The name of the dataset (table).</param>
+            <param name="schema">The table schema.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.DatasetInfo.AddColumn(Korzh.DbUtils.ColumnInfo)">
+            <summary>
+            Adds a new column to the dataset.
+            </summary>
+            <param name="column">The column to add.</param>
+        </member>
+        <member name="T:Korzh.DbUtils.IDataPacker">
+            <summary>
+            Defines basic data packing operations
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.IDataPacker.StartPacking(System.String)">
+            <summary>
+            Starts the packing process.
+            </summary>
+            <param name="fileExtension">The extension packed entry (file). 
+            Can be an empty string if we don't pack in files (e.g. we store to some DB)
+            </param>
+        </member>
+        <member name="M:Korzh.DbUtils.IDataPacker.OpenStreamForPacking(System.String)">
+            <summary>
+            Opens and returns the writing stream for some packing entry.
+            </summary>
+            <param name="entryName">Name of the entry to pack.</param>
+            <returns>Stream.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.IDataPacker.FinishPacking">
+            <summary>
+            Finishes the packing.
+            Use this operation to flush the data, close used streams, etc
+            </summary>
+        </member>
+        <member name="T:Korzh.DbUtils.IDatasetExporter">
+            <summary>
+            Defines methods and properties for a dataset importer
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.IDatasetExporter.ExportDataset(System.Data.IDataReader,System.IO.Stream,Korzh.DbUtils.DatasetInfo)">
+            <summary>
+            Exports one dataset (table) to a stream.
+            </summary>
+            <param name="reader">The reader.</param>
+            <param name="outStream">The output stream.</param>
+            <param name="dataset">
+            An instance of <see cref="T:Korzh.DbUtils.DatasetInfo"/> class which represents basic table information.
+            Can be ommitted if you exports only one dataset
+            </param>
+        </member>
+        <member name="P:Korzh.DbUtils.IDatasetExporter.FileExtension">
+            <summary>
+            Gets the default file extension for the current exporting format.
+            </summary>
+            <value>The default file extension.</value>
+        </member>
+        <member name="T:Korzh.DbUtils.IDatasetImporter">
+            <summary>
+            Defines the interface for a dataset importer.
+            Each implementation of this interface "understands" a particular data format (XML, JSON, CSV, etc)
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.IDatasetImporter.StartImport(System.IO.Stream)">
+            <summary>
+            Starts the importing process.
+            This function processes the first part of the dataset stream and collect necessary information about the dataset
+            </summary>
+            <param name="datasetStream">The dataset stream.</param>
+            <returns>
+            An instance of the <see cref="T:Korzh.DbUtils.DatasetInfo"/> which contains some basic information about the dataset (table).
+            </returns>
+        </member>
+        <member name="M:Korzh.DbUtils.IDatasetImporter.HasRecords">
+            <summary>
+            Determines whether there are more records to process in the input stream.
+            </summary>
+            <returns><c>true</c> if this the input stream still has more records for the current dataset; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.IDatasetImporter.NextRecord">
+            <summary>
+            Extracts the next record from the input stream.
+            </summary>
+            <returns>IDataRecord.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.IDatasetImporter.FinishImport">
+            <summary>
+            Finilizing the importing process.
+            </summary>
+        </member>
+        <member name="P:Korzh.DbUtils.IDatasetImporter.FileExtension">
+            <summary>
+            Gets the default file extension for the data format processed by this importer (e.g "xml" or "json").
+            </summary>
+            <value>The file extension.</value>
+        </member>
+        <member name="T:Korzh.DbUtils.DatasetImporterException">
+            <summary>
+            Represents errors that occur during dataset importing operations.
+            Implements the <see cref="T:System.Exception" />
+            </summary>
+            <seealso cref="T:System.Exception" />
+        </member>
+        <member name="M:Korzh.DbUtils.DatasetImporterException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.DatasetImporterException"/> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="T:Korzh.DbUtils.IDataUnpacker">
+            <summary>
+            Defines funvtions for data unpacking operations
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.IDataUnpacker.StartUnpacking(System.String)">
+            <summary>
+            Starts the unpacking. 
+            The exact implemention "knows" where to find the packed data.
+            </summary>
+            <param name="fileExtension">
+            The default file extension used for packed entries (files).
+            This parameter can be null or empty if each archive entry is not represented by some file.
+            </param>
+        </member>
+        <member name="M:Korzh.DbUtils.IDataUnpacker.FinishUnpacking">
+            <summary>
+            Finishes the unpacking.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.IDataUnpacker.OpenStreamForUnpacking(System.String)">
+            <summary>
+            Opens the stream for one entry we are going to unpack.
+            </summary>
+            <param name="entryName">The name of the entry (usually a table representation in some format) to unpack.</param>
+            <returns>Stream.</returns>
+        </member>
+        <member name="T:Korzh.DbUtils.IDbBridge">
+            <summary>
+            Defines the basic database operations
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.IDbBridge.GetConnection">
+            <summary>
+            Gets the database connection.
+            </summary>
+            <returns>IDbConnection.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.IDbBridge.GetDatasets">
+            <summary>
+            Gets the list of tables (or other kind of dataset) for the current connection.
+            </summary>
+            <returns>IReadOnlyCollection&lt;DatasetInfo&gt;.</returns>
+        </member>
+        <member name="T:Korzh.DbUtils.IDbReader">
+            <summary>
+            Defines reading database operations 
+            Implements the <see cref="T:Korzh.DbUtils.IDbBridge" />
+            </summary>
+            <seealso cref="T:Korzh.DbUtils.IDbBridge" />
+        </member>
+        <member name="M:Korzh.DbUtils.IDbReader.GetDataReaderForTable(Korzh.DbUtils.DatasetInfo)">
+            <summary>
+            Creates and returns a <see cref="T:System.Data.IDataReader"/> object for some table.
+            This method usually just constructs a correct SQL statement to get the content of some table (like 'SELECT * FROM TableName)
+            and then calls <see cref="M:Korzh.DbUtils.IDbReader.GetDataReaderForSql(System.String)"/> function.
+            </summary>
+            <param name="table">The table represented by <see cref="T:Korzh.DbUtils.DatasetInfo"/> structure.</param>
+            <returns>IDataReader.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.IDbReader.GetDataReaderForSql(System.String)">
+            <summary>
+            Executes the SQL statement passed in the parameter and returns a <see cref="T:System.Data.IDataReader"/> object with the result of that execution.
+            </summary>
+            <param name="sql">The SQL statement to execute.</param>
+            <returns>IDataReader.</returns>
+        </member>
+        <member name="T:Korzh.DbUtils.IDbSeeder">
+            <summary>
+            Defines the operations for seeding data to some database table
+            Implements the <see cref="T:Korzh.DbUtils.IDbBridge" />
+            </summary>
+            <seealso cref="T:Korzh.DbUtils.IDbBridge" />
+        </member>
+        <member name="M:Korzh.DbUtils.IDbSeeder.WriteRecord(System.Data.IDataRecord)">
+            <summary>
+            Writes (adds) a record to the database tables specified previously at <see cref="M:Korzh.DbUtils.IDbSeeder.StartSeeding(Korzh.DbUtils.DatasetInfo)"/> method call. 
+            </summary>
+            <param name="record">The record to save to the database table.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.IDbSeeder.StartSeeding(Korzh.DbUtils.DatasetInfo)">
+            <summary>
+            Starts the seeding process for the specified table
+            </summary>
+            <param name="table">The table.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.IDbSeeder.FinishSeeding">
+            <summary>
+            Finilizes the seeding process.
+            </summary>
+        </member>
+        <member name="T:Korzh.DbUtils.BaseDbBridge">
+            <summary>
+            A default abstract implementation of the main DB related intefaces 
+            <see cref="T:Korzh.DbUtils.IDbReader" /> and <see cref="T:Korzh.DbUtils.IDbSeeder" />
+            </summary>
+            <seealso cref="T:Korzh.DbUtils.IDbReader" />
+            <seealso cref="T:Korzh.DbUtils.IDbSeeder" />
+        </member>
+        <member name="F:Korzh.DbUtils.BaseDbBridge.Connection">
+            <summary>
+            The database connection
+            </summary>
+        </member>
+        <member name="F:Korzh.DbUtils.BaseDbBridge.Logger">
+            <summary>
+            The logger
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.BaseDbBridge"/> class.
+            </summary>
+            <param name="connectionString">The connection string.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.#ctor(System.String,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.BaseDbBridge"/> class.
+            </summary>
+            <param name="connectionString">The connection string.</param>
+            <param name="loggerFactory">The logger factory.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.#ctor(System.Data.Common.DbConnection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.BaseDbBridge"/> class.
+            </summary>
+            <param name="connection">The connection.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.#ctor(System.Data.Common.DbConnection,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.BaseDbBridge"/> class.
+            </summary>
+            <param name="connection">The connection.</param>
+            <param name="loggerFactory">The logger factory.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.CheckConnection">
+            <summary>
+            Checks the current connections. Creates it (calls <see cref="M:Korzh.DbUtils.BaseDbBridge.CreateConnection(System.String)"/> methods for that) if necessary.
+            Then this method opens the connection if it's closed now.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.CreateConnection(System.String)">
+            <summary>
+            Creates the connection. 
+            This is an abstract method which must be implemented in derived classes
+            </summary>
+            <param name="connectionString">The connection string.</param>
+            <returns>DbConnection.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.GetConnection">
+            <summary>
+            Gets the database connection.
+            </summary>
+            <returns>IDbConnection.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.GetDataReaderForSql(System.String)">
+            <summary>
+            Executes the SQL statement passed in the parameter and returns a <see cref="T:System.Data.IDataReader" /> object with the result of that execution.
+            </summary>
+            <param name="sql">The SQL statement to execute.</param>
+            <returns>IDataReader.</returns>
+        </member>
+        <member name="P:Korzh.DbUtils.BaseDbBridge.Quote1">
+            <summary>
+            Gets the opening quote for SQL identifirs (table/field names, etc).
+            </summary>
+            <value>The symbol(s) which represents the opening quote. The default value is '['</value>
+        </member>
+        <member name="P:Korzh.DbUtils.BaseDbBridge.Quote2">
+            <summary>
+            Gets the closing quote for SQL identifirs (table/field names, etc).
+            </summary>
+            <value>The symbol(s) which represents the closing quote. The default value is ']'</value>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.GetDataReaderForTable(Korzh.DbUtils.DatasetInfo)">
+            <summary>
+            Creates and returns a <see cref="T:System.Data.IDataReader" /> object for some table.
+            This method usually just constructs a correct SQL statement to get the content of some table (like 'SELECT * FROM TableName)
+            and then calls <see cref="M:Korzh.DbUtils.BaseDbBridge.GetDataReaderForSql(System.String)" /> function.
+            </summary>
+            <param name="table">The table represented by <see cref="T:Korzh.DbUtils.DatasetInfo" /> structure.</param>
+            <returns>IDataReader.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.GetDatasets">
+            <summary>
+            Gets the list of tables (or other kind of dataset) for the current connection.
+            This method calls <see cref="M:Korzh.DbUtils.BaseDbBridge.ExtractDatasetList(System.Collections.Generic.IList{Korzh.DbUtils.DatasetInfo})"/> function to actually get the list of tables.
+            </summary>
+            <returns>IReadOnlyCollection&lt;DatasetInfo&gt;.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.ExtractDatasetList(System.Collections.Generic.IList{Korzh.DbUtils.DatasetInfo})">
+            <summary>
+            Extracts the list of tables for the current DB and saves them to datasets list passed in the parameter.
+            </summary>
+            <param name="datasets">The list of datasets (tables) to fill.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.WriteRecord(System.Data.IDataRecord)">
+            <summary>
+            Writes (adds) a record to the database tables specified previously at <see cref="M:Korzh.DbUtils.BaseDbBridge.StartSeeding(Korzh.DbUtils.DatasetInfo)" /> method call.
+            </summary>
+            <param name="record">The record to save to the database table.</param>
+            <exception cref="T:Korzh.DbUtils.DbBridgeException">Seeding is not stared. Call StartSeeding() before.</exception>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.GenerateInsertStatement(Korzh.DbUtils.DatasetInfo,System.Data.IDataRecord)">
+            <summary>
+            Generates the INSERT statement.
+            </summary>
+            <param name="table">The table we would like to insert a new record.</param>
+            <param name="record">The record to insert.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.AddParameters(System.Data.IDbCommand,System.Data.IDataRecord)">
+            <summary>
+            Adds the parameters to the DB command object according to the current server type.
+            </summary>
+            <param name="command">The DB command.</param>
+            <param name="record">The record. Each field in this record will be added a parameter.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.ToParameterName(System.String)">
+            <summary>
+            Gets a correct name for the parameter.
+            </summary>
+            <param name="name">The base name for the parameter.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="F:Korzh.DbUtils.BaseDbBridge.CurrentSeedingTable">
+            <summary>
+            The current table we are going to seed with the data.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.StartSeeding(Korzh.DbUtils.DatasetInfo)">
+            <summary>
+            Starts the seeding process for the specified table
+            </summary>
+            <param name="table">The table.</param>
+            <exception cref="T:Korzh.DbUtils.DbBridgeException">Seeding is not finised. Call FinishSeeding() before start another one.</exception>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.TurnOffConstraints">
+            <summary>
+            Sends an SQL command which turns off the constraints for the current table.
+            Must be implemented in derived classes.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.TurnOffAutoIncrement">
+            <summary>
+            Sends an SQL command which turns off the possibility to set values for IDENTITY (auto-increment) columns for the current table.
+            Must be implemented in derived classes.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.TurnOnConstraints">
+            <summary>
+            Sends an SQL command which turns the constraints on for the current table.
+            Must be implemented in derived classes.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.TurnOnAutoIncrement">
+            <summary>
+            Sends an SQL command which turns on the possibility to set values for IDENTITY (auto-increment) columns for the current table.
+            Must be implemented in derived classes.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.FinishSeeding">
+            <summary>
+            Finilizes the seeding process.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.GetTableFullName(Korzh.DbUtils.DatasetInfo)">
+            <summary>
+            Gets the full name of the table (including schema and all necessary quotes).
+            </summary>
+            <param name="table">The table.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="T:Korzh.DbUtils.DbBridgeException">
+            <summary>
+            Represents errors that occur during database operations.
+            Implements the <see cref="T:System.Exception" />
+            </summary>
+            <seealso cref="T:System.Exception" />
+        </member>
+        <member name="T:Korzh.DbUtils.DataPackingExtensions">
+            <summary>
+            Contains some useful extension methods for registering data packers/unpackers in <see cref="T:Korzh.DbUtils.DbInitializerOptions"/> .
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.DataPackingExtensions.UseFileFolderPacker(Korzh.DbUtils.DbInitializerOptions,System.String)">
+            <summary>
+            Registers an instance of <see cref="T:Korzh.DbUtils.Packing.FileFolderPacker"/> class as unpacker for DbInitializer.
+            </summary>
+            <param name="options">An instance of <see cref="T:Korzh.DbUtils.DbInitializerOptions"/>.</param>
+            <param name="folderPath">The path to the folder where the data files (the backup) are stored.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.DataPackingExtensions.UseZipPacker(Korzh.DbUtils.DbInitializerOptions,System.String)">
+            <summary>
+            Registers an instance of <see cref="T:Korzh.DbUtils.Packing.ZipFilePacker"/> class as unpacker for DbInitializer.
+            </summary>
+            <param name="options">An instance of <see cref="T:Korzh.DbUtils.DbInitializerOptions"/>.</param>
+            <param name="folderPath">The path to the file where the ZIP archive is stored. 
+            If null - `dataseed.zip` file will be used.</param>
+        </member>
+        <member name="T:Korzh.DbUtils.Packing.FileFolderPacker">
+            <summary>
+            Implements <see cref="T:Korzh.DbUtils.IDataPacker" /> and <see cref="T:Korzh.DbUtils.IDataUnpacker" /> interfaces
+            to store the data as files in some folder. Each packed entry - is one file.
+            </summary>
+            <seealso cref="T:Korzh.DbUtils.IDataPacker" />
+            <seealso cref="T:Korzh.DbUtils.IDataUnpacker" />
+        </member>
+        <member name="M:Korzh.DbUtils.Packing.FileFolderPacker.#ctor(System.String,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.Packing.FileFolderPacker"/> class.
+            </summary>
+            <param name="folderPath">The path to folder where the files will be stored (or from which they will be taken in case of unpacker).</param>
+            <param name="loggerFactory">The logger factory.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.Packing.FileFolderPacker.StartPacking(System.String)">
+            <summary>
+            Starts the packing process.
+            </summary>
+            <param name="fileExtension">The extension packed entry (file).
+            Can be an empty string if we don't pack in files (e.g. we store to some DB)</param>
+        </member>
+        <member name="M:Korzh.DbUtils.Packing.FileFolderPacker.OpenStreamForPacking(System.String)">
+            <summary>
+            Opens the stream for packing.
+            </summary>
+            <param name="entryName">Name of the entry (dataset) to pack.</param>
+            <returns>Stream.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.Packing.FileFolderPacker.FinishPacking">
+            <summary>
+            Finishes the packing.
+            Use this operation to flush the data, close used streams, etc
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.Packing.FileFolderPacker.StartUnpacking(System.String)">
+            <summary>
+            Starts the unpacking.
+            </summary>
+            <param name="fileExtension">The default file extension used for packed entries (files).</param>
+        </member>
+        <member name="M:Korzh.DbUtils.Packing.FileFolderPacker.FinishUnpacking">
+            <summary>
+            Finishes the unpacking.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.Packing.FileFolderPacker.OpenStreamForUnpacking(System.String)">
+            <summary>
+            Opens the stream for one entry we are going to unpack.
+            </summary>
+            <param name="entryName">The name of the entry to unpack.</param>
+            <returns>Stream.</returns>
+        </member>
+        <member name="T:Korzh.DbUtils.Packing.ZipFilePacker">
+            <summary>
+            Implements <see cref="T:Korzh.DbUtils.IDataPacker" /> and <see cref="T:Korzh.DbUtils.IDataUnpacker" /> interfaces
+            to store the data as a ZIP archive file. Each packed entry - is one file in that archive.
+            </summary>
+            <seealso cref="T:Korzh.DbUtils.IDataPacker" />
+            <seealso cref="T:Korzh.DbUtils.IDataUnpacker" />
+        </member>
+        <member name="M:Korzh.DbUtils.Packing.ZipFilePacker.#ctor(System.String,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.Packing.ZipFilePacker"/> class.
+            </summary>
+            <param name="filePath">The path to the ZIP file.</param>
+            <param name="logger">The logger.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.Packing.ZipFilePacker.StartPacking(System.String)">
+            <summary>
+            Starts the packing process.
+            </summary>
+            <param name="fileExtension">The extension packed entry (file).
+            Can be an empty string if we don't pack in files (e.g. we store to some DB)</param>
+        </member>
+        <member name="M:Korzh.DbUtils.Packing.ZipFilePacker.OpenStreamForPacking(System.String)">
+            <summary>
+            Opens the stream for packing.
+            </summary>
+            <param name="entryName">The name of the entry to pack.</param>
+            <returns>Stream.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.Packing.ZipFilePacker.FinishPacking">
+            <summary>
+            Finishes the packing. Flushes the data and closes the ZIP archive stream.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.Packing.ZipFilePacker.StartUnpacking(System.String)">
+            <summary>
+            Starts the unpacking. Opens the ZIP arhive file.
+            </summary>
+            <param name="fileExtension">The default file extension used for packed entries (files).</param>
+        </member>
+        <member name="M:Korzh.DbUtils.Packing.ZipFilePacker.FinishUnpacking">
+            <summary>
+            Finishes the unpacking. Does nothing in this case.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.Packing.ZipFilePacker.OpenStreamForUnpacking(System.String)">
+            <summary>
+            Opens the stream for one entry we are going to unpack.
+            </summary>
+            <param name="entryName">Name of the entry.</param>
+            <returns>Stream.</returns>
+        </member>
+        <member name="T:System.TypeExtensions">
+            <summary>
+            Contains several useful extension methods for operations with <see cref="T:System.Type"/> objects.
+            Most of the functions are self-descriptive.
+            </summary>
+        </member>
+    </members>
+</doc>
