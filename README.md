@@ -93,7 +93,13 @@ Please note, that you will also need to add those files to your project manually
 
 ### Step 3: DB initialization code
 
-Let's suppose we have a ASP.NET Core project and we need to seed our DB with the data on the first start. The database itself is created automatically with Entity Framework Core migrations. Here an example of the initialization code we need to add at the end of `Startup.Configure` method:
+Let's suppose we have a ASP.NET Core project and we need to seed our DB with the data on the first start. The database itself is created automatically with Entity Framework Core migrations. To seed it with the data we just need:
+
+#### 1. Install `Korzh.DbUtils.Import` NuGet package
+
+#### 2. Add the initialization code
+
+Here is an example of the such code we need to add at the end of `Startup.Configure` method:
 
 ```c#
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
