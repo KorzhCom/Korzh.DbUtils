@@ -2,9 +2,12 @@
 
 namespace System
 {
+    /// <summary>
+    /// Contains several useful extension methods for operations with <see cref="Type"/> objects.
+    /// Most of the functions are self-descriptive.
+    /// </summary>
     public static class TypeExtensions
     {
-
         public  static object GetDefaultValue(this Type type)
         {
             if (type == null)
@@ -88,6 +91,5 @@ namespace System
         {
             return type == typeof(TimeSpan) || type == typeof(TimeSpan?);
         }
-
     }
 }
