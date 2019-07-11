@@ -99,6 +99,19 @@
             Use this operation to flush the data, close used streams, etc
             </summary>
         </member>
+        <member name="T:Korzh.DbUtils.DatapackingException">
+            <summary>
+            Represents errors that occur during packing/unpacking operations.
+            Implements the <see cref="T:System.Exception" />
+            </summary>
+            <seealso cref="T:System.Exception" />
+        </member>
+        <member name="M:Korzh.DbUtils.DatapackingException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.DatasetImporterException"/> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
         <member name="T:Korzh.DbUtils.IDatasetExporter">
             <summary>
             Defines methods and properties for a dataset importer
@@ -455,22 +468,22 @@
         </member>
         <member name="T:Korzh.DbUtils.DataPackingExtensions">
             <summary>
-            Contains some useful extension methods for registering data packers/unpackers in <see cref="T:Korzh.DbUtils.DbInitializerOptions"/> .
+            Contains some useful extension methods for registering data packers/unpackers in <see cref="T:Korzh.DbUtils.IDbUtilsOptions"/> .
             </summary>
         </member>
-        <member name="M:Korzh.DbUtils.DataPackingExtensions.UseFileFolderPacker(Korzh.DbUtils.DbInitializerOptions,System.String)">
+        <member name="M:Korzh.DbUtils.DataPackingExtensions.UseFileFolderPacker(Korzh.DbUtils.IDbUtilsOptions,System.String)">
             <summary>
             Registers an instance of <see cref="T:Korzh.DbUtils.Packing.FileFolderPacker"/> class as unpacker for DbInitializer.
             </summary>
-            <param name="options">An instance of <see cref="T:Korzh.DbUtils.DbInitializerOptions"/>.</param>
+            <param name="options">An instance of <see cref="T:Korzh.DbUtils.IDbUtilsOptions"/>.</param>
             <param name="folderPath">The path to the folder where the data files (the backup) are stored.</param>
         </member>
-        <member name="M:Korzh.DbUtils.DataPackingExtensions.UseZipPacker(Korzh.DbUtils.DbInitializerOptions,System.String)">
+        <member name="M:Korzh.DbUtils.DataPackingExtensions.UseZipPacker(Korzh.DbUtils.IDbUtilsOptions,System.String)">
             <summary>
             Registers an instance of <see cref="T:Korzh.DbUtils.Packing.ZipFilePacker"/> class as unpacker for DbInitializer.
             </summary>
-            <param name="options">An instance of <see cref="T:Korzh.DbUtils.DbInitializerOptions"/>.</param>
-            <param name="folderPath">The path to the file where the ZIP archive is stored. 
+            <param name="options">An instance of <see cref="T:Korzh.DbUtils.IDbUtilsOptions"/>.</param>
+            <param name="zipFilePath">The path to the file where the ZIP archive is stored. 
             If null - `dataseed.zip` file will be used.</param>
         </member>
         <member name="T:Korzh.DbUtils.Packing.FileFolderPacker">

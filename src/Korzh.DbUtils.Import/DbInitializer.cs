@@ -11,14 +11,14 @@ namespace Korzh.DbUtils
 
     public class DbInitializerOptions : IDbUtilsOptions
     {
-        public string InitialDataFolder { get; set; }
+        public string SeedDataFolder { get; set; } 
         public IDbSeeder DbWriter { get; set; }
         public IDatasetImporter DatasetImporter { get; set; }
         public IDataUnpacker Unpacker { get; set; }
         public ILoggerFactory LoggerFactory { get; set; }
 
         public DbInitializerOptions() {
-
+            SeedDataFolder = System.IO.Path.Combine("App_Data", "SeedData");
         }
 
         public DbInitializerOptions(ILoggerFactory loggerFactory)
@@ -55,7 +55,7 @@ namespace Korzh.DbUtils
             }
 
             if (options.Unpacker == null) {
-                options.Unpacker = new FileFolderPacker(options.InitialDataFolder);
+                options.Unpacker = new FileFolderPacker(options.SeedDataFolder);
             }
 
             return new DbInitializer(options);

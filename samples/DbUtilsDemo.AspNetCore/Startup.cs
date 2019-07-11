@@ -59,11 +59,11 @@ namespace DbUtilsDemo
             using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             using (var context = scope.ServiceProvider.GetService<AppDbContext>()) {
                 if (context.Database.EnsureCreated()) { //run initializer only for the newly created DB
-                    Korzh.DbUtils.DbInitializer.Create(options => {
+                    DbInitializer.Create(options => {
                         options.UseSqlServer(Configuration.GetConnectionString("DbUtilsDemoDb01"));
                         //options.UseMySQL(Configuration.GetConnectionString("DbUtilsDemoDb02"));
                         options.UseJsonImporter();
-                        options.UseFileFolderPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "DataSeed"));
+                        options.UseFileFolderPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "SeedData"));
                         //options.UseZipPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "dataseed.zip"));
                     }, scope.ServiceProvider.GetRequiredService<ILoggerFactory>())
                     .Seed();

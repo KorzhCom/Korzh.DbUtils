@@ -4,7 +4,7 @@ namespace Korzh.DbUtils
 {
     public interface IDbUtilsOptions
     {
-        string InitialDataFolder { get; set; }
+        string SeedDataFolder { get; set; }
 
         IDbSeeder DbWriter { get; set; }
 

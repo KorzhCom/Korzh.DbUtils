@@ -67,6 +67,9 @@ namespace Korzh.DbUtils.Packing
         public void StartUnpacking(string fileExtension)
         {
             _fileExtension = fileExtension;
+            if (!Directory.Exists(_folderPath)) {
+                throw new DatapackingException("No such folder:" + _folderPath);
+            }
         }
 
         /// <summary>

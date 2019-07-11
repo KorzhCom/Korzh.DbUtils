@@ -31,4 +31,20 @@ namespace Korzh.DbUtils
         /// </summary>
         void FinishPacking();
     }
+
+    /// <summary>
+    /// Represents errors that occur during packing/unpacking operations.
+    /// Implements the <see cref="System.Exception" />
+    /// </summary>
+    /// <seealso cref="System.Exception" />
+    public class DatapackingException : Exception
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DatasetImporterException"/> class.
+        /// </summary>
+        /// <param name="message">The message that describes the error.</param>
+        public DatapackingException(string message) : base(message)
+        {
+        }
+    }
 }
