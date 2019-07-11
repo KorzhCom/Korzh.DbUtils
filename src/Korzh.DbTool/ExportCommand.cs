@@ -74,7 +74,6 @@ namespace Korzh.DbTool
 
         private void InitConnection(ConnectionInfo info)
         {
-
             switch (info.DbType) {
                 case DbType.SqlServer:
                     _connection = new SqlConnection(info.ConnectionString);
@@ -87,7 +86,7 @@ namespace Korzh.DbTool
             }
 
             if (_connection.State != ConnectionState.Open) {
-                Console.WriteLine("Openning connection...");
+                Console.WriteLine($"Openning {info.Id} connection...");
                 _connection.Open();
             }
         }
@@ -142,7 +141,6 @@ namespace Korzh.DbTool
 
         public int Run()
         {
-
             var storage = new ConnectionStorage(_options.ConfigFilePath);
             var info = storage.Get(_arguments.ConnectionId);
             if (info == null) {

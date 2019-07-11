@@ -12,14 +12,17 @@ namespace Korzh.DbTool
 
     public class ConnectionInfo
     {
+        public string Id { get; set; }
+
         public string DbType { get; set; }
 
         public string ConnectionString { get; set; }
 
         public ConnectionInfo() { }
 
-        public ConnectionInfo(string dbType, string connectionString)
+        public ConnectionInfo(string id, string dbType, string connectionString)
         {
+            Id = id;
             DbType = dbType;
             ConnectionString = connectionString;
         }

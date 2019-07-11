@@ -94,7 +94,11 @@ namespace Korzh.DbTool
         {
             var storage = new ConnectionStorage(_options.ConfigFilePath);
 
-            storage.Add(_arguments.ConnectionId, new ConnectionInfo(_arguments.DbType, _arguments.ConnectionString));
+            storage.Add(_arguments.ConnectionId, 
+                new ConnectionInfo(_arguments.ConnectionId, 
+                        _arguments.DbType, 
+                        _arguments.ConnectionString));
+
             storage.SaveChanges();
 
             Console.WriteLine($"Connection {_arguments.ConnectionId} has been added.");
