@@ -54,16 +54,18 @@ namespace Korzh.DbTool
                 ConnectionIdArg = command.Argument("<сonnection ID>", "The connection ID stored in the configuration")
                                          .IsRequired();
 
+                DbTypeArg = command.Argument("<database type>", $"The database type ({DbTool.DbType.SqlServer}, {DbTool.DbType.MySql})")
+                   .Accepts(config => config.Values(ignoreCase: true, DbTool.DbType.SqlServer, DbTool.DbType.MySql))
+                   .IsRequired();
+
                 ConnectionStringArg = command.Argument("<сonnection string>", "The connection string to add")
                                              .IsRequired();
 
-                DbTypeArg = command.Argument("<Database type>", $"The database type ({DbTool.DbType.SqlServer}, {DbTool.DbType.MySql})")
-                                   .Accepts(config => config.Values(ignoreCase: true, DbTool.DbType.SqlServer, DbTool.DbType.MySql));
             }
 
             public string ConnectionId => ConnectionIdArg.Value;
             public string ConnectionString => ConnectionStringArg.Value;
-            public string DbType => DbTypeArg.Values.Any() ? DbTypeArg.Value : DbTool.DbType.SqlServer;
+            public string DbType => DbTypeArg.Value;
         }
 
         public static void Configure(CommandLineApplication command, GlobalOptions options)
