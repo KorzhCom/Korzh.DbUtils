@@ -7,11 +7,11 @@ namespace Korzh.DbUtils.Import
 
     public class DbImporter
     {
-        private readonly IDbWriter _dbWriter;
+        private readonly IDbSeeder _dbWriter;
         private readonly IDatasetImporter _datasetImporter;
         private readonly IDataUnpacker _dataUnpacker;
 
-        public DbImporter(IDbWriter dbWriter, IDatasetImporter datasetImporter, IDataUnpacker unpacker)
+        public DbImporter(IDbSeeder dbWriter, IDatasetImporter datasetImporter, IDataUnpacker unpacker)
         {
             _dbWriter = dbWriter;
             _datasetImporter = datasetImporter;

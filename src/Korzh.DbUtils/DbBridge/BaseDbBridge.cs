@@ -14,7 +14,7 @@ namespace Korzh.DbUtils
         public DbBridgeException(string message) : base(message) { }
     }
 
-    public abstract class BaseDbBridge : IDbReader, IDbWriter
+    public abstract class BaseDbBridge : IDbReader, IDbSeeder
     {
 
         protected DbConnection Connection = null;

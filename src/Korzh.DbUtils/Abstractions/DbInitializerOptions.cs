@@ -6,7 +6,7 @@ namespace Korzh.DbUtils
     {
         public string InitialDataFolder { get; set; }
 
-        public IDbWriter DbWriter { get; set; }
+        public IDbSeeder DbWriter { get; set; }
 
         public IDatasetImporter DatasetImporter { get; set; }
 

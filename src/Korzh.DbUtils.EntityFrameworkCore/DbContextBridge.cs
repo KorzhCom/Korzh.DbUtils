@@ -15,7 +15,7 @@ namespace Korzh.DbUtils.EntityFrameworkCore
     }
 
 
-    public class DbContextBridge : IDbWriter
+    public class DbContextBridge : IDbSeeder
     {
 
         protected DbContext DbContext;
