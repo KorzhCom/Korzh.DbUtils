@@ -8,13 +8,6 @@ using Korzh.DbUtils.Packing;
 
 namespace Korzh.DbUtils
 {
-    public enum DbBackupFormat {
-        JSON,
-
-        XML
-    }
-
-
     public class DbInitializer : IDisposable
     {
         private readonly DbImporter _dbImporter;
@@ -27,11 +20,9 @@ namespace Korzh.DbUtils
             _options = options;
         }
 
-        public void Run()
+        public void Seed()
         {
-            if (_options.NeedDataSeeding) {
-                _dbImporter.Import();
-            }
+            _dbImporter.Import();
         }
 
 
