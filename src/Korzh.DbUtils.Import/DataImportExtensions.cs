@@ -7,12 +7,12 @@ namespace Korzh.DbUtils
 {
     public static class DataImportExtensions
     {
-        public static void UseJsonImporter(this DbInitializerOptions options)
+        public static void UseJsonImporter(this IDbUtilsOptions options)
         {
             options.DatasetImporter = new JsonDatasetImporter(options.LoggerFactory);
         }
 
-        public static void UseXmlImporter(this DbInitializerOptions options)
+        public static void UseXmlImporter(this IDbUtilsOptions options)
         {
             options.DatasetImporter = new XmlDatasetImporter(options.LoggerFactory);
         }

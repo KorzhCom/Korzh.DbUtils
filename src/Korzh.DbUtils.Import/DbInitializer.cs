@@ -8,7 +8,25 @@ using Korzh.DbUtils.Packing;
 
 namespace Korzh.DbUtils
 {
-    public class DbInitializer : IDisposable
+
+    public class DbInitializerOptions : IDbUtilsOptions
+    {
+        public string InitialDataFolder { get; set; }
+        public IDbSeeder DbWriter { get; set; }
+        public IDatasetImporter DatasetImporter { get; set; }
+        public IDataUnpacker Unpacker { get; set; }
+        public ILoggerFactory LoggerFactory { get; set; }
+
+        public DbInitializerOptions() {
+
+        }
+
+        public DbInitializerOptions(ILoggerFactory loggerFactory)
+        {
+            LoggerFactory = loggerFactory;
+        }
+    }
+    public class DbInitializer
     {
         private readonly DbImporter _dbImporter;
 
@@ -26,7 +44,7 @@ namespace Korzh.DbUtils
         }
 
 
-        public static DbInitializer Create(Action<DbInitializerOptions> initAction, ILoggerFactory loggerFactory = null)
+        public static DbInitializer Create(Action<IDbUtilsOptions> initAction, ILoggerFactory loggerFactory = null)
         {
             var options = new DbInitializerOptions(loggerFactory);
 
@@ -42,26 +60,6 @@ namespace Korzh.DbUtils
 
             return new DbInitializer(options);
         }
-
-        #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue) {
-                if (disposing) {
-                }
-
-                disposedValue = true;
-            }
-        }
-
-        // This code added to correctly implement the disposable pattern.
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-        #endregion
     }
 
 }

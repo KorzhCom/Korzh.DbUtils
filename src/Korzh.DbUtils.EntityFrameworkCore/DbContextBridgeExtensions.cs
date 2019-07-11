@@ -8,18 +8,15 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class DbContextBridgeExtensions
     {
-        public static void UseDbContext(this DbInitializerOptions options, DbContext dbContext, bool useMigrations) 
+        public static void UseDbContext(this IDbUtilsOptions options, DbContext dbContext, bool useMigrations) 
         {
 
             options.DbWriter = new DbContextBridge(dbContext);
 
             if (useMigrations) {
-                options.NeedDataSeeding = dbContext.Database.GetPendingMigrations() == dbContext.Database.GetMigrations();
                 dbContext.Database.Migrate();
             }
-            else {
-                options.NeedDataSeeding = dbContext.Database.EnsureCreated();
-            }
+          
         }
     }
 }
