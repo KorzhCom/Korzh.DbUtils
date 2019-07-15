@@ -9,21 +9,45 @@ using Newtonsoft.Json;
 
 namespace Korzh.DbUtils.Export
 {
+    /// <summary>
+    /// Represents an implmentation of <see cref="Korzh.DbUtils.IDatasetExporter" /> which stores the conten of some dataset to JSON format.
+    /// </summary>
+    /// <seealso cref="Korzh.DbUtils.IDatasetExporter" />
     public class JsonDatasetExporter: IDatasetExporter
     {
         private readonly ILogger _logger = null;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JsonDatasetExporter"/> class.
+        /// </summary>
         public JsonDatasetExporter()
         {          
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JsonDatasetExporter"/> class.
+        /// </summary>
+        /// <param name="loggerFactory">The logger factory.</param>
         public JsonDatasetExporter(ILoggerFactory loggerFactory)
         {
             _logger = loggerFactory?.CreateLogger("Korzh.DbUtils");
         }
 
+        /// <summary>
+        /// Gets the default file extension for the current exporting format.
+        /// </summary>
+        /// <value>"json"</value>
         public string FileExtension => "json";
 
+        /// <summary>
+        /// Exports the dataset's content to JSON
+        /// </summary>
+        /// <param name="dataReader">The data reader which reads the dataset's content.</param>
+        /// <param name="outStream">The output stream.</param>
+        /// <param name="dataset">
+        /// An instance of <see cref="DatasetInfo"/> class which represents basic table information.
+        /// Can be ommitted if you export only one table
+        /// </param>
         public void ExportDataset(IDataReader dataReader, Stream outStream, DatasetInfo dataset = null)
         {
             _logger?.LogInformation("Start saving dataset: " + dataset?.Name);
@@ -72,6 +96,11 @@ namespace Korzh.DbUtils.Export
             }
         }
 
+        /// <summary>
+        /// Writes the table schema.
+        /// </summary>
+        /// <param name="writer">A JSON writer.</param>
+        /// <param name="dataReader">A data reader that allows to get some meta-information of the dataset.</param>
         protected virtual void WriteSchemaProperties(JsonWriter writer, IDataReader dataReader)
         {
             writer.WritePropertyName("columns");
