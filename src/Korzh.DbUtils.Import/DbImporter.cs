@@ -4,13 +4,21 @@ using Korzh.DbUtils.Packing;
 
 namespace Korzh.DbUtils.Import
 {
-
+    /// <summary>
+    /// Imports the content of some DB stored in some commmand format (JSON, XML, etc)
+    /// </summary>
     public class DbImporter
     {
         private readonly IDbSeeder _dbWriter;
         private readonly IDatasetImporter _datasetImporter;
         private readonly IDataUnpacker _dataUnpacker;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DbImporter"/> class.
+        /// </summary>
+        /// <param name="dbWriter">The database writer - an object which implements <see cref="IDbSeeder"/> interface.</param>
+        /// <param name="datasetImporter">The dataset importer - knows how to read one dataset data stored in a particular format.</param>
+        /// <param name="unpacker">The unpacker - knows how to find the data for a particular dataset "packed" in "archive".</param>
         public DbImporter(IDbSeeder dbWriter, IDatasetImporter datasetImporter, IDataUnpacker unpacker)
         {
             _dbWriter = dbWriter;
@@ -18,6 +26,9 @@ namespace Korzh.DbUtils.Import
             _dataUnpacker = unpacker;
         }
 
+        /// <summary>
+        /// Starts the importing operation.
+        /// </summary>
         public void Import()
         {
             _dataUnpacker.StartUnpacking(_datasetImporter.FileExtension);
@@ -49,5 +60,4 @@ namespace Korzh.DbUtils.Import
             }    
         }
     }
-
 }
