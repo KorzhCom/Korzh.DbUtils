@@ -4,5 +4,241 @@
         <name>Korzh.DbUtils.Import</name>
     </assembly>
     <members>
+        <member name="T:Korzh.DbUtils.DataImportExtensions">
+            <summary>
+            Contains some useful extension methods for registering data importers in <see cref="T:Korzh.DbUtils.IDbUtilsOptions"/> .
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.DataImportExtensions.UseJsonImporter(Korzh.DbUtils.IDbUtilsOptions)">
+            <summary>
+            Registers an instance of <see cref="T:Korzh.DbUtils.Import.JsonDatasetImporter"/> class as dataset importer for DbInitializer.
+            </summary>
+            <param name="options">An instance of <see cref="T:Korzh.DbUtils.IDbUtilsOptions"/>.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.DataImportExtensions.UseXmlImporter(Korzh.DbUtils.IDbUtilsOptions)">
+            <summary>
+            Registers an instance of <see cref="T:Korzh.DbUtils.Import.XmlDatasetImporter"/> class as dataset importer for DbInitializer.
+            </summary>
+            <param name="options">An instance of <see cref="T:Korzh.DbUtils.IDbUtilsOptions"/>.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.DataImportExtensions.ImportToList(Korzh.DbUtils.IDatasetImporter,System.IO.Stream,System.Collections.Generic.IList{Korzh.DbUtils.DataRecord})">
+            <summary>
+            Stores the content of some dataset (table) to the list.
+            </summary>
+            <param name="importer">The importer.</param>
+            <param name="inputStream">The input stream.</param>
+            <param name="outputList">The output list.</param>
+        </member>
+        <member name="T:Korzh.DbUtils.DataRecord">
+            <summary>
+            Represents one record in a dataset.
+            Implements the <see cref="T:System.Data.IDataRecord" />
+            </summary>
+            <seealso cref="T:System.Data.IDataRecord" />
+        </member>
+        <member name="P:Korzh.DbUtils.DataRecord.FieldCount">
+            <summary>
+            Gets the number of columns in the current row.
+            </summary>
+            <value>The field count.</value>
+        </member>
+        <member name="P:Korzh.DbUtils.DataRecord.Item(System.String)">
+            <summary>
+            Gets or sets the value of the column by its name.
+            </summary>
+            <param name="name">The column name.</param>
+            <returns>System.Object.</returns>
+        </member>
+        <member name="P:Korzh.DbUtils.DataRecord.Item(System.Int32)">
+            <summary>
+            Gets the value of the column by its index.
+            </summary>
+            <param name="i">The index of the column in the row.</param>
+            <returns>System.Object.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetBoolean(System.Int32)">
+            <summary>
+            Gets the value of the specified column as a Boolean.
+            </summary>
+            <param name="i">The zero-based column ordinal.</param>
+            <returns>The value of the column.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetByte(System.Int32)">
+            <summary>
+            Gets the 8-bit unsigned integer value of the specified column.
+            </summary>
+            <param name="i">The zero-based column ordinal.</param>
+            <returns>The 8-bit unsigned integer value of the specified column.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetBytes(System.Int32,System.Int64,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Reads a stream of bytes from the specified column offset into the buffer as an array, starting at the given buffer offset.
+            </summary>
+            <param name="i">The zero-based column ordinal.</param>
+            <param name="fieldOffset">The index within the field from which to start the read operation.</param>
+            <param name="buffer">The buffer into which to read the stream of bytes.</param>
+            <param name="bufferoffset">The index for buffer to start the read operation.</param>
+            <param name="length">The number of bytes to read.</param>
+            <returns>The actual number of bytes read.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetChar(System.Int32)">
+            <summary>
+            Gets the character value of the specified column.
+            </summary>
+            <param name="i">The zero-based column ordinal.</param>
+            <returns>The character value of the specified column.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetChars(System.Int32,System.Int64,System.Char[],System.Int32,System.Int32)">
+            <summary>
+            Reads a stream of characters from the specified column offset into the buffer as an array, starting at the given buffer offset.
+            </summary>
+            <param name="i">The zero-based column ordinal.</param>
+            <param name="fieldoffset">The index within the row from which to start the read operation.</param>
+            <param name="buffer">The buffer into which to read the stream of bytes.</param>
+            <param name="bufferoffset">The index for buffer to start the read operation.</param>
+            <param name="length">The number of bytes to read.</param>
+            <returns>The actual number of characters read.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetData(System.Int32)">
+            <summary>
+            Returns an <see cref="T:System.Data.IDataReader"></see> for the specified column ordinal.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The <see cref="T:System.Data.IDataReader"></see> for the specified column ordinal.</returns>
+            <remarks>NOT IMPLEMENTED IN DataRecord CLASS. DO NOT USE!</remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetDataTypeName(System.Int32)">
+            <summary>
+            Gets the data type information for the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The data type information for the specified field.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetDateTime(System.Int32)">
+            <summary>
+            Gets the date and time data value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The date and time data value of the specified field.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetDecimal(System.Int32)">
+            <summary>
+            Gets the fixed-position numeric value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The fixed-position numeric value of the specified field.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetDouble(System.Int32)">
+            <summary>
+            Gets the double-precision floating point number of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The double-precision floating point number of the specified field.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetFieldType(System.Int32)">
+            <summary>
+            Gets the <see cref="T:System.Type"></see> information corresponding to the type of <see cref="T:System.Object"></see> that would be returned from <see cref="M:System.Data.IDataRecord.GetValue(System.Int32)"></see>.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The <see cref="T:System.Type"></see> information corresponding to the type of <see cref="T:System.Object"></see> that would be returned from <see cref="M:System.Data.IDataRecord.GetValue(System.Int32)"></see>.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetFloat(System.Int32)">
+            <summary>
+            Gets the single-precision floating point number of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The single-precision floating point number of the specified field.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetGuid(System.Int32)">
+            <summary>
+            Returns the GUID value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The GUID value of the specified field.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetInt16(System.Int32)">
+            <summary>
+            Gets the 16-bit signed integer value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The 16-bit signed integer value of the specified field.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetInt32(System.Int32)">
+            <summary>
+            Gets the 32-bit signed integer value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The 32-bit signed integer value of the specified field.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetInt64(System.Int32)">
+            <summary>
+            Gets the 64-bit signed integer value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The 64-bit signed integer value of the specified field.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetName(System.Int32)">
+            <summary>
+            Gets the name for the field to find.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The name of the field or the empty string (""), if there is no value to return.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetOrdinal(System.String)">
+            <summary>
+            Return the index of the named field.
+            </summary>
+            <param name="name">The name of the field to find.</param>
+            <returns>The index of the named field.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetString(System.Int32)">
+            <summary>
+            Gets the string value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The string value of the specified field.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetValue(System.Int32)">
+            <summary>
+            Return the value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>The <see cref="T:System.Object"></see> which will contain the field value upon return.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.GetValues(System.Object[])">
+            <summary>
+            Populates an array of objects with the column values of the current record.
+            </summary>
+            <param name="values">An array of <see cref="T:System.Object"></see> to copy the attribute fields into.</param>
+            <returns>The number of instances of <see cref="T:System.Object"></see> in the array.</returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Korzh.DbUtils.DataRecord.IsDBNull(System.Int32)">
+            <summary>
+            Return whether the specified field is set to null.
+            </summary>
+            <param name="i">The index of the field to find.</param>
+            <returns>true if the specified field is set to null; otherwise, false.</returns>
+        </member>
+        <member name="T:Korzh.DbUtils.Import.DbImporter">
+            <summary>
+            Imports the content of some DB stored in some commmand format (JSON, XML, etc)
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.DbImporter.#ctor(Korzh.DbUtils.IDbSeeder,Korzh.DbUtils.IDatasetImporter,Korzh.DbUtils.IDataUnpacker,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.Import.DbImporter"/> class.
+            </summary>
+            <param name="dbWriter">The database writer - an object which implements <see cref="T:Korzh.DbUtils.IDbSeeder"/> interface.</param>
+            <param name="datasetImporter">The dataset importer - knows how to read one dataset data stored in a particular format.</param>
+            <param name="unpacker">The unpacker - knows how to find the data for a particular dataset "packed" in "archive".</param>
+            <param name="loggerFactory">The logger factory.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.DbImporter.Import">
+            <summary>
+            Starts the importing operation.
+            </summary>
+        </member>
     </members>
 </doc>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Korzh.DbUtils.Packing;
+using Microsoft.Extensions.Logging;
 
 namespace Korzh.DbUtils.Import
 {
@@ -13,17 +13,21 @@ namespace Korzh.DbUtils.Import
         private readonly IDatasetImporter _datasetImporter;
         private readonly IDataUnpacker _dataUnpacker;
 
+        private readonly ILogger _logger;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DbImporter"/> class.
         /// </summary>
         /// <param name="dbWriter">The database writer - an object which implements <see cref="IDbSeeder"/> interface.</param>
         /// <param name="datasetImporter">The dataset importer - knows how to read one dataset data stored in a particular format.</param>
         /// <param name="unpacker">The unpacker - knows how to find the data for a particular dataset "packed" in "archive".</param>
-        public DbImporter(IDbSeeder dbWriter, IDatasetImporter datasetImporter, IDataUnpacker unpacker)
+        /// <param name="loggerFactory">The logger factory.</param>
+        public DbImporter(IDbSeeder dbWriter, IDatasetImporter datasetImporter, IDataUnpacker unpacker, ILoggerFactory loggerFactory = null)
         {
             _dbWriter = dbWriter;
             _datasetImporter = datasetImporter;
             _dataUnpacker = unpacker;
+            _logger = loggerFactory?.CreateLogger("Korzh.DbUtils");
         }
 
         /// <summary>
@@ -41,14 +45,16 @@ namespace Korzh.DbUtils.Import
                             if (datasetStream != null) {
                                 var dataset = _datasetImporter.StartImport(datasetStream);
                                 while (_datasetImporter.HasRecords()) {
-                                    _dbWriter.WriteRecord(_datasetImporter.NextRecord());
+                                    try {
+                                        _dbWriter.WriteRecord(_datasetImporter.NextRecord());
+                                    }
+                                    catch (Exception ex) {
+                                        _logger?.LogError(ex.Message);
+                                    }
                                 }
                                 _datasetImporter.FinishImport();
                             }
                         }
-                    }
-                    catch (Exception ex) {
-                        Console.WriteLine(ex.Message + ":" + ex.StackTrace); //remove in future or make with logging
                     }
                     finally {
                         _dbWriter.FinishSeeding();
