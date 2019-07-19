@@ -38,6 +38,8 @@ namespace Korzh.DbUtils.Export
         /// <value>"xml"</value>
         public string FileExtension => "xml";
 
+        private static Encoding Encoding = new UTF8Encoding(false);
+
         /// <summary>
         /// Exports the dataset's content to XML
         /// </summary>
@@ -57,7 +59,7 @@ namespace Korzh.DbUtils.Export
                 columns[i] = dataReader.GetName(i);
             }
 
-            using (var writer = new XmlTextWriter(outStream, Encoding.UTF8)) { ///TODO: Set the encoding somewhere else
+            using (var writer = new XmlTextWriter(outStream, Encoding)) { 
                 writer.Formatting = Formatting.Indented;
 
                 writer.WriteStartDocument();

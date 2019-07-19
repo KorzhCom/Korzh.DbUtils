@@ -7,13 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\data-json.zip" />
-    <None Remove="Resources\data-xml.zip" />
+    <None Remove="Resources\test-data.json" />
+    <None Remove="Resources\test-data.xml" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\data-json.zip" />
-    <EmbeddedResource Include="Resources\data-xml.zip" />
+    <EmbeddedResource Include="Resources\test-data.json" />
+    <EmbeddedResource Include="Resources\test-data.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Korzh.DbUtils.Export\Korzh.DbUtils.Export.csproj" />
+    <ProjectReference Include="..\..\src\Korzh.DbUtils.Import\Korzh.DbUtils.Import.csproj" />
     <ProjectReference Include="..\..\src\Korzh.DbUtils\Korzh.DbUtils.csproj" />
   </ItemGroup>
 
