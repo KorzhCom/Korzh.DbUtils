@@ -107,7 +107,7 @@ namespace Korzh.DbTool
                 return new SqlServerBridge(_connection as SqlConnection);
             }
             else if (_connection is MySqlConnection){
-                return new MySqlBride(_connection as MySqlConnection);
+                return new MySqlBridge(_connection as MySqlConnection);
             }
 
             return null;

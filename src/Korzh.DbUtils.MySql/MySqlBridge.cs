@@ -9,29 +9,64 @@ using MySql.Data.MySqlClient;
 
 namespace Korzh.DbUtils.MySql
 {
-    public class MySqlBride : BaseDbBridge
+    /// <summary>
+    /// An implementation of <see cref="BaseDbBridge "/> for MySQL
+    /// Implements the <see cref="Korzh.DbUtils.BaseDbBridge" />
+    /// </summary>
+    /// <seealso cref="Korzh.DbUtils.BaseDbBridge" />
+    public class MySqlBridge : BaseDbBridge
     {
-        public MySqlBride(string connectionString) : base(connectionString)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MySqlBridge"/> class.
+        /// </summary>
+        /// <param name="connectionString">The connection string.</param>
+        public MySqlBridge(string connectionString) 
+            : base(connectionString)
         {
         }
 
-        public MySqlBride(string connectionString, ILoggerFactory loggerFactory) : base(connectionString, loggerFactory)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MySqlBridge"/> class.
+        /// </summary>
+        /// <param name="connectionString">The connection string.</param>
+        /// <param name="loggerFactory">The logger factory.</param>
+        public MySqlBridge(string connectionString, ILoggerFactory loggerFactory) 
+            : base(connectionString, loggerFactory)
         {
         }
 
-        public MySqlBride(MySqlConnection connection) : base(connection)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MySqlBridge"/> class.
+        /// </summary>
+        /// <param name="connection">The connection.</param>
+        public MySqlBridge(MySqlConnection connection) : base(connection)
         {
         }
 
-        public MySqlBride(MySqlConnection connection, ILoggerFactory loggerFactory) : base(connection, loggerFactory)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MySqlBridge"/> class.
+        /// </summary>
+        /// <param name="connection">The connection.</param>
+        /// <param name="loggerFactory">The logger factory.</param>
+        public MySqlBridge(MySqlConnection connection, ILoggerFactory loggerFactory) 
+            : base(connection, loggerFactory)
         {
         }
 
+        /// <summary>
+        /// Creates the connection.
+        /// </summary>
+        /// <param name="connectionString">The connection string.</param>
+        /// <returns>DbConnection.</returns>
         protected override DbConnection CreateConnection(string connectionString)
         {
             return new MySqlConnection(connectionString);
         }
 
+        /// <summary>
+        /// Extracts the list of tables for the current DB and saves them to datasets list passed in the parameter.
+        /// </summary>
+        /// <param name="datasets">The list of datasets (tables) to fill.</param>
         protected override void ExtractDatasetList(IList<DatasetInfo> datasets)
         {
             using (var dataReader = GetDataReaderForSql("SHOW TABLES")) {
@@ -41,10 +76,24 @@ namespace Korzh.DbUtils.MySql
                 }
             }
         }
+
+        /// <summary>
+        /// Gets the opening quote for SQL identifirs (table/field names, etc).
+        /// </summary>
+        /// <value>The symbol(s) which represents the opening quote. The default value is '['</value>
         protected override string Quote1 => "`";
 
+        /// <summary>
+        /// Gets the closing quote for SQL identifirs (table/field names, etc).
+        /// </summary>
+        /// <value>The symbol(s) which represents the closing quote. The default value is ']'</value>
         protected override string Quote2 => "`";
 
+        /// <summary>
+        /// Adds the parameters to the DB command object.
+        /// </summary>
+        /// <param name="command">The DB command.</param>
+        /// <param name="record">The record. Each field in this record will be added a parameter.</param>
         protected override void AddParameters(IDbCommand command, IDataRecord record)
         {
             for (int i = 0; i < record.FieldCount; i++) {
@@ -57,16 +106,28 @@ namespace Korzh.DbUtils.MySql
             }
         }
 
+        /// <summary>
+        /// Sends an SQL command which turns off the possibility to set values for IDENTITY (auto-increment) columns for the current table.
+        /// Must be implemented in derived classes.
+        /// </summary>
         protected override void TurnOffAutoIncrement()
         {
             // NOTHING TO DO: THERE IS NO PROBLEM WITH AUTO_INCREMENT FIELDS
         }
 
+        /// <summary>
+        /// Sends an SQL command which turns on the possibility to set values for IDENTITY (auto-increment) columns for the current table.
+        /// Must be implemented in derived classes.
+        /// </summary>
         protected override void TurnOnAutoIncrement()
         {
             // NOTHING TO DO: THERE IS NO PROBLEM WITH AUTO_INCREMENT FIELDS
         }
 
+        /// <summary>
+        /// Sends an SQL command which turns off the constraints for the current table.
+        /// Must be implemented in derived classes.
+        /// </summary>
         protected override void TurnOffConstraints()
         {
             using (var command = GetConnection().CreateCommand()) {
@@ -79,6 +140,10 @@ namespace Korzh.DbUtils.MySql
             }
         }
 
+        /// <summary>
+        /// Sends an SQL command which turns the constraints on for the current table.
+        /// Must be implemented in derived classes.
+        /// </summary>
         protected override void TurnOnConstraints()
         {
             using (var command = GetConnection().CreateCommand()) {
@@ -91,5 +156,4 @@ namespace Korzh.DbUtils.MySql
             }
         }
     }
-
 }
