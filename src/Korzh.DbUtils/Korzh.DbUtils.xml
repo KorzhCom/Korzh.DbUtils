@@ -253,26 +253,26 @@
             <param name="sql">The SQL statement to execute.</param>
             <returns>IDataReader.</returns>
         </member>
-        <member name="T:Korzh.DbUtils.IDbSeeder">
+        <member name="T:Korzh.DbUtils.IDbWriter">
             <summary>
             Defines the operations for seeding data to some database table
             Implements the <see cref="T:Korzh.DbUtils.IDbBridge" />
             </summary>
             <seealso cref="T:Korzh.DbUtils.IDbBridge" />
         </member>
-        <member name="M:Korzh.DbUtils.IDbSeeder.WriteRecord(System.Data.IDataRecord)">
+        <member name="M:Korzh.DbUtils.IDbWriter.WriteRecord(System.Data.IDataRecord)">
             <summary>
-            Writes (adds) a record to the database tables specified previously at <see cref="M:Korzh.DbUtils.IDbSeeder.StartSeeding(Korzh.DbUtils.DatasetInfo)"/> method call. 
+            Writes (adds) a record to the database tables specified previously at <see cref="M:Korzh.DbUtils.IDbWriter.StartSeeding(Korzh.DbUtils.DatasetInfo)"/> method call. 
             </summary>
             <param name="record">The record to save to the database table.</param>
         </member>
-        <member name="M:Korzh.DbUtils.IDbSeeder.StartSeeding(Korzh.DbUtils.DatasetInfo)">
+        <member name="M:Korzh.DbUtils.IDbWriter.StartSeeding(Korzh.DbUtils.DatasetInfo)">
             <summary>
             Starts the seeding process for the specified table
             </summary>
             <param name="table">The table.</param>
         </member>
-        <member name="M:Korzh.DbUtils.IDbSeeder.FinishSeeding">
+        <member name="M:Korzh.DbUtils.IDbWriter.FinishSeeding">
             <summary>
             Finilizes the seeding process.
             </summary>
@@ -280,10 +280,10 @@
         <member name="T:Korzh.DbUtils.BaseDbBridge">
             <summary>
             A default abstract implementation of the main DB related intefaces 
-            <see cref="T:Korzh.DbUtils.IDbReader" /> and <see cref="T:Korzh.DbUtils.IDbSeeder" />
+            <see cref="T:Korzh.DbUtils.IDbReader" /> and <see cref="T:Korzh.DbUtils.IDbWriter" />
             </summary>
             <seealso cref="T:Korzh.DbUtils.IDbReader" />
-            <seealso cref="T:Korzh.DbUtils.IDbSeeder" />
+            <seealso cref="T:Korzh.DbUtils.IDbWriter" />
         </member>
         <member name="F:Korzh.DbUtils.BaseDbBridge.Connection">
             <summary>

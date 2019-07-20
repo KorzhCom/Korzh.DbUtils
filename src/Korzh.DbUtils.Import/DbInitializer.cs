@@ -9,7 +9,7 @@ using Korzh.DbUtils.Packing;
 namespace Korzh.DbUtils
 {
     /// <summary>
-    /// Represents different for DbInitializer class
+    /// Represents different options for DbInitializer class
     /// Implements the <see cref="Korzh.DbUtils.IDbUtilsOptions" />
     /// </summary>
     /// <seealso cref="Korzh.DbUtils.IDbUtilsOptions" />

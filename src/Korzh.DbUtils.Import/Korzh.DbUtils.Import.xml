@@ -226,11 +226,11 @@
             Imports the content of some DB stored in some commmand format (JSON, XML, etc)
             </summary>
         </member>
-        <member name="M:Korzh.DbUtils.Import.DbImporter.#ctor(Korzh.DbUtils.IDbSeeder,Korzh.DbUtils.IDatasetImporter,Korzh.DbUtils.IDataUnpacker,Microsoft.Extensions.Logging.ILoggerFactory)">
+        <member name="M:Korzh.DbUtils.Import.DbImporter.#ctor(Korzh.DbUtils.IDbWriter,Korzh.DbUtils.IDatasetImporter,Korzh.DbUtils.IDataUnpacker,Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
             Initializes a new instance of the <see cref="T:Korzh.DbUtils.Import.DbImporter"/> class.
             </summary>
-            <param name="dbWriter">The database writer - an object which implements <see cref="T:Korzh.DbUtils.IDbSeeder"/> interface.</param>
+            <param name="dbWriter">The database writer - an object which implements <see cref="T:Korzh.DbUtils.IDbWriter"/> interface.</param>
             <param name="datasetImporter">The dataset importer - knows how to read one dataset data stored in a particular format.</param>
             <param name="unpacker">The unpacker - knows how to find the data for a particular dataset "packed" in "archive".</param>
             <param name="loggerFactory">The logger factory.</param>
@@ -239,6 +239,79 @@
             <summary>
             Starts the importing operation.
             </summary>
+        </member>
+        <member name="T:Korzh.DbUtils.DbInitializerOptions">
+            <summary>
+            Represents different for DbInitializer class
+            Implements the <see cref="T:Korzh.DbUtils.IDbUtilsOptions" />
+            </summary>
+            <seealso cref="T:Korzh.DbUtils.IDbUtilsOptions" />
+        </member>
+        <member name="P:Korzh.DbUtils.DbInitializerOptions.SeedDataFolder">
+            <summary>
+            Gets or sets the folder where unpacker will look for the data.
+            </summary>
+            <value>The seed data folder.</value>
+        </member>
+        <member name="P:Korzh.DbUtils.DbInitializerOptions.DbWriter">
+            <summary>
+            Gets or sets the database writer.
+            </summary>
+            <value>The database writer.</value>
+        </member>
+        <member name="P:Korzh.DbUtils.DbInitializerOptions.DatasetImporter">
+            <summary>
+            Gets or sets the dataset importer.
+            </summary>
+            <value>The dataset importer.</value>
+        </member>
+        <member name="P:Korzh.DbUtils.DbInitializerOptions.Unpacker">
+            <summary>
+            Gets or sets the unpacker.
+            </summary>
+            <value>The unpacker.</value>
+        </member>
+        <member name="P:Korzh.DbUtils.DbInitializerOptions.LoggerFactory">
+            <summary>
+            Gets or sets the logger factory.
+            </summary>
+            <value>The logger factory.</value>
+        </member>
+        <member name="M:Korzh.DbUtils.DbInitializerOptions.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.DbInitializerOptions"/> class.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.DbInitializerOptions.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.DbInitializerOptions"/> class.
+            </summary>
+            <param name="loggerFactory">The logger factory.</param>
+        </member>
+        <member name="T:Korzh.DbUtils.DbInitializer">
+            <summary>
+            Represents the database initializer. 
+            An object of this class can seeds the DB with the data with the help of provided dataset importer and unpacker
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.DbInitializer.#ctor(Korzh.DbUtils.DbInitializerOptions)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.DbInitializer"/> class.
+            </summary>
+            <param name="options">The options of DB initializer</param>
+        </member>
+        <member name="M:Korzh.DbUtils.DbInitializer.Seed">
+            <summary>
+            Starts the data seeding operation.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.DbInitializer.Create(System.Action{Korzh.DbUtils.IDbUtilsOptions},Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Creates and returns a DB initializer according to options defined in the <paramref name="initAction"/> function.
+            </summary>
+            <param name="initAction">The action where we can set different options of the create DbInitializer.</param>
+            <param name="loggerFactory">The logger factory.</param>
+            <returns>DbInitializer.</returns>
         </member>
     </members>
 </doc>

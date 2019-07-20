@@ -316,6 +316,10 @@ namespace Korzh.DbUtils
     /// <seealso cref="System.Exception" />
     public class DbBridgeException : Exception
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DbBridgeException"/> class.
+        /// </summary>
+        /// <param name="message">The message that describes the error.</param>
         public DbBridgeException(string message) : base(message) { }
     }
 }
