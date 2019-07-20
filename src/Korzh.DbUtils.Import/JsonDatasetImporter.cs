@@ -216,7 +216,7 @@ namespace Korzh.DbUtils.Import
         }
 
         /// <summary>
-        /// Reads one record field.
+        /// Reads one record field by its name
         /// </summary>
         /// <param name="record">The record.</param>
         /// <param name="fieldName">Name of the field.</param>
