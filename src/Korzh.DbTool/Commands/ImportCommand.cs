@@ -112,7 +112,7 @@ namespace Korzh.DbTool
             }
         }
 
-        private IDbSeeder GetDbSeeder()
+        private IDbWriter GetDbSeeder()
         {
             if (_connection is SqlConnection) {
                 return new SqlServerBridge(_connection as SqlConnection);

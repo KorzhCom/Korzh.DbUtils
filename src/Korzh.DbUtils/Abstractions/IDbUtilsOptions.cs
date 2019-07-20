@@ -6,7 +6,7 @@ namespace Korzh.DbUtils
     {
         string SeedDataFolder { get; set; }
 
-        IDbSeeder DbWriter { get; set; }
+        IDbWriter DbWriter { get; set; }
 
         IDatasetImporter DatasetImporter { get; set; }
 

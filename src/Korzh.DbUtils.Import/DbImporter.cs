@@ -9,7 +9,7 @@ namespace Korzh.DbUtils.Import
     /// </summary>
     public class DbImporter
     {
-        private readonly IDbSeeder _dbWriter;
+        private readonly IDbWriter _dbWriter;
         private readonly IDatasetImporter _datasetImporter;
         private readonly IDataUnpacker _dataUnpacker;
 
@@ -18,11 +18,11 @@ namespace Korzh.DbUtils.Import
         /// <summary>
         /// Initializes a new instance of the <see cref="DbImporter"/> class.
         /// </summary>
-        /// <param name="dbWriter">The database writer - an object which implements <see cref="IDbSeeder"/> interface.</param>
+        /// <param name="dbWriter">The database writer - an object which implements <see cref="IDbWriter"/> interface.</param>
         /// <param name="datasetImporter">The dataset importer - knows how to read one dataset data stored in a particular format.</param>
         /// <param name="unpacker">The unpacker - knows how to find the data for a particular dataset "packed" in "archive".</param>
         /// <param name="loggerFactory">The logger factory.</param>
-        public DbImporter(IDbSeeder dbWriter, IDatasetImporter datasetImporter, IDataUnpacker unpacker, ILoggerFactory loggerFactory = null)
+        public DbImporter(IDbWriter dbWriter, IDatasetImporter datasetImporter, IDataUnpacker unpacker, ILoggerFactory loggerFactory = null)
         {
             _dbWriter = dbWriter;
             _datasetImporter = datasetImporter;

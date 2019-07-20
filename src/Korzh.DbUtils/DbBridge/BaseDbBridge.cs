@@ -10,11 +10,11 @@ namespace Korzh.DbUtils
 {
     /// <summary>
     /// A default abstract implementation of the main DB related intefaces 
-    /// <see cref="Korzh.DbUtils.IDbReader" /> and <see cref="Korzh.DbUtils.IDbSeeder" />
+    /// <see cref="Korzh.DbUtils.IDbReader" /> and <see cref="Korzh.DbUtils.IDbWriter" />
     /// </summary>
     /// <seealso cref="Korzh.DbUtils.IDbReader" />
-    /// <seealso cref="Korzh.DbUtils.IDbSeeder" />
-    public abstract class BaseDbBridge : IDbReader, IDbSeeder
+    /// <seealso cref="Korzh.DbUtils.IDbWriter" />
+    public abstract class BaseDbBridge : IDbReader, IDbWriter
     {
         /// <summary>
         /// The database connection

@@ -50,7 +50,7 @@ namespace Korzh.DbUtils
     /// Implements the <see cref="Korzh.DbUtils.IDbBridge" />
     /// </summary>
     /// <seealso cref="Korzh.DbUtils.IDbBridge" />
-    public interface IDbSeeder : IDbBridge
+    public interface IDbWriter : IDbBridge
     {
         /// <summary>
         /// Writes (adds) a record to the database tables specified previously at <see cref="StartSeeding(DatasetInfo)"/> method call. 
