@@ -240,9 +240,180 @@
             Starts the importing operation.
             </summary>
         </member>
+        <member name="T:Korzh.DbUtils.Import.JsonDatasetImporter">
+            <summary>
+            Represents an importer from JSON format
+            Implements the <see cref="T:Korzh.DbUtils.IDatasetImporter" />
+            </summary>
+            <seealso cref="T:Korzh.DbUtils.IDatasetImporter" />
+        </member>
+        <member name="P:Korzh.DbUtils.Import.JsonDatasetImporter.FileExtension">
+            <summary>
+            Gets the default file extension for the data format processed by this importer (e.g "xml" or "json").
+            </summary>
+            <value>"json"</value>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.JsonDatasetImporter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.Import.JsonDatasetImporter"/> class.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.JsonDatasetImporter.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.Import.JsonDatasetImporter"/> class.
+            </summary>
+            <param name="loggerFactory">The logger factory.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.JsonDatasetImporter.StartImport(System.IO.Stream)">
+            <summary>
+            Starts the importing process.
+            This function processes the first part of the dataset stream and collect necessary information about the dataset
+            </summary>
+            <param name="datasetStream">The dataset stream.</param>
+            <returns>An instance of the <see cref="T:Korzh.DbUtils.DatasetInfo" /> which contains some basic information about the dataset (table).</returns>
+            <exception cref="T:Korzh.DbUtils.DatasetImporterException">
+            Wrong file format at {_jsonReader.LineNumber}:{_jsonReader.LinePosition}
+            or
+            Wrong file format. No 'schema' property
+            or
+            Wrong file format. No 'schema' property
+            or
+            Wrong file format. No 'data' property
+            or
+            Wrong file format at {_jsonReader.LineNumber}:{_jsonReader.LinePosition}
+            </exception>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.JsonDatasetImporter.ReadSchema">
+            <summary>
+            Reads the schema.
+            </summary>
+            <exception cref="T:Korzh.DbUtils.DatasetImporterException">
+            Wrong file format at {_jsonReader.LineNumber}:{_jsonReader.LinePosition}
+            or
+            Wrong file format. No 'columns' property in 'schema'
+            </exception>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.JsonDatasetImporter.HasRecords">
+            <summary>
+            Determines whether there are more records to process in the input stream.
+            </summary>
+            <returns><c>true</c> if this the input stream still has more records for the current dataset; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.JsonDatasetImporter.NextRecord">
+            <summary>
+            Processes the next record in the input stream and returns it to the caller.
+            </summary>
+            <returns>IDataRecord.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.JsonDatasetImporter.ReadRecordFields(Korzh.DbUtils.DataRecord)">
+            <summary>
+            Reads the record fields.
+            </summary>
+            <param name="record">The record.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.JsonDatasetImporter.ReadOneRecordField(Korzh.DbUtils.DataRecord,System.String)">
+            <summary>
+            Reads one record field by its name
+            </summary>
+            <param name="record">The record.</param>
+            <param name="fieldName">Name of the field.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.JsonDatasetImporter.FinishImport">
+            <summary>
+            Finilizing the importing process.
+            </summary>
+        </member>
+        <member name="T:Korzh.DbUtils.Import.JsonReaderExtensions">
+            <summary>
+            Contains some extensions for <see cref="T:Newtonsoft.Json.JsonReader"/> 
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.JsonReaderExtensions.ReadAs(Newtonsoft.Json.JsonReader,System.Type)">
+            <summary>
+            Reads an object of specified type from JsonReader
+            </summary>
+            <param name="jsonReader">An instance of JsonReader.</param>
+            <param name="type">The type.</param>
+            <returns>System.Object.</returns>
+        </member>
+        <member name="T:Korzh.DbUtils.Import.XmlDatasetImporter">
+            <summary>
+            Represents the dataset importer from XML format
+            Implements the <see cref="T:Korzh.DbUtils.IDatasetImporter" />
+            </summary>
+            <seealso cref="T:Korzh.DbUtils.IDatasetImporter" />
+        </member>
+        <member name="P:Korzh.DbUtils.Import.XmlDatasetImporter.FileExtension">
+            <summary>
+            Gets the default file extension for the data format processed by this importer (e.g "xml" or "json").
+            </summary>
+            <value>"xml".</value>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.XmlDatasetImporter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.Import.XmlDatasetImporter"/> class.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.XmlDatasetImporter.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.Import.XmlDatasetImporter"/> class.
+            </summary>
+            <param name="loggerFactory">The logger factory.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.XmlDatasetImporter.StartImport(System.IO.Stream)">
+            <summary>
+            Starts the importing process.
+            This function processes the first part of the dataset stream and collect necessary information about the dataset
+            </summary>
+            <param name="datasetStream">The dataset stream.</param>
+            <returns>An instance of the <see cref="T:Korzh.DbUtils.DatasetInfo" /> which contains some basic information about the dataset (table).</returns>
+            <exception cref="T:Korzh.DbUtils.DatasetImporterException">
+            Wrong file format. No 'Dataset' element
+            or
+            Wrong file format. No 'Schema' element
+            or
+            Wrong file format. No 'Data' element
+            </exception>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.XmlDatasetImporter.ReadSchema">
+            <summary>
+            Reads the dataset schema.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.XmlDatasetImporter.HasRecords">
+            <summary>
+            Determines whether there are more records to process in the input stream.
+            </summary>
+            <returns><c>true</c> if this the input stream still has more records for the current dataset; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.XmlDatasetImporter.NextRecord">
+            <summary>
+            Processes the next record in the input stream and returns it to the caller.
+            </summary>
+            <returns>IDataRecord.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.XmlDatasetImporter.ReadRecordFields(Korzh.DbUtils.DataRecord)">
+            <summary>
+            Reads the record fields.
+            </summary>
+            <param name="record">The record.</param>
+            <exception cref="T:Korzh.DbUtils.DatasetImporterException">Wrong file format. No 'n' attribute in a row</exception>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.XmlDatasetImporter.ReadOneRecordField(Korzh.DbUtils.DataRecord,System.String)">
+            <summary>
+            Reads one field in the specified record by its (field) name
+            </summary>
+            <param name="record">The record.</param>
+            <param name="fieldName">Name of the field.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.Import.XmlDatasetImporter.FinishImport">
+            <summary>
+            Finilizing the importing process.
+            </summary>
+        </member>
         <member name="T:Korzh.DbUtils.DbInitializerOptions">
             <summary>
-            Represents different for DbInitializer class
+            Represents different options for DbInitializer class
             Implements the <see cref="T:Korzh.DbUtils.IDbUtilsOptions" />
             </summary>
             <seealso cref="T:Korzh.DbUtils.IDbUtilsOptions" />

@@ -4,5 +4,17 @@
         <name>Korzh.DbUtils.SqlServer</name>
     </assembly>
     <members>
+        <member name="T:Korzh.DbUtils.DbSqlServerBridgeExtensions">
+            <summary>
+            Static class with extensions for registering SqlServerBridge as DB reader and DB writer in <see cref="T:Korzh.DbUtils.IDbUtilsOptions"/>
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.DbSqlServerBridgeExtensions.UseSqlServer(Korzh.DbUtils.IDbUtilsOptions,System.String)">
+            <summary>
+            Registers MySqlBridge as DB reader and DB writer in <see cref="T:Korzh.DbUtils.IDbUtilsOptions"/>
+            </summary>
+            <param name="options">The options.</param>
+            <param name="connectionString">The connection string.</param>
+        </member>
     </members>
 </doc>

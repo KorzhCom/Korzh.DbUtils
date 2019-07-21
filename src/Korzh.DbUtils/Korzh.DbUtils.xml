@@ -158,7 +158,7 @@
         </member>
         <member name="M:Korzh.DbUtils.IDatasetImporter.NextRecord">
             <summary>
-            Extracts the next record from the input stream.
+            Processes the next record in the input stream and returns it to the caller.
             </summary>
             <returns>IDataRecord.</returns>
         </member>
@@ -276,6 +276,41 @@
             <summary>
             Finilizes the seeding process.
             </summary>
+        </member>
+        <member name="T:Korzh.DbUtils.IDbUtilsOptions">
+            <summary>
+            Defines different options which can be used for initialization of other library objects
+            </summary>
+        </member>
+        <member name="P:Korzh.DbUtils.IDbUtilsOptions.SeedDataFolder">
+            <summary>
+            Gets or sets the folder where unpacker will look for the data.
+            </summary>
+            <value>The seed data folder.</value>
+        </member>
+        <member name="P:Korzh.DbUtils.IDbUtilsOptions.DbWriter">
+            <summary>
+            Gets or sets the database writer.
+            </summary>
+            <value>The database writer.</value>
+        </member>
+        <member name="P:Korzh.DbUtils.IDbUtilsOptions.DatasetImporter">
+            <summary>
+            Gets or sets the dataset importer.
+            </summary>
+            <value>The dataset importer.</value>
+        </member>
+        <member name="P:Korzh.DbUtils.IDbUtilsOptions.Unpacker">
+            <summary>
+            Gets or sets the unpacker.
+            </summary>
+            <value>The unpacker.</value>
+        </member>
+        <member name="P:Korzh.DbUtils.IDbUtilsOptions.LoggerFactory">
+            <summary>
+            Gets or sets the logger factory.
+            </summary>
+            <value>The logger factory.</value>
         </member>
         <member name="T:Korzh.DbUtils.BaseDbBridge">
             <summary>
@@ -465,6 +500,12 @@
             Implements the <see cref="T:System.Exception" />
             </summary>
             <seealso cref="T:System.Exception" />
+        </member>
+        <member name="M:Korzh.DbUtils.DbBridgeException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.DbBridgeException"/> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
         </member>
         <member name="T:Korzh.DbUtils.DataPackingExtensions">
             <summary>
