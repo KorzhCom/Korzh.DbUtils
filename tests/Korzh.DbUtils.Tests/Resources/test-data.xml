@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dataset name="Test">
+  <Schema>
+    <Columns>
+      <Col name="Name" type="System.String" />
+      <Col name="Price" type="System.Int32" />
+      <Col name="URL" type="System.String" />
+      <Col name="Binary" type="System.Byte[]" />
+    </Columns>
+  </Schema>
+  <Data>
+    <Row>
+      <Col n="Name">Cyberpunk</Col>
+      <Col n="Price">2077</Col>
+      <Col n="URL">you\are\breathtaking</Col>
+      <Col n="Binary">ICI=</Col>
+    </Row>
+    <Row>
+      <Col n="Name">Anno</Col>
+      <Col n="Price">2070</Col>
+      <Col n="URL">explore\unknown</Col>
+      <Col n="Binary">GAA=</Col>
+    </Row>
+    <Row>
+      <Col n="Name">Dystopia</Col>
+      <Col n="Price">451</Col>
+      <Col n="URL">brave\new\word</Col>
+      <Col n="Binary">GYQ=</Col>
+    </Row>
+  </Data>
+</Dataset>

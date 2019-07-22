@@ -1,0 +1,43 @@
+{
+  "name": "Test",
+  "schema": {
+    "columns": [
+      {
+        "name": "Name",
+        "type": "System.String"
+      },
+      {
+        "name": "Price",
+        "type": "System.Int32"
+      },
+      {
+        "name": "URL",
+        "type": "System.String"
+      },
+      {
+        "name": "Binary",
+        "type": "System.Byte[]"
+      }
+    ]
+  },
+  "data": [
+    {
+      "Name": "Cyberpunk",
+      "Price": 2077,
+      "URL": "you\\are\\breathtaking",
+      "Binary": "ICI="
+    },
+    {
+      "Name": "Anno",
+      "Price": 2070,
+      "URL": "explore\\unknown",
+      "Binary": "GAA="
+    },
+    {
+      "Name": "Dystopia",
+      "Price": 451,
+      "URL": "brave\\new\\word",
+      "Binary": "GYQ="
+    }
+  ]
+}

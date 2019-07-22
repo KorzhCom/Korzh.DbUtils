@@ -5,11 +5,11 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <RootNamespace>Korzh.DbTool</RootNamespace>
-    <Product>dbadm</Product>
+    <Product>dbtool</Product>
     <Version>1.0.0</Version>
     <AssemblyVersion>1.0.0.10</AssemblyVersion>
     <FileVersion>1.0.0.10</FileVersion>
-    <Title>Aistdoc</Title>
+    <Title>DbTool utility</Title>
     <Description>
       A .NET Core global tool that allows you to export database data to XML or JSON. 
 	  The exported files can be used after that for DB seeding in your application with the help of Korzh.DbUtils library.

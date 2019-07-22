@@ -3,8 +3,16 @@ using MySql.Data.MySqlClient;
 
 namespace System
 {
+    /// <summary>
+    /// Contains an extension method to get a MySqlDbType from an instance of <see cref="System.Type"/> 
+    /// </summary>
     public static class TypeMySqlExtensions
     {
+        /// <summary>
+        /// Converts a <see cref="System.Type"/> to a <see cref="MySqlDbType"/>.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns>MySqlDbType.</returns>
         public static MySqlDbType ToMySqlDbType(this Type type)
         {
             if (type.IsBool())

@@ -2,8 +2,16 @@
 
 namespace System
 {
-    public static class TypeSqlServerExtensions
+    /// <summary>
+    /// Contains an extension method to get a SqlDbType from an instance of <see cref="System.Type"/> 
+    /// </summary>
+    public static class SqlServerTypeExtensions
     {
+        /// <summary>
+        /// Converts a <see cref="System.Type"/> to a <see cref="SqlDbType"/>.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns>SqlDbType.</returns>
         public static SqlDbType ToSqlDbType(this Type type)
         {
             if (type.IsBool())

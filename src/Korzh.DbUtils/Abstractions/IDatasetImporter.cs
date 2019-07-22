@@ -27,7 +27,7 @@ namespace Korzh.DbUtils
         bool HasRecords();
 
         /// <summary>
-        /// Extracts the next record from the input stream.
+        /// Processes the next record in the input stream and returns it to the caller.
         /// </summary>
         /// <returns>IDataRecord.</returns>
         IDataRecord NextRecord();

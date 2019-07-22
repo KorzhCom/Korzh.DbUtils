@@ -22,6 +22,22 @@ namespace Korzh.DbUtils.Tests
                 return null;
         }
 
+        public static string GetResourceAsString(this Assembly assembly, string resourceFolder, string resourceFileName)
+        {
+            string fileContent;
+            using (StreamReader sr = new StreamReader(GetResourceStream(assembly, resourceFolder, resourceFileName), new UTF8Encoding(false))) { 
+
+                fileContent = sr.ReadToEnd();
+            }
+            return fileContent;
+        }
+
+        public static string GetResourceAsString(this Type type, string resourceFolder, string resourceFileName)
+        {
+            var assembly = type.GetTypeInfo().Assembly;
+            return assembly.GetResourceAsString(resourceFolder, resourceFileName);
+        }
+
         public static Stream GetResourceStream(this Type type, string resourceFolder, string resourceFileName)
         {
             var assembly = type.GetTypeInfo().Assembly;
@@ -32,5 +48,11 @@ namespace Korzh.DbUtils.Tests
         {
             return typeof(TestUtils).GetResourceStream(resourceFolder, resourceFileName);
         }
+
+        public static string GetResourceAsString(string resourceFolder, string resourceFileName)
+        {
+            return typeof(TestUtils).GetResourceAsString(resourceFolder, resourceFileName);
+        }
+
     }
 }

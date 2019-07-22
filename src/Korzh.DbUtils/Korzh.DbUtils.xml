@@ -99,14 +99,14 @@
             Use this operation to flush the data, close used streams, etc
             </summary>
         </member>
-        <member name="T:Korzh.DbUtils.DatapackingException">
+        <member name="T:Korzh.DbUtils.DataPackingException">
             <summary>
             Represents errors that occur during packing/unpacking operations.
             Implements the <see cref="T:System.Exception" />
             </summary>
             <seealso cref="T:System.Exception" />
         </member>
-        <member name="M:Korzh.DbUtils.DatapackingException.#ctor(System.String)">
+        <member name="M:Korzh.DbUtils.DataPackingException.#ctor(System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:Korzh.DbUtils.DatasetImporterException"/> class.
             </summary>
@@ -125,7 +125,7 @@
             <param name="outStream">The output stream.</param>
             <param name="dataset">
             An instance of <see cref="T:Korzh.DbUtils.DatasetInfo"/> class which represents basic table information.
-            Can be ommitted if you exports only one dataset
+            Can be ommitted if you export only one dataset
             </param>
         </member>
         <member name="P:Korzh.DbUtils.IDatasetExporter.FileExtension">
@@ -158,7 +158,7 @@
         </member>
         <member name="M:Korzh.DbUtils.IDatasetImporter.NextRecord">
             <summary>
-            Extracts the next record from the input stream.
+            Processes the next record in the input stream and returns it to the caller.
             </summary>
             <returns>IDataRecord.</returns>
         </member>
@@ -253,37 +253,72 @@
             <param name="sql">The SQL statement to execute.</param>
             <returns>IDataReader.</returns>
         </member>
-        <member name="T:Korzh.DbUtils.IDbSeeder">
+        <member name="T:Korzh.DbUtils.IDbWriter">
             <summary>
             Defines the operations for seeding data to some database table
             Implements the <see cref="T:Korzh.DbUtils.IDbBridge" />
             </summary>
             <seealso cref="T:Korzh.DbUtils.IDbBridge" />
         </member>
-        <member name="M:Korzh.DbUtils.IDbSeeder.WriteRecord(System.Data.IDataRecord)">
+        <member name="M:Korzh.DbUtils.IDbWriter.WriteRecord(System.Data.IDataRecord)">
             <summary>
-            Writes (adds) a record to the database tables specified previously at <see cref="M:Korzh.DbUtils.IDbSeeder.StartSeeding(Korzh.DbUtils.DatasetInfo)"/> method call. 
+            Writes (adds) a record to the database tables specified previously at <see cref="M:Korzh.DbUtils.IDbWriter.StartSeeding(Korzh.DbUtils.DatasetInfo)"/> method call. 
             </summary>
             <param name="record">The record to save to the database table.</param>
         </member>
-        <member name="M:Korzh.DbUtils.IDbSeeder.StartSeeding(Korzh.DbUtils.DatasetInfo)">
+        <member name="M:Korzh.DbUtils.IDbWriter.StartSeeding(Korzh.DbUtils.DatasetInfo)">
             <summary>
             Starts the seeding process for the specified table
             </summary>
             <param name="table">The table.</param>
         </member>
-        <member name="M:Korzh.DbUtils.IDbSeeder.FinishSeeding">
+        <member name="M:Korzh.DbUtils.IDbWriter.FinishSeeding">
             <summary>
             Finilizes the seeding process.
             </summary>
         </member>
+        <member name="T:Korzh.DbUtils.IDbUtilsOptions">
+            <summary>
+            Defines different options which can be used for initialization of other library objects
+            </summary>
+        </member>
+        <member name="P:Korzh.DbUtils.IDbUtilsOptions.SeedDataFolder">
+            <summary>
+            Gets or sets the folder where unpacker will look for the data.
+            </summary>
+            <value>The seed data folder.</value>
+        </member>
+        <member name="P:Korzh.DbUtils.IDbUtilsOptions.DbWriter">
+            <summary>
+            Gets or sets the database writer.
+            </summary>
+            <value>The database writer.</value>
+        </member>
+        <member name="P:Korzh.DbUtils.IDbUtilsOptions.DatasetImporter">
+            <summary>
+            Gets or sets the dataset importer.
+            </summary>
+            <value>The dataset importer.</value>
+        </member>
+        <member name="P:Korzh.DbUtils.IDbUtilsOptions.Unpacker">
+            <summary>
+            Gets or sets the unpacker.
+            </summary>
+            <value>The unpacker.</value>
+        </member>
+        <member name="P:Korzh.DbUtils.IDbUtilsOptions.LoggerFactory">
+            <summary>
+            Gets or sets the logger factory.
+            </summary>
+            <value>The logger factory.</value>
+        </member>
         <member name="T:Korzh.DbUtils.BaseDbBridge">
             <summary>
             A default abstract implementation of the main DB related intefaces 
-            <see cref="T:Korzh.DbUtils.IDbReader" /> and <see cref="T:Korzh.DbUtils.IDbSeeder" />
+            <see cref="T:Korzh.DbUtils.IDbReader" /> and <see cref="T:Korzh.DbUtils.IDbWriter" />
             </summary>
             <seealso cref="T:Korzh.DbUtils.IDbReader" />
-            <seealso cref="T:Korzh.DbUtils.IDbSeeder" />
+            <seealso cref="T:Korzh.DbUtils.IDbWriter" />
         </member>
         <member name="F:Korzh.DbUtils.BaseDbBridge.Connection">
             <summary>
@@ -466,6 +501,12 @@
             </summary>
             <seealso cref="T:System.Exception" />
         </member>
+        <member name="M:Korzh.DbUtils.DbBridgeException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.DbBridgeException"/> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
         <member name="T:Korzh.DbUtils.DataPackingExtensions">
             <summary>
             Contains some useful extension methods for registering data packers/unpackers in <see cref="T:Korzh.DbUtils.IDbUtilsOptions"/> .
@@ -596,6 +637,112 @@
             Contains several useful extension methods for operations with <see cref="T:System.Type"/> objects.
             Most of the functions are self-descriptive.
             </summary>
+        </member>
+        <member name="M:System.TypeExtensions.GetDefaultValue(System.Type)">
+            <summary>
+            Gets the default value for a type.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>System.Object.</returns>
+            <exception cref="T:System.ArgumentNullException">type</exception>
+        </member>
+        <member name="M:System.TypeExtensions.IsNullable(System.Type)">
+            <summary>
+            Determines whether the specified type is nullable.
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is nullable; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsBool(System.Type)">
+            <summary>
+            Determines whether the specified type is a boolean.
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is a boolean; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsByte(System.Type)">
+            <summary>
+            Determines whether the specified type is a byte type (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is a byte type; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsChar(System.Type)">
+            <summary>
+            Determines whether the specified type is a character type (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is a character type; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsInt16(System.Type)">
+            <summary>
+            Determines whether the specified type is a short integer type (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is a short int type; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsInt32(System.Type)">
+            <summary>
+            Determines whether the specified type is an integer type ((either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is an int type; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsInt64(System.Type)">
+            <summary>
+            Determines whether the specified type is a big integer type (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is a short int type; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsDecimal(System.Type)">
+            <summary>
+            Determines whether the specified type is a decimal (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is decimal; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsFloat(System.Type)">
+            <summary>
+            Determines whether the specified type is a float (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is float; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsDouble(System.Type)">
+            <summary>
+            Determines whether the specified type is a double type (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is double; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsGuid(System.Type)">
+            <summary>
+            Determines whether the specified type is a GUID type (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is a GUID type; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsDateTime(System.Type)">
+            <summary>
+            Determines whether the specified type is a DateTime type (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is a DateTime type; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsDateTimeOffset(System.Type)">
+            <summary>
+            Determines whether the specified type is a DateTimeOffset type (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is a DateTimeOffset type; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsTimeSpan(System.Type)">
+            <summary>
+            Determines whether the specified type is a TimeSpan type (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is a TimeSpan type; otherwise, <c>false</c>.</returns>
         </member>
     </members>
 </doc>

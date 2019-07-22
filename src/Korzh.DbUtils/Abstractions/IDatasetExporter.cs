@@ -15,7 +15,7 @@ namespace Korzh.DbUtils
         /// <param name="outStream">The output stream.</param>
         /// <param name="dataset">
         /// An instance of <see cref="DatasetInfo"/> class which represents basic table information.
-        /// Can be ommitted if you exports only one dataset
+        /// Can be ommitted if you export only one dataset
         /// </param>
         void ExportDataset(IDataReader reader, Stream outStream, DatasetInfo dataset = null);
 

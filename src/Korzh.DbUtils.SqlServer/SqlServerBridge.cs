@@ -9,29 +9,64 @@ using Microsoft.Extensions.Logging;
 
 namespace Korzh.DbUtils.SqlServer
 {
+    /// <summary>
+    /// An implementation of <see cref="BaseDbBridge "/> for MySQL
+    /// Implements the <see cref="Korzh.DbUtils.BaseDbBridge" />
+    /// </summary>
+    /// <seealso cref="Korzh.DbUtils.BaseDbBridge" />
     public class SqlServerBridge : BaseDbBridge
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SqlServerBridge"/> class.
+        /// </summary>
+        /// <param name="connectionString">The connection string.</param>
         public SqlServerBridge(string connectionString) : base(connectionString)
         {
         }
 
-        public SqlServerBridge(string connectionString, ILoggerFactory loggerFactory) : base(connectionString, loggerFactory)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SqlServerBridge"/> class.
+        /// </summary>
+        /// <param name="connectionString">The connection string.</param>
+        /// <param name="loggerFactory">The logger factory.</param>
+        public SqlServerBridge(string connectionString, ILoggerFactory loggerFactory) 
+            : base(connectionString, loggerFactory)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SqlServerBridge"/> class.
+        /// </summary>
+        /// <param name="connection">The connection.</param>
         public SqlServerBridge(SqlConnection connection) : base(connection)
         {
         }
 
-        public SqlServerBridge(SqlConnection connection, ILoggerFactory loggerFactory) : base(connection, loggerFactory)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SqlServerBridge"/> class.
+        /// </summary>
+        /// <param name="connection">The connection.</param>
+        /// <param name="loggerFactory">The logger factory.</param>
+        public SqlServerBridge(SqlConnection connection, ILoggerFactory loggerFactory) 
+            : base(connection, loggerFactory)
         {
         }
 
+        /// <summary>
+        /// Creates the connection.
+        /// This is an abstract method which must be implemented in derived classes
+        /// </summary>
+        /// <param name="connectionString">The connection string.</param>
+        /// <returns>DbConnection.</returns>
         protected override DbConnection CreateConnection(string connectionString)
         {
             return new SqlConnection(connectionString);
         }
 
+        /// <summary>
+        /// Gets the list of tables for the current DB and saves them to datasets list passed in the parameter.
+        /// </summary>
+        /// <param name="datasets">The list of datasets (tables) to fill.</param>
         protected override void ExtractDatasetList(IList<DatasetInfo> datasets)
         {
             DataTable schemaTable = Connection.GetSchema(SqlClientMetaDataCollectionNames.Tables);
@@ -46,6 +81,11 @@ namespace Korzh.DbUtils.SqlServer
             }
         }
 
+        /// <summary>
+        /// Adds the parameters to the DB command object according to the current server type.
+        /// </summary>
+        /// <param name="command">The DB command.</param>
+        /// <param name="record">The record. Each field in this record will be added a parameter.</param>
         protected override void AddParameters(IDbCommand command, IDataRecord record)
         {
   
@@ -60,6 +100,10 @@ namespace Korzh.DbUtils.SqlServer
             }
         }
 
+        /// <summary>
+        /// Sends an SQL command which turns off the constraints for the current table.
+        /// Must be implemented in derived classes.
+        /// </summary>
         protected override void TurnOffConstraints()
         {
             using (var command = GetConnection().CreateCommand()) {
@@ -72,6 +116,10 @@ namespace Korzh.DbUtils.SqlServer
             }
         }
 
+        /// <summary>
+        /// Sends an SQL command which turns the constraints on for the current table.
+        /// Must be implemented in derived classes.
+        /// </summary>
         protected override void TurnOnConstraints()
         {
             using (var command = GetConnection().CreateCommand()) {
@@ -84,6 +132,10 @@ namespace Korzh.DbUtils.SqlServer
             }
         }
 
+        /// <summary>
+        /// Sends an SQL command which turns off the possibility to set values for IDENTITY (auto-increment) columns for the current table.
+        /// Must be implemented in derived classes.
+        /// </summary>
         protected override void TurnOffAutoIncrement()
         {
             using (var command = GetConnection().CreateCommand()) {
@@ -96,6 +148,10 @@ namespace Korzh.DbUtils.SqlServer
             }
         }
 
+        /// <summary>
+        /// Sends an SQL command which turns on the possibility to set values for IDENTITY (auto-increment) columns for the current table.
+        /// Must be implemented in derived classes.
+        /// </summary>
         protected override void TurnOnAutoIncrement()
         {
             using (var command = GetConnection().CreateCommand()) {

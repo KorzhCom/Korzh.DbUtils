@@ -4,5 +4,118 @@
         <name>Korzh.DbUtils.MySql</name>
     </assembly>
     <members>
+        <member name="T:Korzh.DbUtils.MySql.MySqlBridge">
+            <summary>
+            An implementation of <see cref="T:Korzh.DbUtils.BaseDbBridge"/> for MySQL
+            Implements the <see cref="T:Korzh.DbUtils.BaseDbBridge" />
+            </summary>
+            <seealso cref="T:Korzh.DbUtils.BaseDbBridge" />
+        </member>
+        <member name="M:Korzh.DbUtils.MySql.MySqlBridge.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.MySql.MySqlBridge"/> class.
+            </summary>
+            <param name="connectionString">The connection string.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.MySql.MySqlBridge.#ctor(System.String,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.MySql.MySqlBridge"/> class.
+            </summary>
+            <param name="connectionString">The connection string.</param>
+            <param name="loggerFactory">The logger factory.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.MySql.MySqlBridge.#ctor(MySql.Data.MySqlClient.MySqlConnection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.MySql.MySqlBridge"/> class.
+            </summary>
+            <param name="connection">The connection.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.MySql.MySqlBridge.#ctor(MySql.Data.MySqlClient.MySqlConnection,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.MySql.MySqlBridge"/> class.
+            </summary>
+            <param name="connection">The connection.</param>
+            <param name="loggerFactory">The logger factory.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.MySql.MySqlBridge.CreateConnection(System.String)">
+            <summary>
+            Creates the connection.
+            </summary>
+            <param name="connectionString">The connection string.</param>
+            <returns>DbConnection.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.MySql.MySqlBridge.ExtractDatasetList(System.Collections.Generic.IList{Korzh.DbUtils.DatasetInfo})">
+            <summary>
+            Extracts the list of tables for the current DB and saves them to datasets list passed in the parameter.
+            </summary>
+            <param name="datasets">The list of datasets (tables) to fill.</param>
+        </member>
+        <member name="P:Korzh.DbUtils.MySql.MySqlBridge.Quote1">
+            <summary>
+            Gets the opening quote for SQL identifirs (table/field names, etc).
+            </summary>
+            <value>The symbol(s) which represents the opening quote. The default value is '['</value>
+        </member>
+        <member name="P:Korzh.DbUtils.MySql.MySqlBridge.Quote2">
+            <summary>
+            Gets the closing quote for SQL identifirs (table/field names, etc).
+            </summary>
+            <value>The symbol(s) which represents the closing quote. The default value is ']'</value>
+        </member>
+        <member name="M:Korzh.DbUtils.MySql.MySqlBridge.AddParameters(System.Data.IDbCommand,System.Data.IDataRecord)">
+            <summary>
+            Adds the parameters to the DB command object.
+            </summary>
+            <param name="command">The DB command.</param>
+            <param name="record">The record. Each field in this record will be added a parameter.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.MySql.MySqlBridge.TurnOffAutoIncrement">
+            <summary>
+            Sends an SQL command which turns off the possibility to set values for IDENTITY (auto-increment) columns for the current table.
+            Must be implemented in derived classes.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.MySql.MySqlBridge.TurnOnAutoIncrement">
+            <summary>
+            Sends an SQL command which turns on the possibility to set values for IDENTITY (auto-increment) columns for the current table.
+            Must be implemented in derived classes.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.MySql.MySqlBridge.TurnOffConstraints">
+            <summary>
+            Sends an SQL command which turns off the constraints for the current table.
+            Must be implemented in derived classes.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.MySql.MySqlBridge.TurnOnConstraints">
+            <summary>
+            Sends an SQL command which turns the constraints on for the current table.
+            Must be implemented in derived classes.
+            </summary>
+        </member>
+        <member name="T:Korzh.DbUtils.MySqlDbUtilsOptionsExtensions">
+            <summary>
+            Static class with extensions for registering MySqlBridge as DB reader and DB writer in <see cref="T:Korzh.DbUtils.IDbUtilsOptions"/>
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.MySqlDbUtilsOptionsExtensions.UseMySQL(Korzh.DbUtils.IDbUtilsOptions,System.String)">
+            <summary>
+            Registers MySqlBridge as DB reader and DB writer in <see cref="T:Korzh.DbUtils.IDbUtilsOptions"/>
+            </summary>
+            <param name="options">The options.</param>
+            <param name="connectionString">The connection string.</param>
+        </member>
+        <member name="T:System.TypeMySqlExtensions">
+            <summary>
+            Contains an extension method to get a MySqlDbType from an instance of <see cref="T:System.Type"/> 
+            </summary>
+        </member>
+        <member name="M:System.TypeMySqlExtensions.ToMySqlDbType(System.Type)">
+            <summary>
+            Converts a <see cref="T:System.Type"/> to a <see cref="T:MySql.Data.MySqlClient.MySqlDbType"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>MySqlDbType.</returns>
+        </member>
     </members>
 </doc>

@@ -37,13 +37,13 @@ namespace Korzh.DbUtils
     /// Implements the <see cref="System.Exception" />
     /// </summary>
     /// <seealso cref="System.Exception" />
-    public class DatapackingException : Exception
+    public class DataPackingException : Exception
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DatasetImporterException"/> class.
         /// </summary>
         /// <param name="message">The message that describes the error.</param>
-        public DatapackingException(string message) : base(message)
+        public DataPackingException(string message) : base(message)
         {
         }
     }
