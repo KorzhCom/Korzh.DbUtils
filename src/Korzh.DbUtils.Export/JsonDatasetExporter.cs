@@ -39,7 +39,7 @@ namespace Korzh.DbUtils.Export
         /// <value>"json"</value>
         public string FileExtension => "json";
 
-        private static Encoding Encoding = new UTF8Encoding(false);
+        private static Encoding _uf8Encoding = new UTF8Encoding(false);
 
         /// <summary>
         /// Exports the dataset's content to JSON
@@ -59,7 +59,7 @@ namespace Korzh.DbUtils.Export
             for (int i = 0; i < dataReader.FieldCount; i++)
                 columns[i] = dataReader.GetName(i);
 
-            using (var writer = new JsonTextWriter(new StreamWriter(outStream, Encoding))) { ///TODO: Set encoding elsewhere
+            using (var writer = new JsonTextWriter(new StreamWriter(outStream, _uf8Encoding))) { //TODO: Set encoding via options
                 writer.Formatting = Formatting.Indented;
 
                 writer.WriteStartObject();  //root object start

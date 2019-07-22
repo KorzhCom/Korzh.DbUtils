@@ -99,14 +99,14 @@
             Use this operation to flush the data, close used streams, etc
             </summary>
         </member>
-        <member name="T:Korzh.DbUtils.DatapackingException">
+        <member name="T:Korzh.DbUtils.DataPackingException">
             <summary>
             Represents errors that occur during packing/unpacking operations.
             Implements the <see cref="T:System.Exception" />
             </summary>
             <seealso cref="T:System.Exception" />
         </member>
-        <member name="M:Korzh.DbUtils.DatapackingException.#ctor(System.String)">
+        <member name="M:Korzh.DbUtils.DataPackingException.#ctor(System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:Korzh.DbUtils.DatasetImporterException"/> class.
             </summary>
@@ -637,6 +637,112 @@
             Contains several useful extension methods for operations with <see cref="T:System.Type"/> objects.
             Most of the functions are self-descriptive.
             </summary>
+        </member>
+        <member name="M:System.TypeExtensions.GetDefaultValue(System.Type)">
+            <summary>
+            Gets the default value for a type.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>System.Object.</returns>
+            <exception cref="T:System.ArgumentNullException">type</exception>
+        </member>
+        <member name="M:System.TypeExtensions.IsNullable(System.Type)">
+            <summary>
+            Determines whether the specified type is nullable.
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is nullable; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsBool(System.Type)">
+            <summary>
+            Determines whether the specified type is a boolean.
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is a boolean; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsByte(System.Type)">
+            <summary>
+            Determines whether the specified type is a byte type (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is a byte type; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsChar(System.Type)">
+            <summary>
+            Determines whether the specified type is a character type (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is a character type; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsInt16(System.Type)">
+            <summary>
+            Determines whether the specified type is a short integer type (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is a short int type; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsInt32(System.Type)">
+            <summary>
+            Determines whether the specified type is an integer type ((either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is an int type; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsInt64(System.Type)">
+            <summary>
+            Determines whether the specified type is a big integer type (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is a short int type; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsDecimal(System.Type)">
+            <summary>
+            Determines whether the specified type is a decimal (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is decimal; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsFloat(System.Type)">
+            <summary>
+            Determines whether the specified type is a float (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is float; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsDouble(System.Type)">
+            <summary>
+            Determines whether the specified type is a double type (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is double; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsGuid(System.Type)">
+            <summary>
+            Determines whether the specified type is a GUID type (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is a GUID type; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsDateTime(System.Type)">
+            <summary>
+            Determines whether the specified type is a DateTime type (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is a DateTime type; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsDateTimeOffset(System.Type)">
+            <summary>
+            Determines whether the specified type is a DateTimeOffset type (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is a DateTimeOffset type; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:System.TypeExtensions.IsTimeSpan(System.Type)">
+            <summary>
+            Determines whether the specified type is a TimeSpan type (either nullable or non-nullable).
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is a TimeSpan type; otherwise, <c>false</c>.</returns>
         </member>
     </members>
 </doc>

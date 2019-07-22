@@ -108,11 +108,4 @@ namespace Korzh.DbUtils.Packing
             return entry.Open();
         }
     }
-
-    public class ZipFilePackerException : Exception
-    {
-        public ZipFilePackerException(string message) : base(message)
-        {
-        }
-    }
 }

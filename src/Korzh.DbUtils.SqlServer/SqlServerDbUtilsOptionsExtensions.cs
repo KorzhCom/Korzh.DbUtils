@@ -3,7 +3,7 @@
     /// <summary>
     /// Static class with extensions for registering SqlServerBridge as DB reader and DB writer in <see cref="IDbUtilsOptions"/>
     /// </summary>
-    public static class DbSqlServerBridgeExtensions
+    public static class SqlServerDbUtilsOptionsExtensions
     {
         /// <summary>
         /// Registers MySqlBridge as DB reader and DB writer in <see cref="IDbUtilsOptions"/>
