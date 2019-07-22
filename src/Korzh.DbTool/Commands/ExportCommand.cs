@@ -152,9 +152,9 @@ namespace Korzh.DbTool
 
             var exporter = new DbExporter(GetDbReader(), GetDatasetExporter(), GetPacker());
 
-            Console.WriteLine($"Exporting database...");
+            Console.WriteLine($"Exporting database [{_arguments.ConnectionId}]...");
             exporter.Export();
-            Console.WriteLine($"Export completed");
+            Console.WriteLine($"Export completed!");
 
             return 0;
         }

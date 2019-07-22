@@ -163,7 +163,7 @@ namespace Korzh.DbTool
                 return "xml";
             }
 
-            throw new Exception("Unknown format in directory");
+            throw new Exception("Unknown format of imported files.  Use --format option to specify the format.");
         }
 
         private string ZipArchiveFormat(string path)
@@ -177,7 +177,7 @@ namespace Korzh.DbTool
                     return "xml";
                 }
 
-                throw new Exception("Unknown format in zip archive");
+                throw new Exception("Unknown format of imported files in the ZIP. Use --format option to specify the format.");
             }
         }
 
@@ -197,9 +197,9 @@ namespace Korzh.DbTool
             var unpacker = GetUnpacker();
             var dsImported = GetDatasetImporter();
 
-            Console.WriteLine("Start importing data...");
+            Console.WriteLine($"Importing data to [{_arguments.ConnectionId}]...");
             new DbImporter(dbSeeder, dsImported, unpacker).Import();
-            Console.WriteLine("Finish importing data...");
+            Console.WriteLine("Import completed!");
 
             return 0;
         }
