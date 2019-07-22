@@ -117,6 +117,11 @@ namespace Korzh.DbTool
         private IDataPacker GetPacker()
         {
             if (_arguments.ZipOption.HasValue()) {
+
+                if (_arguments.OutputPathOption.HasValue()) {
+                    Directory.CreateDirectory(_arguments.OutputPath);
+                }
+
                 string zipFileName = _arguments.PackToZip;
                 if (zipFileName != null && !zipFileName.EndsWith(".zip")) {
                     zipFileName += ".zip";
