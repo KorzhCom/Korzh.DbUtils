@@ -9,17 +9,17 @@
 
 This repository contains the sources for:
 
-* Korzh.DbUtils library - a set of classes and packages for different manipulations with database data (export, import and data seeding)
+* Korzh.DbUtils library - a set of classes and packages for different manipulations with database data (export, import, data seeding).
 
-* `dbtool` utility - a .NET Core global  tools which provides DB exporting/importing functions with a command-line interface.
+* `dbtool` utility - a .NET Core global tool which provides DB exporting/importing functions via a command-line interface.
 
-This set of tools can help you to export the content of your database to some format by your choise (XML or JSON currently) and then use that exported data to seed your database on another machine in a simple and convenient way.
+This set of tools can help you with exporting your database content to some format (XML or JSON currently) and then use that exported data to seed your database on another machine in a simple and convenient way.
 
 ## DbTool utility
 
 `dbtool` is .NET Core global tool, so installation is as simple as for any other global tool (provided that you already have [.NET Core SDK 2.1](https://dotnet.microsoft.com/download/dotnet-core) or higher installed on your computer):
 
-```bash
+```cmd
 dotnet tool install -g Korzh.DbTool
 ```
 
@@ -27,13 +27,13 @@ dotnet tool install -g Korzh.DbTool
 
 __dbtool__ stores the information about DB connections and some other settings in a global configuration file ({USERDIR}/.korzh/dbtool.config), so register your connection in that list you need to call `connections add` command:
 
-```bash
+```cmd
 dbtool connections add {Connection ID} {DB Type (mssql|mysql)} {Connection string}
 ```
 
 For example:
 
-```bash
+```cmd
 dbtool connections add demo1 mssql "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EqDemoDb07;Integrated Security=True;"
 ```
 
@@ -41,38 +41,68 @@ dbtool connections add demo1 mssql "Data Source=(localdb)\\MSSQLLocalDB;Initial 
 
 Now, when the connection is defined you can export your DB data to some common format (JSON or XML for now):
 
-```bash
-dbtool export {Connection ID} [--format=xml|json] [--output=path] | [--zip=filename]
+```cmd
+dbtool export {Connection ID} [--format=xml|json] [--output=path] [--zip=filename]
 ```
 
 All options (`--format`, `--output` and `--zip`) can be omitted.
 In this case the tool will use JSON format and will store all exported data in a `{Connection ID}-YYYYMMDD` folder (without ZIP packing).
 
-For example:
+For example the following command:
 
-```bash
-dbtool export demo1 --format=xml --output=MyDbData --zip=MyDb.zip
+```cmd
+dbtool export demo1 --format=xml --output=MyDbData
+```
+
+will export your DB to a bunch of XML files and then put those files into MyDbData folder.
+
+### Importing data to DB
+
+You can import the data created on the previous step back to your DB. Or to any other DB with the same structure.
+
+> NB: DbTool does not create tables during the importing operation. So you database must exist already and has the same (or at least a similar) structure as the original one.
+
+Here is how your `import` command should look like:
+
+```cmd
+dbtool import {Connection ID} [--input=path] [--format=xml|json]
+```
+
+`--input` option tells utility to search for the data by the specified path. If that path is a folder - then it will look for .xml or .json files in that folder. If it's a ZIP file - then it will unpack that archive first and take necessary data files from there.
+
+`--format` can be omitted since DbTool can recognize the format by files' extensions.
+
+Example:
+
+```cmd
+dbtool import demo1 --input=MyDbData.zip
 ```
 
 ## Korzh.DbUtils library
 
-The libary contsists for several packages which implements some basic database operations:
+The libary includes several packages which implement some basic database operations:
 
-* Korzh.DbUtils package
+* `Korzh.DbUtils`
+
   Defines basic abstractions and interfaces like `IDatasetExporter`, `IDatasetImporter`, `IDataPacker`, `IDbBridge`
 
-* Korzh.DbUtils.Import package
+* `Korzh.DbUtils.Import`
+
   Contains implementations or `IDatasetImporter` interface for XML and JSON formats. Additionally it contains DbInitializer class which can be used for data seeding in your projects.
 
-* Korzh.DbUtils.Export package
-  Contains implementations of `IDatasetExporter` for XML and JSON.
+* `Korzh.DbUtils.Export`
+
+ Contains implementations of `IDatasetExporter` for XML and JSON.
 
 * Korzh.DbUtils.SqlServer
+
   Implements DB manipulation interfaces (`IDbBridge`, `IDbReader`, `IDbSeeder`) for MS SQL Server connections.
 
 * Korzh.DbUtils.MySQL
+
   Implements DB manipulation interfaces for MySQL connections.
 
+Here you can find the [full API reference of the library](https://korzh.aistant.com/db-utils/api-reference).
 
 ## Basic scenario: Data seeding in your app
 
@@ -101,7 +131,13 @@ Please note, that you will also need to add those files to your project manually
 
 Let's suppose we have a ASP.NET Core project and we need to seed our DB with the data on the first start. The database itself is created automatically with Entity Framework Core migrations. To seed it with the data we just need:
 
-#### 1. Install `Korzh.DbUtils.Import` NuGet package
+#### 1. Install Korzh.DbUtils NuGet packages
+
+In this case we will need 2 of them:
+
+* `Korzh.DbUtils.Import`
+
+* `Korzh.DbUtils.SqlServer`
 
 #### 2. Add the initialization code
 
