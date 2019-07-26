@@ -105,7 +105,7 @@ namespace Korzh.DbUtils.Packing
         {
             var fileName = entryName + "." + _fileExtension;
             var entry = _zipArchive.Entries.FirstOrDefault(e => e.Name == fileName);
-            return entry.Open();
+            return entry != null ? entry.Open() : null;
         }
     }
 }
