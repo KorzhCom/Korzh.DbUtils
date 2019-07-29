@@ -4,17 +4,17 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>Korzh.DbUtils.Export</PackageId>
     <Authors>Korzh.com</Authors>
-    <Description>A part of Korzh.DbUtils library which implements data exporting functionality.</Description>
+    <Description>A part of open-source [Korzh.DbUtils library](https://github.com/kedonec/Korzh.DbUtils) which implements data exporting functionality.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Copyright>Copyright 2019 (c) Korzh.com. All rights reserved.</Copyright>
     <PackageTags>database utility export import data seed</PackageTags>
     <Configurations>Debug;Release</Configurations>
     <DocumentationFile>Korzh.DbUtils.Export.xml</DocumentationFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/kedonec/Korzh.DbUtils</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/kedonec/Korzh.DbUtils</RepositoryUrl>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Korzh.DbUtils\Korzh.DbUtils.csproj" />
