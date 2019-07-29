@@ -16,6 +16,7 @@
     </Description>
     <Authors>Sergiy Korzh, Anton Ivanenko</Authors>
     <Copyright>Copyright 2019 (c) Korzh.com. All rights reserved.</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/kedonec/Korzh.DbUtils</PackageProjectUrl>
     <RepositoryUrl>https://github.com/kedonec/Korzh.DbUtils</RepositoryUrl>
 
