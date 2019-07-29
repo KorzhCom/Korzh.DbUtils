@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>Korzh.DbUtils.SqlServer</PackageId>
     <Authors>Korzh.com</Authors>
-    <Description>MS SQL Server bridge for [Korzh.DbUtils library](https://github.com/kedonec/Korzh.DbUtils)</Description>
+    <Description>MS SQL Server bridge for Korzh.DbUtils library</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Copyright>Copyright 2019 (c) Korzh.com. All rights reserved.</Copyright>
     <PackageTags>database utility export import data seed</PackageTags>

@@ -7,12 +7,12 @@
     <RootNamespace>Korzh.DbTool</RootNamespace>
     <Product>DbTool</Product>
     <Title>DbTool utility</Title>
-    <Description> A .NET Core global tool that allows you to export database data to XML or JSON.
-      The exported files can be used after that for DB seeding in your application with the help of 
-      [Korzh.DbUtils open-source library](https://github.com/kedonec/Korzh.DbUtils).
-      
-      Currently, the tool supports MS SQL Server and MySQL connections.
-      To add other types of connections please create an issue on GitHub repository.
+    <Description>A .NET Core global tool that allows you to export database data to XML or JSON.
+The exported files can be used after that for DB seeding in your application with the help of 
+Korzh.DbUtils library.
+
+Currently, the tool supports MS SQL Server and MySQL connections.
+To add other types of connections please create an issue on GitHub repository.
     </Description>
     <Authors>Sergiy Korzh, Anton Ivanenko</Authors>
     <Copyright>Copyright 2019 (c) Korzh.com. All rights reserved.</Copyright>
