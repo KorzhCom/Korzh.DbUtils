@@ -142,7 +142,7 @@ namespace Korzh.DbUtils
             CheckConnection();
 
             var columns = new List<ColumnInfo>();
-            ExtractColumnsList(table.Schema, table.Name, columns);
+            ExtractColumnList(table.Schema, table.Name, columns);
 
             var sql = new StringBuilder();
             sql.Append("SELECT");
@@ -164,7 +164,7 @@ namespace Korzh.DbUtils
         /// <param name="tableSchema">The table schema.</param>
         /// <param name="tableName">The table name.</param>
         /// <param name="columns">The columns list.</param>
-        protected abstract void ExtractColumnsList(string tableSchema, string tableName, IList<ColumnInfo> columns);
+        protected abstract void ExtractColumnList(string tableSchema, string tableName, IList<ColumnInfo> columns);
 
 
         /// <summary>

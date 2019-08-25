@@ -69,7 +69,7 @@ namespace Korzh.DbUtils.SqlServer
         /// <param name="tableSchema">The table schema.</param>
         /// <param name="tableName">The table name.</param>
         /// <param name="columns">The columns list.</param>
-        protected override void ExtractColumnsList(string tableSchema, string tableName, IList<ColumnInfo> columns)
+        protected override void ExtractColumnList(string tableSchema, string tableName, IList<ColumnInfo> columns)
         {
             string[] restrictions = new string[4];
             restrictions[2] = tableName;
