@@ -63,6 +63,64 @@ namespace Korzh.DbUtils.MySql
             return new MySqlConnection(connectionString);
         }
 
+
+        /// <summary>
+        /// Extracts the list of columns for the current table and saves them to columns list passed in the parameter.
+        /// </summary>
+        /// <param name="tableSchema">The table schema.</param>
+        /// <param name="tableName">The table name.</param>
+        /// <param name="columns">The columns list.</param>
+        protected override void ExtractColumnsList(string tableSchema, string tableName, IList<ColumnInfo> columns)
+        {
+            string[] restrictions = new string[3];
+            restrictions[2] = tableName;
+
+            DataTable schemaTable = Connection.GetSchema("Columns", restrictions);
+            foreach (DataRow row in schemaTable.Rows) {
+                var columnName = (string)row["column_name"];
+                var type = (string)row["data_type"];
+                ColumnInfo column = new ColumnInfo(columnName, SQLTypeToCLRType(type));
+                columns.Add(column);
+            }
+        }
+
+        private Type SQLTypeToCLRType(string type)
+        {
+            switch (type)
+            {
+                case "tinyint":
+                case "smallint":
+                    return typeof(short);
+                case "int":
+                    return typeof(int);
+                case "bigint":
+                case "mediumint":
+                case "set":
+                    return typeof(long);
+                case "float":
+                    return typeof(float);
+                case "double":
+                case "real":
+                    return typeof(double);
+                case "decimal":
+                case "numeric":
+                    return typeof(decimal);
+                case "tinyblob":
+                case "blob":
+                case "mediumblob":
+                case "longblob":
+                    return typeof(byte[]);
+                case "date":
+                case "datetime":
+                    return typeof(DateTime);
+                case "time":
+                case "timestamp":
+                    return typeof(TimeSpan);
+                default:
+                    return typeof(string);
+            }
+        }
+
         /// <summary>
         /// Extracts the list of tables for the current DB and saves them to datasets list passed in the parameter.
         /// </summary>

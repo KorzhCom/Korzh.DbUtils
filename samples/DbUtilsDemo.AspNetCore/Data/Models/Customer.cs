@@ -31,5 +31,8 @@ namespace DbUtilsDemo.Models
 
         public string Fax { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
     }
 }

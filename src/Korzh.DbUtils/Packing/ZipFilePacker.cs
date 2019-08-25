@@ -24,8 +24,8 @@ namespace Korzh.DbUtils.Packing
         /// Initializes a new instance of the <see cref="ZipFilePacker"/> class.
         /// </summary>
         /// <param name="filePath">The path to the ZIP file.</param>
-        /// <param name="logger">The logger.</param>
-        public ZipFilePacker(string filePath, ILogger logger = null)
+        /// <param name="loggerFactory">The logger factory.</param>
+        public ZipFilePacker(string filePath, ILoggerFactory loggerFactory = null)
         {
             _filePath = filePath;
 
@@ -33,7 +33,7 @@ namespace Korzh.DbUtils.Packing
                 _filePath += ".zip";
             }
 
-            _logger = logger;
+            _logger = loggerFactory?.CreateLogger("Korzh.DbUtils");
         }
 
         /// <summary>

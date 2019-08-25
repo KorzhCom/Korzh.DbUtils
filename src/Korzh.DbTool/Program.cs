@@ -13,6 +13,14 @@ namespace Korzh.DbTool
 {
     class Program
     {
+
+        public static ILoggerFactory LoggerFactory;
+
+        static Program()
+        {
+            LoggerFactory = GetLoggerFactory();
+        }
+
         public static int Main(string[] args)
         {
             var app = new CommandLineApplication();
