@@ -213,6 +213,7 @@ namespace Korzh.DbUtils
         /// Generates the INSERT statement.
         /// </summary>
         /// <param name="table">The table we would like to insert a new record.</param>
+        /// <param name="command">The command for which we generate our INSERT statement for</param>
         /// <returns>System.String.</returns>
         protected string GenerateInsertStatement(DatasetInfo table, IDbCommand command)
         {
