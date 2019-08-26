@@ -76,16 +76,15 @@ namespace Korzh.DbUtils.SqlServer
 
             DataTable schemaTable = Connection.GetSchema(SqlClientMetaDataCollectionNames.Columns, restrictions);
             foreach (DataRow row in schemaTable.Rows) {
-                var columnName = (string)row["COLUMN_NAME"];
-                var type = (string)row["DATA_TYPE"];
-                if (type != "rowversion") { //ignore rowversion column as autoupdated by db
-                    ColumnInfo column = new ColumnInfo(columnName, SQLTypeToCLRType(type));
-                    columns.Add(column);
-                }  
+                var columnName = row["COLUMN_NAME"] as string;
+                var type = row["DATA_TYPE"] as string;
+                ColumnInfo column = new ColumnInfo(columnName, SqlTypeToClrType(type));
+                column.IsTimestamp = type == "rowversion" || type == "timestamp";
+                columns.Add(column);
             }
         }
 
-        private Type SQLTypeToCLRType(string type)
+        private Type SqlTypeToClrType(string type)
         {
             switch(type) {
                 case "bigint":
@@ -94,6 +93,8 @@ namespace Korzh.DbUtils.SqlServer
                     return typeof(float);
                 case "bit":
                     return typeof(bool);
+                case "int":
+                    return typeof(int);
                 case "smallint":
                     return typeof(short);
                 case "smallmoney":
@@ -111,7 +112,6 @@ namespace Korzh.DbUtils.SqlServer
                 case "datetimeoffset":
                     return typeof(DateTimeOffset);
                 case "time":
-                case "timestamp":
                     return typeof(TimeSpan);
                 case "binary":
                 case "varbinary":
@@ -140,25 +140,6 @@ namespace Korzh.DbUtils.SqlServer
         }
 
         /// <summary>
-        /// Adds the parameters to the DB command object according to the current server type.
-        /// </summary>
-        /// <param name="command">The DB command.</param>
-        /// <param name="record">The record. Each field in this record will be added a parameter.</param>
-        protected override void AddParameters(IDbCommand command, IDataRecord record)
-        {
-  
-            for (int i = 0; i < record.FieldCount; i++) {
-                var parameter = new SqlParameter(ToParameterName(record.GetName(i)), record.GetValue(i))
-                {
-                    Direction = ParameterDirection.Input,
-                    SqlDbType = record.GetFieldType(i).ToSqlDbType()
-                };
-
-                command.Parameters.Add(parameter);
-            }
-        }
-
-        /// <summary>
         /// Sends an SQL command which turns off the constraints for the current table.
         /// Must be implemented in derived classes.
         /// </summary>
@@ -168,7 +149,7 @@ namespace Korzh.DbUtils.SqlServer
                 command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentSeedingTable)} NOCHECK CONSTRAINT all";
                 command.CommandType = CommandType.Text;
 
-                Logger?.LogInformation(command.CommandText);
+                Logger?.LogDebug(command.CommandText);
 
                 command.ExecuteNonQuery();
             }
@@ -184,7 +165,7 @@ namespace Korzh.DbUtils.SqlServer
                 command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentSeedingTable)} CHECK CONSTRAINT all";
                 command.CommandType = CommandType.Text;
 
-                Logger?.LogInformation(command.CommandText);
+                Logger?.LogDebug(command.CommandText);
 
                 command.ExecuteNonQuery();
             }
@@ -200,7 +181,7 @@ namespace Korzh.DbUtils.SqlServer
                 command.CommandText = $"IF EXISTS (SELECT 1 FROM sys.columns c WHERE c.object_id = object_id('{GetTableFullName(CurrentSeedingTable)}') AND c.is_identity =1) begin SET IDENTITY_INSERT {GetTableFullName(CurrentSeedingTable)} ON end";
                 command.CommandType = CommandType.Text;
 
-                Logger?.LogInformation(command.CommandText);
+                Logger?.LogDebug(command.CommandText);
 
                 command.ExecuteNonQuery();
             }
@@ -216,7 +197,7 @@ namespace Korzh.DbUtils.SqlServer
                 command.CommandText = $"IF EXISTS (SELECT 1 from sys.columns c WHERE c.object_id = object_id('{GetTableFullName(CurrentSeedingTable)}') AND c.is_identity = 1) begin SET IDENTITY_INSERT {GetTableFullName(CurrentSeedingTable)} OFF end";
                 command.CommandType = CommandType.Text;
 
-                Logger?.LogInformation(command.CommandText);
+                Logger?.LogDebug(command.CommandText);
 
                 command.ExecuteNonQuery();
             }

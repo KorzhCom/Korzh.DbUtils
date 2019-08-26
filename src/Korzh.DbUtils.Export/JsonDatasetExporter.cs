@@ -52,7 +52,7 @@ namespace Korzh.DbUtils.Export
         /// </param>
         public void ExportDataset(IDataReader dataReader, Stream outStream, DatasetInfo dataset = null)
         {
-            _logger?.LogInformation("Start saving dataset: " + dataset?.Name);
+            _logger?.LogDebug("Start saving dataset: " + dataset?.Name);
 
             var columns = new string[dataReader.FieldCount];
 
@@ -94,7 +94,7 @@ namespace Korzh.DbUtils.Export
                 writer.WriteEndArray();     //data array end
                 writer.WriteEndObject();    //root object end
 
-                _logger?.LogInformation("Finish saving dataset: " + dataset?.Name);
+                _logger?.LogDebug("Finish saving dataset: " + dataset?.Name);
             }
         }
 

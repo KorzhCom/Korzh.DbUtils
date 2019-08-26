@@ -78,13 +78,15 @@ namespace Korzh.DbUtils.MySql
             DataTable schemaTable = Connection.GetSchema("Columns", restrictions);
             foreach (DataRow row in schemaTable.Rows) {
                 var columnName = (string)row["column_name"];
-                var type = (string)row["data_type"];
-                ColumnInfo column = new ColumnInfo(columnName, SQLTypeToCLRType(type));
+                var dbTypeName = (string)row["data_type"];
+
+                ColumnInfo column = new ColumnInfo(columnName, SqlTypeToClrType(dbTypeName));
+
                 columns.Add(column);
             }
         }
 
-        private Type SQLTypeToCLRType(string type)
+        private Type SqlTypeToClrType(string type)
         {
             switch (type)
             {
@@ -147,22 +149,6 @@ namespace Korzh.DbUtils.MySql
         /// <value>The symbol(s) which represents the closing quote. The default value is ']'</value>
         protected override string Quote2 => "`";
 
-        /// <summary>
-        /// Adds the parameters to the DB command object.
-        /// </summary>
-        /// <param name="command">The DB command.</param>
-        /// <param name="record">The record. Each field in this record will be added a parameter.</param>
-        protected override void AddParameters(IDbCommand command, IDataRecord record)
-        {
-            for (int i = 0; i < record.FieldCount; i++) {
-                var parameter = new MySqlParameter(ToParameterName(record.GetName(i)), record.GetValue(i)) {
-                    Direction = ParameterDirection.Input,
-                    MySqlDbType = record.GetFieldType(i).ToMySqlDbType()
-                };
-
-                command.Parameters.Add(parameter);
-            }
-        }
 
         /// <summary>
         /// Sends an SQL command which turns off the possibility to set values for IDENTITY (auto-increment) columns for the current table.
@@ -192,7 +178,7 @@ namespace Korzh.DbUtils.MySql
                 command.CommandText = $"SET FOREIGN_KEY_CHECKS = 0;";
                 command.CommandType = CommandType.Text;
 
-                Logger?.LogInformation(command.CommandText);
+                Logger?.LogDebug(command.CommandText);
 
                 command.ExecuteNonQuery();
             }
@@ -208,7 +194,7 @@ namespace Korzh.DbUtils.MySql
                 command.CommandText = $"SET FOREIGN_KEY_CHECKS = 1;";
                 command.CommandType = CommandType.Text;
 
-                Logger?.LogInformation(command.CommandText);
+                Logger?.LogDebug(command.CommandText);
 
                 command.ExecuteNonQuery();
             }

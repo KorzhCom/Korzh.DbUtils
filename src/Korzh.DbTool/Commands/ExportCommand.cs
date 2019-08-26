@@ -155,7 +155,7 @@ namespace Korzh.DbTool
 
             InitConnection(info);
 
-            var exporter = new DbExporter(GetDbReader(), GetDatasetExporter(), GetPacker());
+            var exporter = new DbExporter(GetDbReader(), GetDatasetExporter(), GetPacker(), Program.LoggerFactory);
 
             Console.WriteLine($"Exporting database [{_arguments.ConnectionId}]...");
             exporter.Export();

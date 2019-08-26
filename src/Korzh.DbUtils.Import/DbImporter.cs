@@ -39,11 +39,13 @@ namespace Korzh.DbUtils.Import
             var datasets = _dbWriter.GetDatasets();
             try {
                 foreach (var table in datasets) {
-                    _dbWriter.StartSeeding(table);
                     try {
                         using (var datasetStream = _dataUnpacker.OpenStreamForUnpacking(table.Name)) {
                             if (datasetStream != null) {
+                                _logger?.LogInformation($"Importing {table.Name}...");
                                 var dataset = _datasetImporter.StartImport(datasetStream);
+                                _dbWriter.StartSeeding(dataset);
+
                                 while (_datasetImporter.HasRecords()) {
                                     try {
                                         _dbWriter.WriteRecord(_datasetImporter.NextRecord());
