@@ -56,7 +56,7 @@ namespace Korzh.DbTool
             options.FormatOption = app.Option("--format|-f",
                                               "Exporting/importing format (xml | json)",
                                               CommandOptionType.SingleValue)
-                                      .Accepts(config => config.Values(ignoreCase: true, "xml", "json"));
+                                      .Accepts(config => config.Values(true, "xml", "json"));
 
 
             // Register commands
