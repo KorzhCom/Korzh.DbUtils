@@ -113,7 +113,7 @@ namespace Korzh.DbUtils
             command.CommandText = sql;
             command.CommandType = CommandType.Text;
 
-            Logger?.LogInformation(command.CommandText);
+            Logger?.LogDebug(command.CommandText);
 
             return command.ExecuteReader(CommandBehavior.SequentialAccess);
         }
@@ -204,7 +204,7 @@ namespace Korzh.DbUtils
 
             FillParameters(_insertCommand, record);
 
-            Logger?.LogInformation(_insertCommand.CommandText);
+            Logger?.LogDebug(_insertCommand.CommandText);
 
             _insertCommand.ExecuteNonQuery();
         }
@@ -298,7 +298,7 @@ namespace Korzh.DbUtils
             }
 
             CurrentSeedingTable = table;
-            Logger?.LogInformation("Start seeding: " + GetTableFullName(CurrentSeedingTable));
+            Logger?.LogDebug("Start seeding: " + GetTableFullName(CurrentSeedingTable));
             TurnOffConstraints();
             TurnOffAutoIncrement();
 
@@ -341,7 +341,7 @@ namespace Korzh.DbUtils
         {
             TurnOnConstraints();
             TurnOnAutoIncrement();
-            Logger?.LogInformation("Finish seeding: " + GetTableFullName(CurrentSeedingTable));
+            Logger?.LogDebug("Finish seeding: " + GetTableFullName(CurrentSeedingTable));
             CurrentSeedingTable = null;
             _insertCommand.Dispose();
             _parameterColumnName.Clear();

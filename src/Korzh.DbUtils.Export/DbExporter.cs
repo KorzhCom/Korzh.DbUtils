@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.IO;
 
 namespace Korzh.DbUtils.Export
@@ -11,19 +12,22 @@ namespace Korzh.DbUtils.Export
         private readonly IDbReader _dbReader;
         private readonly IDatasetExporter _datasetExporter;
         private readonly IDataPacker _dataPacker;
+        private readonly ILogger _logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DbExporter"/> class.
+        /// Initializes a new instance of the <see cref="DbExporter" /> class.
         /// </summary>
-        /// <param name="dbReader">A database reader - an object which implements <see cref="IDbReader"/> interface 
+        /// <param name="dbReader">A database reader - an object which implements <see cref="IDbReader" /> interface
         /// and provide some basic operation for reading the DB content.</param>
         /// <param name="dataSetExporter">A dataset exporter - allows to save the content of some dataset in a file of a particular format.</param>
         /// <param name="packer">A packer - packs the files created by dataset exporter to some storage (e.g. to a folder or a ZIP archive).</param>
-        public DbExporter(IDbReader dbReader, IDatasetExporter dataSetExporter, IDataPacker packer)
+        /// <param name="loggerFactory">The logger factory.</param>
+        public DbExporter(IDbReader dbReader, IDatasetExporter dataSetExporter, IDataPacker packer, ILoggerFactory loggerFactory)
         {
             _dbReader = dbReader;
             _datasetExporter = dataSetExporter;
             _dataPacker = packer;
+            _logger = loggerFactory?.CreateLogger("Korzh.DbUtils");
         }
 
         /// <summary>
@@ -45,6 +49,7 @@ namespace Korzh.DbUtils.Export
 
                         using (var stream = GetPackerStream(table.Name))
                         using (var reader = _dbReader.GetDataReaderForTable(table)) {
+                            _logger?.LogInformation($"Exporting table {table.Name}...");
                             _datasetExporter.ExportDataset(reader, stream, table);
                         }
                     }

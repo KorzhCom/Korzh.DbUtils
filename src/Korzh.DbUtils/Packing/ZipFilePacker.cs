@@ -52,7 +52,7 @@ namespace Korzh.DbUtils.Packing
                 entry?.Delete();
             }
 
-            _logger?.LogInformation("Start writting to file: " + _filePath);
+            _logger?.LogDebug("Start writting to file: " + _filePath);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Korzh.DbUtils.Packing
         {
             _zipArchive.Dispose();
 
-            _logger?.LogInformation("Finish writting to file: " + _filePath);
+            _logger?.LogDebug("Finish writting to file: " + _filePath);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Korzh.DbUtils.Packing
             _zipArchive = ZipFile.Open(_filePath, ZipArchiveMode.Read);
             _fileExtension = fileExtension;
 
-            _logger?.LogInformation("Start unpacking" + _filePath);
+            _logger?.LogDebug("Start unpacking" + _filePath);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Korzh.DbUtils.Packing
         /// </summary>
         public void FinishUnpacking()
         {
-            _logger?.LogInformation("Finish unpacking" + _filePath);
+            _logger?.LogDebug("Finish unpacking" + _filePath);
         }
 
         /// <summary>

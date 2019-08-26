@@ -178,7 +178,7 @@ namespace Korzh.DbUtils.MySql
                 command.CommandText = $"SET FOREIGN_KEY_CHECKS = 0;";
                 command.CommandType = CommandType.Text;
 
-                Logger?.LogInformation(command.CommandText);
+                Logger?.LogDebug(command.CommandText);
 
                 command.ExecuteNonQuery();
             }
@@ -194,7 +194,7 @@ namespace Korzh.DbUtils.MySql
                 command.CommandText = $"SET FOREIGN_KEY_CHECKS = 1;";
                 command.CommandType = CommandType.Text;
 
-                Logger?.LogInformation(command.CommandText);
+                Logger?.LogDebug(command.CommandText);
 
                 command.ExecuteNonQuery();
             }

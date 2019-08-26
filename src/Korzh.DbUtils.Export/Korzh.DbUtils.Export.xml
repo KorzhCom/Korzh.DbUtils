@@ -9,14 +9,15 @@
             Allows you to export the content of some database to a bunch of files of particular format (XML, JSON, etc)
             </summary>
         </member>
-        <member name="M:Korzh.DbUtils.Export.DbExporter.#ctor(Korzh.DbUtils.IDbReader,Korzh.DbUtils.IDatasetExporter,Korzh.DbUtils.IDataPacker)">
+        <member name="M:Korzh.DbUtils.Export.DbExporter.#ctor(Korzh.DbUtils.IDbReader,Korzh.DbUtils.IDatasetExporter,Korzh.DbUtils.IDataPacker,Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
-            Initializes a new instance of the <see cref="T:Korzh.DbUtils.Export.DbExporter"/> class.
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.Export.DbExporter" /> class.
             </summary>
-            <param name="dbReader">A database reader - an object which implements <see cref="T:Korzh.DbUtils.IDbReader"/> interface 
+            <param name="dbReader">A database reader - an object which implements <see cref="T:Korzh.DbUtils.IDbReader" /> interface
             and provide some basic operation for reading the DB content.</param>
             <param name="dataSetExporter">A dataset exporter - allows to save the content of some dataset in a file of a particular format.</param>
             <param name="packer">A packer - packs the files created by dataset exporter to some storage (e.g. to a folder or a ZIP archive).</param>
+            <param name="loggerFactory">The logger factory.</param>
         </member>
         <member name="M:Korzh.DbUtils.Export.DbExporter.Export">
             <summary>

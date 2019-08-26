@@ -35,7 +35,7 @@ namespace Korzh.DbUtils.Packing
         /// Can be an empty string if we don't pack in files (e.g. we store to some DB)</param>
         public void StartPacking(string fileExtension)
         {
-            _logger?.LogInformation("Start writing to folder: " + _folderPath);
+            _logger?.LogDebug("Start writing to folder: " + _folderPath);
             Directory.CreateDirectory(_folderPath);
             _fileExtension = fileExtension;
         }
@@ -57,7 +57,7 @@ namespace Korzh.DbUtils.Packing
         /// </summary>
         public void FinishPacking()
         {
-            _logger?.LogInformation("Finished writing to folder: " + _folderPath);
+            _logger?.LogDebug("Finished writing to folder: " + _folderPath);
         }
 
         /// <summary>

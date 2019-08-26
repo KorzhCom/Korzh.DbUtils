@@ -168,7 +168,7 @@ namespace Korzh.DbUtils.SqlServer
                 command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentSeedingTable)} NOCHECK CONSTRAINT all";
                 command.CommandType = CommandType.Text;
 
-                Logger?.LogInformation(command.CommandText);
+                Logger?.LogDebug(command.CommandText);
 
                 command.ExecuteNonQuery();
             }
@@ -184,7 +184,7 @@ namespace Korzh.DbUtils.SqlServer
                 command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentSeedingTable)} CHECK CONSTRAINT all";
                 command.CommandType = CommandType.Text;
 
-                Logger?.LogInformation(command.CommandText);
+                Logger?.LogDebug(command.CommandText);
 
                 command.ExecuteNonQuery();
             }
@@ -200,7 +200,7 @@ namespace Korzh.DbUtils.SqlServer
                 command.CommandText = $"IF EXISTS (SELECT 1 FROM sys.columns c WHERE c.object_id = object_id('{GetTableFullName(CurrentSeedingTable)}') AND c.is_identity =1) begin SET IDENTITY_INSERT {GetTableFullName(CurrentSeedingTable)} ON end";
                 command.CommandType = CommandType.Text;
 
-                Logger?.LogInformation(command.CommandText);
+                Logger?.LogDebug(command.CommandText);
 
                 command.ExecuteNonQuery();
             }
@@ -216,7 +216,7 @@ namespace Korzh.DbUtils.SqlServer
                 command.CommandText = $"IF EXISTS (SELECT 1 from sys.columns c WHERE c.object_id = object_id('{GetTableFullName(CurrentSeedingTable)}') AND c.is_identity = 1) begin SET IDENTITY_INSERT {GetTableFullName(CurrentSeedingTable)} OFF end";
                 command.CommandType = CommandType.Text;
 
-                Logger?.LogInformation(command.CommandText);
+                Logger?.LogDebug(command.CommandText);
 
                 command.ExecuteNonQuery();
             }

@@ -65,7 +65,7 @@ namespace Korzh.DbUtils.Import
 
             var datasetInfo = new DatasetInfo(_xmlReader.GetAttribute("name"), ""); // add schema here
             _datasetInfo = datasetInfo;
-            _logger?.LogInformation("Start import dataset: " + _datasetInfo?.Name);
+            _logger?.LogDebug("Start import dataset: " + _datasetInfo?.Name);
 
             _isEndOfData = false;
 
@@ -179,7 +179,7 @@ namespace Korzh.DbUtils.Import
         public void FinishImport()
         {
             _xmlReader.Close();
-            _logger?.LogInformation("Finish import dataset: " + _datasetInfo?.Name);
+            _logger?.LogDebug("Finish import dataset: " + _datasetInfo?.Name);
             _datasetInfo = null;
         }
     }

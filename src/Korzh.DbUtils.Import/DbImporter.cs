@@ -42,6 +42,7 @@ namespace Korzh.DbUtils.Import
                     try {
                         using (var datasetStream = _dataUnpacker.OpenStreamForUnpacking(table.Name)) {
                             if (datasetStream != null) {
+                                _logger?.LogInformation($"Importing {table.Name}...");
                                 var dataset = _datasetImporter.StartImport(datasetStream);
                                 _dbWriter.StartSeeding(dataset);
 
