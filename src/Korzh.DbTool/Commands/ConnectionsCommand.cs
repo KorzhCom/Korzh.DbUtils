@@ -21,7 +21,8 @@ namespace Korzh.DbTool
             command.Command("remove", c => ConnectionsRemoveCommand.Configure(c, options));
             command.Command("list", c => ConnectionsListCommand.Configure(c, options));
 
-            command.OnExecute(new ConnectionsCommand(command).Run);
+            Func<int> runCommandFunc = new ConnectionsCommand(command).Run;
+            command.OnExecute(runCommandFunc);
         }
 
         private CommandLineApplication _command;
@@ -76,7 +77,8 @@ namespace Korzh.DbTool
 
             var argumets = new Arguments(command);
 
-            command.OnExecute(new ConnectionsAddCommand(argumets, options).Run);
+            Func<int> runCommandFunc = new ConnectionsAddCommand(argumets, options).Run;
+            command.OnExecute(runCommandFunc);
         }
 
         private readonly Arguments _arguments;
@@ -118,7 +120,8 @@ namespace Korzh.DbTool
             var connectionIdArg = command.Argument("<сonnection ID>", "The ID of the connection stored in the configuration")
                                         .IsRequired();
 
-            command.OnExecute(new ConnectionsRemoveCommand(connectionIdArg, options).Run);
+            Func<int> runCommandFunc = new ConnectionsRemoveCommand(connectionIdArg, options).Run;
+            command.OnExecute(runCommandFunc);
         }
 
         private readonly CommandArgument _connectionIdArg;
@@ -153,7 +156,8 @@ namespace Korzh.DbTool
 
             command.Options.Add(options.LocalConfigFilePathOption);
 
-            command.OnExecute(new ConnectionsListCommand(options).Run);
+            Func<int> runCommandFunc = new ConnectionsListCommand(options).Run;
+            command.OnExecute(runCommandFunc);
         }
 
         private readonly GlobalOptions _options;

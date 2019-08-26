@@ -64,7 +64,8 @@ namespace Korzh.DbTool
             app.Command("import", c => ImportCommand.Configure(c, options));
             app.Command("connections", c => ConnectionsCommand.Configure(c, options));
 
-            app.OnExecute(new RootCommand(app, options).Run);
+            Func<int> runCommandFunc = new RootCommand(app, options).Run;
+            app.OnExecute(runCommandFunc);
         }
 
         private readonly CommandLineApplication _app;

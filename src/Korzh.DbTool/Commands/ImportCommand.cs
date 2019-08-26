@@ -58,8 +58,8 @@ namespace Korzh.DbTool
 
             var arguments = new ArgumentsAndOptions(command);
 
-            command.OnExecute(new ImportCommand(arguments, options).Run);
-
+            Func<int> runCommandFunc = new ImportCommand(arguments, options).Run;
+            command.OnExecute(runCommandFunc);
         }
 
         private readonly ArgumentsAndOptions _arguments;

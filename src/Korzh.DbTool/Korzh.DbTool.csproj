@@ -22,6 +22,7 @@ To add other types of connections please create an issue on GitHub repository.
 
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>dbtool</ToolCommandName>
+    <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
