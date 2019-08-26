@@ -140,25 +140,6 @@ namespace Korzh.DbUtils.SqlServer
         }
 
         /// <summary>
-        /// Adds the parameters to the DB command object according to the current server type.
-        /// </summary>
-        /// <param name="command">The DB command.</param>
-        /// <param name="record">The record. Each field in this record will be added a parameter.</param>
-        //protected override void FillParameters(IDbCommand command, IDataRecord record)
-        //{
-  
-        //    for (int i = 0; i < record.FieldCount; i++) {
-        //        var parameter = new SqlParameter(ToParameterName(record.GetName(i)), record.GetValue(i))
-        //        {
-        //            Direction = ParameterDirection.Input,
-        //            SqlDbType = record.GetFieldType(i).ToSqlDbType()
-        //        };
-
-        //        command.Parameters.Add(parameter);
-        //    }
-        //}
-
-        /// <summary>
         /// Sends an SQL command which turns off the constraints for the current table.
         /// Must be implemented in derived classes.
         /// </summary>
