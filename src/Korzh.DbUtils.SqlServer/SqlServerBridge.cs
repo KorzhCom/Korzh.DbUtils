@@ -78,7 +78,7 @@ namespace Korzh.DbUtils.SqlServer
             foreach (DataRow row in schemaTable.Rows) {
                 var columnName = (string)row["COLUMN_NAME"];
                 var type = (string)row["DATA_TYPE"];
-                if (type != "rowversion" && type != "timestamp") { //ignore rowversion (alsp can be timestamp) column as autoupdated by db
+                if (type != "rowversion" && type != "timestamp") { //ignore rowversion (also can be timestamp) column as autoupdated by the DB
                     ColumnInfo column = new ColumnInfo(columnName, SQLTypeToCLRType(type));
                     columns.Add(column);
                 }  
