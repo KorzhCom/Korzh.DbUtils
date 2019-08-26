@@ -443,6 +443,7 @@
             Generates the INSERT statement.
             </summary>
             <param name="table">The table we would like to insert a new record.</param>
+            <param name="command">The command for which we generate our INSERT statement for</param>
             <returns>System.String.</returns>
         </member>
         <member name="M:Korzh.DbUtils.BaseDbBridge.FillParameters(System.Data.IDbCommand,System.Data.IDataRecord)">
