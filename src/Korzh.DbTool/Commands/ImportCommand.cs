@@ -58,8 +58,8 @@ namespace Korzh.DbTool
 
             var arguments = new ArgumentsAndOptions(command);
 
-            command.OnExecute(new ImportCommand(arguments, options).Run);
-
+            Func<int> runCommandFunc = new ImportCommand(arguments, options).Run;
+            command.OnExecute(runCommandFunc);
         }
 
         private readonly ArgumentsAndOptions _arguments;
@@ -115,10 +115,10 @@ namespace Korzh.DbTool
         private IDbWriter GetDbSeeder()
         {
             if (_connection is SqlConnection) {
-                return new SqlServerBridge(_connection as SqlConnection);
+                return new SqlServerBridge(_connection as SqlConnection, Program.LoggerFactory);
             }
             else if (_connection is MySqlConnection) {
-                return new MySqlBridge(_connection as MySqlConnection);
+                return new MySqlBridge(_connection as MySqlConnection, Program.LoggerFactory);
             }
 
             return null;
@@ -130,11 +130,11 @@ namespace Korzh.DbTool
             FileAttributes attr = File.GetAttributes(_arguments.InputPath);
             if ((attr & FileAttributes.Directory) == FileAttributes.Directory) {
 
-                return new FileFolderPacker(_arguments.InputPath);
+                return new FileFolderPacker(_arguments.InputPath, Program.LoggerFactory);
             }
 
             if (IsValidZipFile(_arguments.InputPath))
-                return new ZipFilePacker(_arguments.InputPath);
+                return new ZipFilePacker(_arguments.InputPath, Program.LoggerFactory);
 
             throw new Exception("Zip is not valid.");
         }
@@ -198,7 +198,7 @@ namespace Korzh.DbTool
             var dsImported = GetDatasetImporter();
 
             Console.WriteLine($"Importing data to [{_arguments.ConnectionId}]...");
-            new DbImporter(dbSeeder, dsImported, unpacker).Import();
+            new DbImporter(dbSeeder, dsImported, unpacker, Program.LoggerFactory).Import();
             Console.WriteLine("Import completed!");
 
             return 0;

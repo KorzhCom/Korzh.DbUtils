@@ -13,6 +13,14 @@ namespace Korzh.DbTool
 {
     class Program
     {
+
+        public static ILoggerFactory LoggerFactory;
+
+        static Program()
+        {
+            LoggerFactory = GetLoggerFactory();
+        }
+
         public static int Main(string[] args)
         {
             var app = new CommandLineApplication();
@@ -48,7 +56,7 @@ namespace Korzh.DbTool
             options.FormatOption = app.Option("--format|-f",
                                               "Exporting/importing format (xml | json)",
                                               CommandOptionType.SingleValue)
-                                      .Accepts(config => config.Values(ignoreCase: true, "xml", "json"));
+                                      .Accepts(config => config.Values(true, "xml", "json"));
 
 
             // Register commands
@@ -56,7 +64,8 @@ namespace Korzh.DbTool
             app.Command("import", c => ImportCommand.Configure(c, options));
             app.Command("connections", c => ConnectionsCommand.Configure(c, options));
 
-            app.OnExecute(new RootCommand(app, options).Run);
+            Func<int> runCommandFunc = new RootCommand(app, options).Run;
+            app.OnExecute(runCommandFunc);
         }
 
         private readonly CommandLineApplication _app;

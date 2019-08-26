@@ -45,6 +45,14 @@ namespace DbUtilsDemo
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Customer>()
+                .Property(c => c.RowVersion)
+                .IsRowVersion();
+
+            modelBuilder.Entity<Order>()
+               .Property(o => o.RowVersion)
+               .IsRowVersion();
+
             modelBuilder.Entity<OrderDetail>()
                 .ToTable("Order_Details")
                 .HasKey(od => new { od.OrderID, od.ProductID });
