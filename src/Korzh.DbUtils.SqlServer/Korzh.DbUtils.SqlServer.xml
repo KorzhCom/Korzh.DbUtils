@@ -59,13 +59,6 @@
             </summary>
             <param name="datasets">The list of datasets (tables) to fill.</param>
         </member>
-        <member name="M:Korzh.DbUtils.SqlServer.SqlServerBridge.AddParameters(System.Data.IDbCommand,System.Data.IDataRecord)">
-            <summary>
-            Adds the parameters to the DB command object according to the current server type.
-            </summary>
-            <param name="command">The DB command.</param>
-            <param name="record">The record. Each field in this record will be added a parameter.</param>
-        </member>
         <member name="M:Korzh.DbUtils.SqlServer.SqlServerBridge.TurnOffConstraints">
             <summary>
             Sends an SQL command which turns off the constraints for the current table.

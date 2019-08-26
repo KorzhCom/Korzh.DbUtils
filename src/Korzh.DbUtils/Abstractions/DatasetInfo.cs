@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Korzh.DbUtils
 {
@@ -19,6 +20,12 @@ namespace Korzh.DbUtils
         /// </summary>
         /// <value>The type of the column data.</value>
         public Type DataType {get; private set;}
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this column is a timestamp field.
+        /// </summary>
+        /// <value><c>true</c> if this column is a timestamp; otherwise, <c>false</c>.</value>
+        public bool IsTimestamp { get; set; } = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ColumnInfo"/> class.

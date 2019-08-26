@@ -21,6 +21,12 @@
             </summary>
             <value>The type of the column data.</value>
         </member>
+        <member name="P:Korzh.DbUtils.ColumnInfo.IsTimestamp">
+            <summary>
+            Gets or sets a value indicating whether this column is a timestamp field.
+            </summary>
+            <value><c>true</c> if this column is a timestamp; otherwise, <c>false</c>.</value>
+        </member>
         <member name="M:Korzh.DbUtils.ColumnInfo.#ctor(System.String,System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:Korzh.DbUtils.ColumnInfo"/> class.
@@ -432,20 +438,22 @@
             <param name="record">The record to save to the database table.</param>
             <exception cref="T:Korzh.DbUtils.DbBridgeException">Seeding is not stared. Call StartSeeding() before.</exception>
         </member>
-        <member name="M:Korzh.DbUtils.BaseDbBridge.GenerateInsertStatement(Korzh.DbUtils.DatasetInfo,System.Data.IDataRecord)">
+        <member name="M:Korzh.DbUtils.BaseDbBridge.GenerateInsertStatement(Korzh.DbUtils.DatasetInfo,System.Data.IDbCommand)">
             <summary>
             Generates the INSERT statement.
             </summary>
             <param name="table">The table we would like to insert a new record.</param>
-            <param name="record">The record to insert.</param>
             <returns>System.String.</returns>
         </member>
-        <member name="M:Korzh.DbUtils.BaseDbBridge.AddParameters(System.Data.IDbCommand,System.Data.IDataRecord)">
+        <member name="M:Korzh.DbUtils.BaseDbBridge.FillParameters(System.Data.IDbCommand,System.Data.IDataRecord)">
             <summary>
             Adds the parameters to the DB command object according to the current server type.
             </summary>
             <param name="command">The DB command.</param>
             <param name="record">The record. Each field in this record will be added a parameter.</param>
+            <summary>
+            Adds the parameters to the DB command object.
+            </summary>
         </member>
         <member name="M:Korzh.DbUtils.BaseDbBridge.ToParameterName(System.String)">
             <summary>
@@ -639,6 +647,18 @@
             </summary>
             <param name="entryName">Name of the entry.</param>
             <returns>Stream.</returns>
+        </member>
+        <member name="T:System.SqlServerTypeExtensions">
+            <summary>
+            Contains an extension method to get a DbType from an instance of <see cref="T:System.Type"/> 
+            </summary>
+        </member>
+        <member name="M:System.SqlServerTypeExtensions.ToDbType(System.Type)">
+            <summary>
+            Converts a <see cref="T:System.Type"/> to a <see cref="T:System.Data.DbType"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>SqlDbType.</returns>
         </member>
         <member name="T:System.TypeExtensions">
             <summary>

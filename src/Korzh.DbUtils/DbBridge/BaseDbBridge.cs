@@ -202,37 +202,48 @@ namespace Korzh.DbUtils
 
             var connection = GetConnection();
 
-            var command = connection.CreateCommand();
-            command.CommandText = GenerateInsertStatement(CurrentSeedingTable, record);
-            command.CommandType = CommandType.Text;
+            FillParameters(_insertCommand, record);
 
-            AddParameters(command, record);
+            Logger?.LogInformation(_insertCommand.CommandText);
 
-            Logger?.LogInformation(command.CommandText);
-
-            command.ExecuteNonQuery();
+            _insertCommand.ExecuteNonQuery();
         }
 
         /// <summary>
         /// Generates the INSERT statement.
         /// </summary>
         /// <param name="table">The table we would like to insert a new record.</param>
-        /// <param name="record">The record to insert.</param>
         /// <returns>System.String.</returns>
-        protected string GenerateInsertStatement(DatasetInfo table, IDataRecord record)
+        protected string GenerateInsertStatement(DatasetInfo table, IDbCommand command)
         {
             var sb = new StringBuilder(100);
             sb.AppendFormat("INSERT INTO {0} ( ", GetTableFullName(table));
 
-            for (var i = 0; i < record.FieldCount; i++) {
-                sb.AppendFormat("{0}{1}{2}, ", Quote1, record.GetName(i), Quote2);
+            var columns = new List<ColumnInfo>();
+            ExtractColumnList(table.Schema, table.Name, columns);
+
+            for (var i = columns.Count - 1; i >= 0; i--) {
+                //ignore not found columns and the columns which are auto-updated by DB (like Timestamps)
+                if (!table.Columns.ContainsKey(columns[i].Name) || columns[i].IsTimestamp) {
+                    columns.RemoveAt(i);
+                }
+            }
+
+            foreach(var column in columns) {
+                sb.AppendFormat("{0}{1}{2}, ", Quote1, column.Name, Quote2);
             }
 
             sb.Remove(sb.Length - 2, 2);
             sb.Append(") VALUES ( ");
 
-            for (var i = 0; i < record.FieldCount; i++) {
-                sb.AppendFormat("{0}, ", ToParameterName(record.GetName(i)));
+            foreach (var column in columns) {
+                var paramName = ToParameterName(column.Name);
+                sb.AppendFormat("{0}, ", paramName);
+                var parameter = command.CreateParameter();
+                parameter.DbType = column.DataType.ToDbType();
+                //parameter.DbType = column.DbType; ????  maybe we need to save DbType on ExtractColumnList
+                parameter.ParameterName = paramName;
+                command.Parameters.Add(parameter);
             }
 
             sb.Remove(sb.Length - 2, 2);
@@ -246,7 +257,16 @@ namespace Korzh.DbUtils
         /// </summary>
         /// <param name="command">The DB command.</param>
         /// <param name="record">The record. Each field in this record will be added a parameter.</param>
-        protected abstract void AddParameters(IDbCommand command, IDataRecord record);
+        /// <summary>
+        /// Adds the parameters to the DB command object.
+        /// </summary>
+        protected void FillParameters(IDbCommand command, IDataRecord record)
+        {
+            foreach (var prmObj in command.Parameters) {
+                var parameter = prmObj as IDataParameter;
+                parameter.Value = record[parameter.ParameterName];
+            }
+        }
 
 
         /// <summary>
@@ -279,7 +299,13 @@ namespace Korzh.DbUtils
             Logger?.LogInformation("Start seeding: " + GetTableFullName(CurrentSeedingTable));
             TurnOffConstraints();
             TurnOffAutoIncrement();
+
+            _insertCommand = GetConnection().CreateCommand();
+            _insertCommand.CommandText = GenerateInsertStatement(CurrentSeedingTable, _insertCommand);
+            _insertCommand.CommandType = CommandType.Text;
         }
+
+        private IDbCommand _insertCommand = null;
 
         /// <summary>
         /// Sends an SQL command which turns off the constraints for the current table.

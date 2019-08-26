@@ -76,16 +76,15 @@ namespace Korzh.DbUtils.SqlServer
 
             DataTable schemaTable = Connection.GetSchema(SqlClientMetaDataCollectionNames.Columns, restrictions);
             foreach (DataRow row in schemaTable.Rows) {
-                var columnName = (string)row["COLUMN_NAME"];
-                var type = (string)row["DATA_TYPE"];
-                if (type != "rowversion" && type != "timestamp") { //ignore rowversion (also can be timestamp) column as autoupdated by the DB
-                    ColumnInfo column = new ColumnInfo(columnName, SQLTypeToCLRType(type));
-                    columns.Add(column);
-                }  
+                var columnName = row["COLUMN_NAME"] as string;
+                var type = row["DATA_TYPE"] as string;
+                ColumnInfo column = new ColumnInfo(columnName, SqlTypeToClrType(type));
+                column.IsTimestamp = type == "rowversion" || type == "timestamp";
+                columns.Add(column);
             }
         }
 
-        private Type SQLTypeToCLRType(string type)
+        private Type SqlTypeToClrType(string type)
         {
             switch(type) {
                 case "bigint":
@@ -145,19 +144,19 @@ namespace Korzh.DbUtils.SqlServer
         /// </summary>
         /// <param name="command">The DB command.</param>
         /// <param name="record">The record. Each field in this record will be added a parameter.</param>
-        protected override void AddParameters(IDbCommand command, IDataRecord record)
-        {
+        //protected override void FillParameters(IDbCommand command, IDataRecord record)
+        //{
   
-            for (int i = 0; i < record.FieldCount; i++) {
-                var parameter = new SqlParameter(ToParameterName(record.GetName(i)), record.GetValue(i))
-                {
-                    Direction = ParameterDirection.Input,
-                    SqlDbType = record.GetFieldType(i).ToSqlDbType()
-                };
+        //    for (int i = 0; i < record.FieldCount; i++) {
+        //        var parameter = new SqlParameter(ToParameterName(record.GetName(i)), record.GetValue(i))
+        //        {
+        //            Direction = ParameterDirection.Input,
+        //            SqlDbType = record.GetFieldType(i).ToSqlDbType()
+        //        };
 
-                command.Parameters.Add(parameter);
-            }
-        }
+        //        command.Parameters.Add(parameter);
+        //    }
+        //}
 
         /// <summary>
         /// Sends an SQL command which turns off the constraints for the current table.

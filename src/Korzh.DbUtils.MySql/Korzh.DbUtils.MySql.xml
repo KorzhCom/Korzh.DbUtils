@@ -70,13 +70,6 @@
             </summary>
             <value>The symbol(s) which represents the closing quote. The default value is ']'</value>
         </member>
-        <member name="M:Korzh.DbUtils.MySql.MySqlBridge.AddParameters(System.Data.IDbCommand,System.Data.IDataRecord)">
-            <summary>
-            Adds the parameters to the DB command object.
-            </summary>
-            <param name="command">The DB command.</param>
-            <param name="record">The record. Each field in this record will be added a parameter.</param>
-        </member>
         <member name="M:Korzh.DbUtils.MySql.MySqlBridge.TurnOffAutoIncrement">
             <summary>
             Sends an SQL command which turns off the possibility to set values for IDENTITY (auto-increment) columns for the current table.
