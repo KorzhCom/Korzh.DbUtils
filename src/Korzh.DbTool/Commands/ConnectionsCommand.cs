@@ -8,7 +8,6 @@ namespace Korzh.DbTool
 
     public class ConnectionsCommand : ICommand
     {
-
         public static void Configure(CommandLineApplication command, GlobalOptions options)
         {
             command.Description = "Manipulates with connections (add, remove, list)";
@@ -55,7 +54,7 @@ namespace Korzh.DbTool
                                          .IsRequired();
 
                 DbTypeArg = command.Argument("<database type>", $"The database type ({DbTool.DbType.SqlServer}, {DbTool.DbType.MySql})")
-                   .Accepts(config => config.Values(ignoreCase: true, DbTool.DbType.SqlServer, DbTool.DbType.MySql))
+                   .Accepts(config => config.Values(true, DbTool.DbType.SqlServer, DbTool.DbType.MySql))
                    .IsRequired();
 
                 ConnectionStringArg = command.Argument("<сonnection string>", "The connection string to add")

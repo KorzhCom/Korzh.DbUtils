@@ -44,7 +44,7 @@
             <param name="connectionString">The connection string.</param>
             <returns>DbConnection.</returns>
         </member>
-        <member name="M:Korzh.DbUtils.MySql.MySqlBridge.ExtractColumnsList(System.String,System.String,System.Collections.Generic.IList{Korzh.DbUtils.ColumnInfo})">
+        <member name="M:Korzh.DbUtils.MySql.MySqlBridge.ExtractColumnList(System.String,System.String,System.Collections.Generic.IList{Korzh.DbUtils.ColumnInfo})">
             <summary>
             Extracts the list of columns for the current table and saves them to columns list passed in the parameter.
             </summary>
