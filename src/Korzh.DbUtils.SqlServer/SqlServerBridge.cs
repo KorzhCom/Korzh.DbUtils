@@ -94,6 +94,8 @@ namespace Korzh.DbUtils.SqlServer
                     return typeof(float);
                 case "bit":
                     return typeof(bool);
+                case "int":
+                    return typeof(int);
                 case "smallint":
                     return typeof(short);
                 case "smallmoney":
@@ -111,7 +113,6 @@ namespace Korzh.DbUtils.SqlServer
                 case "datetimeoffset":
                     return typeof(DateTimeOffset);
                 case "time":
-                case "timestamp":
                     return typeof(TimeSpan);
                 case "binary":
                 case "varbinary":
