@@ -56,5 +56,8 @@ namespace DbUtilsDemo.Models
         public string ShipPostalCode { get; set; }
 
         public string ShipCountry { get; set; }
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
     }
 }

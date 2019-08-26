@@ -404,6 +404,14 @@
             <param name="table">The table represented by <see cref="T:Korzh.DbUtils.DatasetInfo" /> structure.</param>
             <returns>IDataReader.</returns>
         </member>
+        <member name="M:Korzh.DbUtils.BaseDbBridge.ExtractColumnList(System.String,System.String,System.Collections.Generic.IList{Korzh.DbUtils.ColumnInfo})">
+            <summary>
+            Extracts the list of columns for the current table and saves them to columns list passed in the parameter.
+            </summary>
+            <param name="tableSchema">The table schema.</param>
+            <param name="tableName">The table name.</param>
+            <param name="columns">The columns list.</param>
+        </member>
         <member name="M:Korzh.DbUtils.BaseDbBridge.GetDatasets">
             <summary>
             Gets the list of tables (or other kind of dataset) for the current connection.
@@ -588,12 +596,12 @@
             <seealso cref="T:Korzh.DbUtils.IDataPacker" />
             <seealso cref="T:Korzh.DbUtils.IDataUnpacker" />
         </member>
-        <member name="M:Korzh.DbUtils.Packing.ZipFilePacker.#ctor(System.String,Microsoft.Extensions.Logging.ILogger)">
+        <member name="M:Korzh.DbUtils.Packing.ZipFilePacker.#ctor(System.String,Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
             Initializes a new instance of the <see cref="T:Korzh.DbUtils.Packing.ZipFilePacker"/> class.
             </summary>
             <param name="filePath">The path to the ZIP file.</param>
-            <param name="logger">The logger.</param>
+            <param name="loggerFactory">The logger factory.</param>
         </member>
         <member name="M:Korzh.DbUtils.Packing.ZipFilePacker.StartPacking(System.String)">
             <summary>

@@ -45,6 +45,14 @@
             <param name="connectionString">The connection string.</param>
             <returns>DbConnection.</returns>
         </member>
+        <member name="M:Korzh.DbUtils.SqlServer.SqlServerBridge.ExtractColumnList(System.String,System.String,System.Collections.Generic.IList{Korzh.DbUtils.ColumnInfo})">
+            <summary>
+            Extracts the list of columns for the current table and saves them to columns list passed in the parameter.
+            </summary>
+            <param name="tableSchema">The table schema.</param>
+            <param name="tableName">The table name.</param>
+            <param name="columns">The columns list.</param>
+        </member>
         <member name="M:Korzh.DbUtils.SqlServer.SqlServerBridge.ExtractDatasetList(System.Collections.Generic.IList{Korzh.DbUtils.DatasetInfo})">
             <summary>
             Gets the list of tables for the current DB and saves them to datasets list passed in the parameter.

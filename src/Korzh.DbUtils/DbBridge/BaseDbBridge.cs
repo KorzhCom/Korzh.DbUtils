@@ -139,8 +139,33 @@ namespace Korzh.DbUtils
         /// <returns>IDataReader.</returns>
         public IDataReader GetDataReaderForTable(DatasetInfo table)
         {
-            return GetDataReaderForSql("SELECT * FROM " + GetTableFullName(table));
+            CheckConnection();
+
+            var columns = new List<ColumnInfo>();
+            ExtractColumnList(table.Schema, table.Name, columns);
+
+            var sql = new StringBuilder();
+            sql.Append("SELECT");
+
+            foreach (var column in columns) {
+                sql.AppendFormat(" {0}{1}{2},", Quote1, column.Name, Quote2);
+            }
+
+            sql.Remove(sql.Length - 1, 1);
+            sql.AppendFormat(" FROM {0}", GetTableFullName(table));
+
+            return GetDataReaderForSql(sql.ToString());
         }
+
+
+        /// <summary>
+        /// Extracts the list of columns for the current table and saves them to columns list passed in the parameter.
+        /// </summary>
+        /// <param name="tableSchema">The table schema.</param>
+        /// <param name="tableName">The table name.</param>
+        /// <param name="columns">The columns list.</param>
+        protected abstract void ExtractColumnList(string tableSchema, string tableName, IList<ColumnInfo> columns);
+
 
         /// <summary>
         /// Gets the list of tables (or other kind of dataset) for the current connection.

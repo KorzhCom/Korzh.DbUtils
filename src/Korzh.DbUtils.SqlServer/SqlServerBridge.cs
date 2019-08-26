@@ -64,6 +64,64 @@ namespace Korzh.DbUtils.SqlServer
         }
 
         /// <summary>
+        /// Extracts the list of columns for the current table and saves them to columns list passed in the parameter.
+        /// </summary>
+        /// <param name="tableSchema">The table schema.</param>
+        /// <param name="tableName">The table name.</param>
+        /// <param name="columns">The columns list.</param>
+        protected override void ExtractColumnList(string tableSchema, string tableName, IList<ColumnInfo> columns)
+        {
+            string[] restrictions = new string[4];
+            restrictions[2] = tableName;
+
+            DataTable schemaTable = Connection.GetSchema(SqlClientMetaDataCollectionNames.Columns, restrictions);
+            foreach (DataRow row in schemaTable.Rows) {
+                var columnName = (string)row["COLUMN_NAME"];
+                var type = (string)row["DATA_TYPE"];
+                if (type != "rowversion") { //ignore rowversion column as autoupdated by db
+                    ColumnInfo column = new ColumnInfo(columnName, SQLTypeToCLRType(type));
+                    columns.Add(column);
+                }  
+            }
+        }
+
+        private Type SQLTypeToCLRType(string type)
+        {
+            switch(type) {
+                case "bigint":
+                    return typeof(long);
+                case "numeric":
+                    return typeof(float);
+                case "bit":
+                    return typeof(bool);
+                case "smallint":
+                    return typeof(short);
+                case "smallmoney":
+                case "money":
+                case "decimal":
+                    return typeof(decimal);
+                case "float":
+                    return typeof(float);
+                case "real":
+                    return typeof(double);
+                case "smalldatetime":
+                case "datetime":
+                    return typeof(DateTime);
+                case "datetime2":
+                case "datetimeoffset":
+                    return typeof(DateTimeOffset);
+                case "time":
+                case "timestamp":
+                    return typeof(TimeSpan);
+                case "binary":
+                case "varbinary":
+                    return typeof(byte[]);
+                default:
+                    return typeof(string);
+            }
+        }
+
+        /// <summary>
         /// Gets the list of tables for the current DB and saves them to datasets list passed in the parameter.
         /// </summary>
         /// <param name="datasets">The list of datasets (tables) to fill.</param>

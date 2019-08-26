@@ -57,8 +57,8 @@ namespace Korzh.DbTool
 
             var arguments = new ArgumentsAndOptions(command);
 
-            command.OnExecute(new ExportCommand(arguments, options).Run);
-
+            Func<int> runCommandFunc = new ExportCommand(arguments, options).Run;
+            command.OnExecute(runCommandFunc);
         }
 
         private readonly ArgumentsAndOptions _arguments;
@@ -104,10 +104,10 @@ namespace Korzh.DbTool
         private IDbReader GetDbReader()
         {
             if (_connection is SqlConnection) {
-                return new SqlServerBridge(_connection as SqlConnection);
+                return new SqlServerBridge(_connection as SqlConnection, Program.LoggerFactory);
             }
             else if (_connection is MySqlConnection){
-                return new MySqlBridge(_connection as MySqlConnection);
+                return new MySqlBridge(_connection as MySqlConnection, Program.LoggerFactory);
             }
 
             return null;
@@ -130,18 +130,18 @@ namespace Korzh.DbTool
                 var zipFilePath = Path.Combine(_arguments.OutputPath, zipFileName ?? _arguments.ConnectionId + "_" 
                                               + DateTime.Now.ToString("yyyy-MM-dd") + ".zip");
 
-                return new ZipFilePacker(zipFilePath);
+                return new ZipFilePacker(zipFilePath, Program.LoggerFactory);
             }
             else if (_arguments.OutputPathOption.HasValue()) {
                 Directory.CreateDirectory(_arguments.OutputPath);
-                return new FileFolderPacker(_arguments.OutputPath);
+                return new FileFolderPacker(_arguments.OutputPath, Program.LoggerFactory);
             }
 
             var directory = _arguments.ConnectionId + "_" + DateTime.Now.ToString("yyyy-MM-dd");
 
             Directory.CreateDirectory(directory);
 
-            return new FileFolderPacker(directory);
+            return new FileFolderPacker(directory, Program.LoggerFactory);
         }
 
         public int Run()
