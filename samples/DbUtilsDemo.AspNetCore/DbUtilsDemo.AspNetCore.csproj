@@ -17,6 +17,7 @@
 
 
   <ItemGroup>
+    <Folder Include="App_Data\SeedData\" />
     <Folder Include="Data\Models\" />
   </ItemGroup>
 

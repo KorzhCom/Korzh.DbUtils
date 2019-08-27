@@ -15,6 +15,7 @@ using Korzh.DbUtils.Import;
 using Korzh.DbUtils.SqlServer;
 using Korzh.DbUtils.MySql;
 using Korzh.DbUtils.Packing;
+using System.Threading;
 
 namespace Korzh.DbTool
 {
@@ -199,6 +200,7 @@ namespace Korzh.DbTool
 
             Console.WriteLine($"Importing data to [{_arguments.ConnectionId}]...");
             new DbImporter(dbSeeder, dsImported, unpacker, Program.LoggerFactory).Import();
+            Thread.Sleep(100); //to finish logger rendering
             Console.WriteLine("Import completed!");
 
             return 0;
