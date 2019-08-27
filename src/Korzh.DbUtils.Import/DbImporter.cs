@@ -45,6 +45,7 @@ namespace Korzh.DbUtils.Import
                             int errorCount = 0;
                             int recordCount = 0;
                             var dataset = _datasetImporter.StartImport(datasetStream);
+                            dataset.SetSchema(table.Schema); //!!!!! TODO: need to save schema with exported file and then read it from there
                             _dbWriter.StartSeeding(dataset);
                             try {
                                 while (_datasetImporter.HasRecords()) {

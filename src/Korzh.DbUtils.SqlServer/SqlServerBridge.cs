@@ -145,13 +145,15 @@ namespace Korzh.DbUtils.SqlServer
         /// </summary>
         protected override void TurnOffConstraints()
         {
-            using (var command = GetConnection().CreateCommand()) {
-                command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentSeedingTable)} NOCHECK CONSTRAINT all";
-                command.CommandType = CommandType.Text;
+            if (CurrentSeedingTable != null) {
+                using (var command = GetConnection().CreateCommand()) {
+                    command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentSeedingTable)} NOCHECK CONSTRAINT all";
+                    command.CommandType = CommandType.Text;
 
-                Logger?.LogDebug(command.CommandText);
+                    Logger?.LogDebug(command.CommandText);
 
-                command.ExecuteNonQuery();
+                    command.ExecuteNonQuery();
+                }
             }
         }
 
@@ -161,13 +163,15 @@ namespace Korzh.DbUtils.SqlServer
         /// </summary>
         protected override void TurnOnConstraints()
         {
-            using (var command = GetConnection().CreateCommand()) {
-                command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentSeedingTable)} CHECK CONSTRAINT all";
-                command.CommandType = CommandType.Text;
+            if (CurrentSeedingTable != null) {
+                using (var command = GetConnection().CreateCommand()) {
+                    command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentSeedingTable)} CHECK CONSTRAINT all";
+                    command.CommandType = CommandType.Text;
 
-                Logger?.LogDebug(command.CommandText);
+                    Logger?.LogDebug(command.CommandText);
 
-                command.ExecuteNonQuery();
+                    command.ExecuteNonQuery();
+                }
             }
         }
 
@@ -177,13 +181,15 @@ namespace Korzh.DbUtils.SqlServer
         /// </summary>
         protected override void TurnOffAutoIncrement()
         {
-            using (var command = GetConnection().CreateCommand()) {
-                command.CommandText = $"IF EXISTS (SELECT 1 FROM sys.columns c WHERE c.object_id = object_id('{GetTableFullName(CurrentSeedingTable)}') AND c.is_identity =1) begin SET IDENTITY_INSERT {GetTableFullName(CurrentSeedingTable)} ON end";
-                command.CommandType = CommandType.Text;
+            if (CurrentSeedingTable != null) {
+                using (var command = GetConnection().CreateCommand()) {
+                    command.CommandText = $"IF EXISTS (SELECT 1 FROM sys.columns c WHERE c.object_id = object_id('{GetTableFullName(CurrentSeedingTable)}') AND c.is_identity =1) begin SET IDENTITY_INSERT {GetTableFullName(CurrentSeedingTable)} ON end";
+                    command.CommandType = CommandType.Text;
 
-                Logger?.LogDebug(command.CommandText);
+                    Logger?.LogDebug(command.CommandText);
 
-                command.ExecuteNonQuery();
+                    command.ExecuteNonQuery();
+                }
             }
         }
 
@@ -193,13 +199,15 @@ namespace Korzh.DbUtils.SqlServer
         /// </summary>
         protected override void TurnOnAutoIncrement()
         {
-            using (var command = GetConnection().CreateCommand()) {
-                command.CommandText = $"IF EXISTS (SELECT 1 from sys.columns c WHERE c.object_id = object_id('{GetTableFullName(CurrentSeedingTable)}') AND c.is_identity = 1) begin SET IDENTITY_INSERT {GetTableFullName(CurrentSeedingTable)} OFF end";
-                command.CommandType = CommandType.Text;
+            if (CurrentSeedingTable != null) {
+                using (var command = GetConnection().CreateCommand()) {
+                    command.CommandText = $"IF EXISTS (SELECT 1 from sys.columns c WHERE c.object_id = object_id('{GetTableFullName(CurrentSeedingTable)}') AND c.is_identity = 1) begin SET IDENTITY_INSERT {GetTableFullName(CurrentSeedingTable)} OFF end";
+                    command.CommandType = CommandType.Text;
 
-                Logger?.LogDebug(command.CommandText);
+                    Logger?.LogDebug(command.CommandText);
 
-                command.ExecuteNonQuery();
+                    command.ExecuteNonQuery();
+                }
             }
         }
     }
