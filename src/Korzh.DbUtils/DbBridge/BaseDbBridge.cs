@@ -239,7 +239,7 @@ namespace Korzh.DbUtils
 
             foreach (var column in columns) {
                 var paramName = ToParameterName(column.Name);
-                _parameterColumnName[paramName] = column.Name;
+                _parameterColumnMap[paramName] = column.Name;
                 sb.AppendFormat("{0}, ", paramName);
                 var parameter = command.CreateParameter();
                 parameter.DbType = column.DataType.ToDbType();
@@ -266,7 +266,7 @@ namespace Korzh.DbUtils
         {
             foreach (var prmObj in command.Parameters) {
                 var parameter = prmObj as IDataParameter;
-                var ordinal = record.GetOrdinal(_parameterColumnName[parameter.ParameterName]);
+                var ordinal = record.GetOrdinal(_parameterColumnMap[parameter.ParameterName]);
                 parameter.Value = ordinal > -1 ? record.GetValue(ordinal) : DBNull.Value;
             }
         }
@@ -309,7 +309,7 @@ namespace Korzh.DbUtils
         }
 
         private IDbCommand _insertCommand = null;
-        private Dictionary<string, string> _parameterColumnName = new Dictionary<string, string>();
+        private Dictionary<string, string> _parameterColumnMap = new Dictionary<string, string>();
 
         /// <summary>
         /// Sends an SQL command which turns off the constraints for the current table.
@@ -345,7 +345,7 @@ namespace Korzh.DbUtils
             Logger?.LogDebug("Finish seeding: " + GetTableFullName(CurrentSeedingTable));
             CurrentSeedingTable = null;
             _insertCommand.Dispose();
-            _parameterColumnName.Clear();
+            _parameterColumnMap.Clear();
         }
 
         /// <summary>

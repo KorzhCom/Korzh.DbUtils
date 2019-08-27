@@ -39,27 +39,35 @@ namespace Korzh.DbUtils.Import
             var datasets = _dbWriter.GetDatasets();
             try {
                 foreach (var table in datasets) {
-                    try {
-                        using (var datasetStream = _dataUnpacker.OpenStreamForUnpacking(table.Name)) {
-                            if (datasetStream != null) {
-                                _logger?.LogInformation($"Importing {table.Name}...");
-                                var dataset = _datasetImporter.StartImport(datasetStream);
-                                _dbWriter.StartSeeding(dataset);
-
+                    using (var datasetStream = _dataUnpacker.OpenStreamForUnpacking(table.Name)) {
+                        if (datasetStream != null) {
+                            _logger?.LogInformation($"Importing {table.Name}...");
+                            int errorCount = 0;
+                            int recordCount = 0;
+                            var dataset = _datasetImporter.StartImport(datasetStream);
+                            _dbWriter.StartSeeding(dataset);
+                            try {
                                 while (_datasetImporter.HasRecords()) {
                                     try {
                                         _dbWriter.WriteRecord(_datasetImporter.NextRecord());
+                                        recordCount++;
                                     }
                                     catch (Exception ex) {
-                                        _logger?.LogError(ex.Message);
+                                        _logger?.LogDebug("ERROR: " + ex.Message);
+                                        errorCount++;
                                     }
                                 }
+                            }
+                            finally {
+                                _dbWriter.FinishSeeding();
                                 _datasetImporter.FinishImport();
                             }
+                            _logger?.LogInformation($"{recordCount} records were imported");
+
+                            if (errorCount > 0) {
+                               _logger?.LogWarning($"{errorCount} errors during import (duplicated records or violated constraints)");
+                            }
                         }
-                    }
-                    finally {
-                        _dbWriter.FinishSeeding();
                     }
                 }
             }
