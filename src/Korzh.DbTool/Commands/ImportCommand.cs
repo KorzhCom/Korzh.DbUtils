@@ -17,6 +17,7 @@ using Korzh.DbUtils.MySql;
 using Korzh.DbUtils.Packing;
 using System.Threading;
 using Npgsql;
+using Korzh.DbUtils.Postgre;
 
 namespace Korzh.DbTool
 {
@@ -124,6 +125,9 @@ namespace Korzh.DbTool
             }
             else if (_connection is MySqlConnection) {
                 return new MySqlBridge(_connection as MySqlConnection, Program.LoggerFactory);
+            }
+            else if (_connection is NpgsqlConnection) {
+                return new PostgreBridge(_connection as MySqlConnection, Program.LoggerFactory);
             }
 
             return null;
