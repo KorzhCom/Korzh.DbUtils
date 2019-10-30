@@ -16,6 +16,7 @@ using Korzh.DbUtils.SqlServer;
 using Korzh.DbUtils.MySql;
 using Korzh.DbUtils.Packing;
 using System.Threading;
+using Npgsql;
 
 namespace Korzh.DbTool
 {
@@ -83,6 +84,9 @@ namespace Korzh.DbTool
                     break;
                 case DbType.MySql:
                     _connection = new MySqlConnection(info.ConnectionString);
+                    break;
+                case DbType.PostgreSql:
+                    _connection = new NpgsqlConnection(info.ConnectionString);
                     break;
                 default:
                     throw new Exception("Unknown connection type: " + info.DbType);
