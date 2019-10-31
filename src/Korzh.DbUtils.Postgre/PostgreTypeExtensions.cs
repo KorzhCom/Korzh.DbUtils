@@ -1,4 +1,5 @@
 ﻿using System;
+
 using NpgsqlTypes;
 
 namespace Korzh.DbUtils.Postgre
