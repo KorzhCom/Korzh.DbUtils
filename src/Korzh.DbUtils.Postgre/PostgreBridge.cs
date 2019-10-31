@@ -1,10 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
-using Npgsql;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+
+using Microsoft.Extensions.Logging;
+
+using Npgsql;
 
 namespace Korzh.DbUtils.Postgre
 {
