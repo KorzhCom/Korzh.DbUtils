@@ -21,7 +21,11 @@ namespace Korzh.DbUtils.Postgre
         {
         }
 
-        public PostgreBridge(DbConnection connection) : base(connection)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PostgreBridge"/> class.
+        /// </summary>
+        /// <param name="connection">The connection.</param>
+        public PostgreBridge(NpgsqlConnection connection) : base(connection)
         {
         }
 
@@ -29,7 +33,12 @@ namespace Korzh.DbUtils.Postgre
         {
         }
 
-        public PostgreBridge(DbConnection connection, ILoggerFactory loggerFactory) : base(connection, loggerFactory)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PostgreBridge"/> class.
+        /// </summary>
+        /// <param name="connection">The connection.</param>
+        /// <param name="loggerFactory">The logger factory.</param>
+        public PostgreBridge(NpgsqlConnection connection, ILoggerFactory loggerFactory) : base(connection, loggerFactory)
         {
         }
 
