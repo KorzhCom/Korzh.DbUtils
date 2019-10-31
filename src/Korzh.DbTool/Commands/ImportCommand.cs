@@ -4,9 +4,11 @@ using System.IO.Compression;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Threading;
 using System.Linq;
 
 using MySql.Data.MySqlClient;
+using Npgsql;
 
 using McMaster.Extensions.CommandLineUtils;
 
@@ -16,8 +18,6 @@ using Korzh.DbUtils.SqlServer;
 using Korzh.DbUtils.MySql;
 using Korzh.DbUtils.Postgre;
 using Korzh.DbUtils.Packing;
-using System.Threading;
-using Npgsql;
 
 
 namespace Korzh.DbTool

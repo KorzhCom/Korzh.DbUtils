@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 
 using MySql.Data.MySqlClient;
+using Npgsql;
 
 using McMaster.Extensions.CommandLineUtils;
 
@@ -13,7 +14,6 @@ using Korzh.DbUtils.Packing;
 using Korzh.DbUtils.Export;
 using Korzh.DbUtils.SqlServer;
 using Korzh.DbUtils.MySql;
-using Npgsql;
 using Korzh.DbUtils.Postgre;
 
 namespace Korzh.DbTool
