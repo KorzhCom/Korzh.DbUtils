@@ -49,8 +49,7 @@ namespace Korzh.DbUtils.Postgre
 
             DataTable schemaTable = Connection.GetSchema("Columns", restrictions);
             
-            foreach (DataRow row in schemaTable.Rows)
-            {
+            foreach (DataRow row in schemaTable.Rows){
                 var columnName = (string)row["column_name"];
                 var dbTypeName = (string)row["data_type"];
 
@@ -137,13 +136,11 @@ namespace Korzh.DbUtils.Postgre
         {
             DataTable schemaTable = Connection.GetSchema("Tables");
 
-            foreach (DataRow row in schemaTable.Rows)
-            {
+            foreach (DataRow row in schemaTable.Rows){
                 string tableType = (string)row["TABLE_TYPE"];
                 string tableName = (string)row["TABLE_NAME"];
                 string tableSchema = (string)row["TABLE_SCHEMA"];
-                if (tableType == "BASE TABLE")
-                {
+                if (tableType == "BASE TABLE"){
                     datasets.Add(new DatasetInfo(tableName, tableSchema));
                 }
             }
@@ -163,8 +160,7 @@ namespace Korzh.DbUtils.Postgre
             if (CurrentSeedingTable == null)
                 return;
             
-            using (var command = GetConnection().CreateCommand())
-            {
+            using (var command = GetConnection().CreateCommand()){
                 command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentSeedingTable)} disable trigger all;";
                 command.CommandType = CommandType.Text;
 
@@ -184,8 +180,7 @@ namespace Korzh.DbUtils.Postgre
             if (CurrentSeedingTable == null)
                 return;
 
-            using (var command = GetConnection().CreateCommand())
-            {
+            using (var command = GetConnection().CreateCommand()){
                 command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentSeedingTable)} enable trigger all;";
                 command.CommandType = CommandType.Text;
 
