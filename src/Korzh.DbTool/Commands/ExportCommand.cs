@@ -115,7 +115,7 @@ namespace Korzh.DbTool
                 return new MySqlBridge(_connection as MySqlConnection, Program.LoggerFactory);
             }
             else if(_connection is NpgsqlConnection){
-                return new PostgreBridge(_connection as MySqlConnection, Program.LoggerFactory);
+                return new PostgreBridge(_connection as NpgsqlConnection, Program.LoggerFactory);
             }
 
             return null;
