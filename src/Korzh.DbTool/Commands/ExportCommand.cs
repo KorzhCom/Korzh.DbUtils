@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 
 using MySql.Data.MySqlClient;
+using Npgsql;
 
 using McMaster.Extensions.CommandLineUtils;
 
@@ -13,6 +14,7 @@ using Korzh.DbUtils.Packing;
 using Korzh.DbUtils.Export;
 using Korzh.DbUtils.SqlServer;
 using Korzh.DbUtils.MySql;
+using Korzh.DbUtils.Postgre;
 
 namespace Korzh.DbTool
 {
@@ -81,6 +83,9 @@ namespace Korzh.DbTool
                 case DbType.MySql:
                     _connection = new MySqlConnection(info.ConnectionString);
                     break;
+                case DbType.PostgreSql:
+                    _connection = new NpgsqlConnection(info.ConnectionString);
+                    break;
                 default:
                     throw new Exception("Unknown connection type: " + info.DbType);
             }
@@ -108,6 +113,9 @@ namespace Korzh.DbTool
             }
             else if (_connection is MySqlConnection){
                 return new MySqlBridge(_connection as MySqlConnection, Program.LoggerFactory);
+            }
+            else if(_connection is NpgsqlConnection){
+                return new PostgreBridge(_connection as NpgsqlConnection, Program.LoggerFactory);
             }
 
             return null;
