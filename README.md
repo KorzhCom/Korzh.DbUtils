@@ -80,7 +80,7 @@ dbtool import demo1 --input=MyDbData.zip
 
 ## Korzh.DbUtils library
 
-The libary includes several packages which implement some basic database operations:
+The library includes several packages which implement some basic database operations:
 
 * `Korzh.DbUtils`
 
@@ -88,7 +88,7 @@ The libary includes several packages which implement some basic database operati
 
 * `Korzh.DbUtils.Import`
 
-  Contains implementations or `IDatasetImporter` interface for XML and JSON formats. Additionally it contains DbInitializer class which can be used for data seeding in your projects.
+  Contains implementations or `IDatasetImporter` interface for XML and JSON formats. Additionally, it contains DbInitializer class which can be used for data seeding in your projects.
 
 * `Korzh.DbUtils.Export`
 
