@@ -75,7 +75,8 @@ namespace System
         /// <returns><c>true</c> if the specified type is a short int type; otherwise, <c>false</c>.</returns>
         public static bool IsInt16(this Type type)
         {
-            return type == typeof(short) || type == typeof(short?);
+            return type == typeof(short) || type == typeof(short?)
+                    || type == typeof(UInt16) || type == typeof(UInt16?);
         }
 
         /// <summary>
@@ -85,7 +86,8 @@ namespace System
         /// <returns><c>true</c> if the specified type is an int type; otherwise, <c>false</c>.</returns>
         public static bool IsInt32(this Type type)
         {
-            return type == typeof(int) || type == typeof(int?);
+            return type == typeof(int) || type == typeof(int?)
+                    || type == typeof(UInt32) || type == typeof(UInt32?);
         }
 
         /// <summary>
@@ -95,7 +97,8 @@ namespace System
         /// <returns><c>true</c> if the specified type is a short int type; otherwise, <c>false</c>.</returns>
         public static bool IsInt64(this Type type)
         {
-            return type == typeof(long) || type == typeof(long?);
+            return type == typeof(long) || type == typeof(long?) 
+                    || type == typeof(UInt64) || type == typeof(UInt64?);
         }
 
         /// <summary>
