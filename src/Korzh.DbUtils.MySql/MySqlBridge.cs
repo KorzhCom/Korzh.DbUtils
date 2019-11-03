@@ -69,7 +69,7 @@ namespace Korzh.DbUtils.MySql
         /// </summary>
         /// <param name="tableSchema">The table schema.</param>
         /// <param name="tableName">The table name.</param>
-        /// <param name="columns">The columns list.</param>
+        /// <param name="columns">The list which will be filled with the columns from the specified table.</param>
         protected override void ExtractColumnList(string tableSchema, string tableName, IList<ColumnInfo> columns)
         {
             string[] restrictions = new string[3];
