@@ -28,13 +28,13 @@ dotnet tool install -g Korzh.DbTool
 __dbtool__ stores the information about DB connections and some other settings in a global configuration file ({USERDIR}/.korzh/dbtool.config), so register your connection in that list you need to call `connections add` command:
 
 ```cmd
-dbtool connections add {Connection ID} {DB Type (mssql|mysql)} {Connection string}
+dbtool connections add {Connection ID} {DB Type (sqlserver|mysql|postgre)} {Connection string}
 ```
 
 For example:
 
 ```cmd
-dbtool connections add demo1 mssql "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EqDemoDb07;Integrated Security=True;"
+dbtool connections add demo1 sqlserver "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EqDemoDb07;Integrated Security=True;"
 ```
 
 ### Exporting DB data
@@ -121,7 +121,7 @@ Just install `dbtool` as it's described above, add a connection to you DB and th
 ```bash
 dotnet tool install -g Korzh.DbTool
 
-dbtool connections add MyMasterDb mssql "{the connection string to your DB}"
+dbtool connections add MyMasterDb sqlserver "{the connection string to your DB}"
 
 dbtool export MyMasterDb
 ```
