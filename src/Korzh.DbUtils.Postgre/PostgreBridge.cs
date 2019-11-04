@@ -79,8 +79,6 @@ namespace Korzh.DbUtils.PostgreSql
                 var dbTypeName = (string)row["data_type"];
 
                 ColumnInfo column = new ColumnInfo(columnName, PostgreDbTypeToClrType(dbTypeName));
-                //Maybe we should rename IsTimestamp to IsRowVersion.
-                //column.IsTimestamp = dbTypeName == "timestamp" || dbTypeName == "timestamptz" || dbTypeName == "timetz";
                 
                 columns.Add(column);
             }            
