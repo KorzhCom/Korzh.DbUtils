@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.Export", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.Import", "src\Korzh.DbUtils.Import\Korzh.DbUtils.Import.csproj", "{E1CC26CA-5EDE-41C4-9298-454B28E1DC33}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.PostgreSql", "src\Korzh.DbUtils.Postgre\Korzh.DbUtils.PostgreSql.csproj", "{10378DBC-C428-4C73-A49A-D33C3ADF9B92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.PostgreSql", "src\Korzh.DbUtils.PostgreSql\Korzh.DbUtils.PostgreSql.csproj", "{10378DBC-C428-4C73-A49A-D33C3ADF9B92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
