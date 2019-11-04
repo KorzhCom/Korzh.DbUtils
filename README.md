@@ -94,13 +94,17 @@ The library includes several packages which implement some basic database operat
 
  Contains implementations of `IDatasetExporter` for XML and JSON.
 
-* Korzh.DbUtils.SqlServer
+* `Korzh.DbUtils.SqlServer`
 
   Implements DB manipulation interfaces (`IDbBridge`, `IDbReader`, `IDbSeeder`) for MS SQL Server connections.
 
-* Korzh.DbUtils.MySQL
+* `Korzh.DbUtils.MySQL`
 
   Implements DB manipulation interfaces for MySQL connections.
+  
+* `Korzh.DbUtils.PostgreSql`
+
+  Implements DB manipulation interfaces for PosrgreSql connections.
 
 Here you can find the [full API reference of the library](https://korzh.aistant.com/db-utils/api-reference).
 
