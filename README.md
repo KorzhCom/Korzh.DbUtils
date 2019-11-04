@@ -28,13 +28,13 @@ dotnet tool install -g Korzh.DbTool
 __dbtool__ stores the information about DB connections and some other settings in a global configuration file ({USERDIR}/.korzh/dbtool.config), so register your connection in that list you need to call `connections add` command:
 
 ```cmd
-dbtool connections add {Connection ID} {DB Type (mssql|mysql)} {Connection string}
+dbtool connections add {Connection ID} {DB Type (sqlserver|mysql|postgre)} {Connection string}
 ```
 
 For example:
 
 ```cmd
-dbtool connections add demo1 mssql "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EqDemoDb07;Integrated Security=True;"
+dbtool connections add demo1 sqlserver "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EqDemoDb07;Integrated Security=True;"
 ```
 
 ### Exporting DB data
@@ -80,7 +80,7 @@ dbtool import demo1 --input=MyDbData.zip
 
 ## Korzh.DbUtils library
 
-The libary includes several packages which implement some basic database operations:
+The library includes several packages which implement some basic database operations:
 
 * `Korzh.DbUtils`
 
@@ -88,19 +88,23 @@ The libary includes several packages which implement some basic database operati
 
 * `Korzh.DbUtils.Import`
 
-  Contains implementations or `IDatasetImporter` interface for XML and JSON formats. Additionally it contains DbInitializer class which can be used for data seeding in your projects.
+  Contains implementations or `IDatasetImporter` interface for XML and JSON formats. Additionally, it contains DbInitializer class which can be used for data seeding in your projects.
 
 * `Korzh.DbUtils.Export`
 
  Contains implementations of `IDatasetExporter` for XML and JSON.
 
-* Korzh.DbUtils.SqlServer
+* `Korzh.DbUtils.SqlServer`
 
   Implements DB manipulation interfaces (`IDbBridge`, `IDbReader`, `IDbSeeder`) for MS SQL Server connections.
 
-* Korzh.DbUtils.MySQL
+* `Korzh.DbUtils.MySQL`
 
   Implements DB manipulation interfaces for MySQL connections.
+  
+* `Korzh.DbUtils.PostgreSql`
+
+  Implements DB manipulation interfaces for PosrgreSql connections.
 
 Here you can find the [full API reference of the library](https://korzh.aistant.com/db-utils/api-reference).
 
@@ -117,7 +121,7 @@ Just install `dbtool` as it's described above, add a connection to you DB and th
 ```bash
 dotnet tool install -g Korzh.DbTool
 
-dbtool connections add MyMasterDb mssql "{the connection string to your DB}"
+dbtool connections add MyMasterDb sqlserver "{the connection string to your DB}"
 
 dbtool export MyMasterDb
 ```
