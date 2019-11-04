@@ -14,7 +14,7 @@ using Korzh.DbUtils.Packing;
 using Korzh.DbUtils.Export;
 using Korzh.DbUtils.SqlServer;
 using Korzh.DbUtils.MySql;
-using Korzh.DbUtils.Postgre;
+using Korzh.DbUtils.PostgreSql;
 
 namespace Korzh.DbTool
 {

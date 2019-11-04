@@ -7,6 +7,10 @@
     "NWind": {
       "DbType": "mysql",
       "ConnectionString": "Server=demodb.korzh.com;Port=6603;Database=nwind;Uid=equser;Pwd=ILoveEasyQuery;SslMode=none"
+    },
+    "PostgreTest": {
+      "DbType": "postgresql",
+      "ConnectionString": "User ID=postgres;Password=0000;Host=localhost;Port=5432;Database=nwind;"
     }
   }
 }

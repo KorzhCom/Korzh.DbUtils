@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 using Npgsql;
 
-namespace Korzh.DbUtils.Postgre
+namespace Korzh.DbUtils.PostgreSql
 {
     /// <summary>
     /// An implementation of <see cref="BaseDbBridge "/> for PostgreSql
@@ -79,7 +79,8 @@ namespace Korzh.DbUtils.Postgre
                 var dbTypeName = (string)row["data_type"];
 
                 ColumnInfo column = new ColumnInfo(columnName, PostgreDbTypeToClrType(dbTypeName));
-                column.IsTimestamp = dbTypeName == "timestamp" || dbTypeName == "timestamptz" || dbTypeName == "timetz";
+                //Maybe we should rename IsTimestamp to IsRowVersion.
+                //column.IsTimestamp = dbTypeName == "timestamp" || dbTypeName == "timestamptz" || dbTypeName == "timetz";
                 
                 columns.Add(column);
             }            
@@ -108,6 +109,7 @@ namespace Korzh.DbUtils.Postgre
                     return typeof(long);
 
                 case "real":
+                case "float4":
                 case "float8":
                     return typeof(float);
 

@@ -6,7 +6,9 @@
 
         public const string MySql = "mysql";
 
-        public const string PostgreSql = "postgre";
+        public const string PostgreSql = "postgresql";
+
+        public static readonly string[] AllDbTypes = new[] { DbType.SqlServer, DbType.MySql, DbType.PostgreSql };
 
     }
 }

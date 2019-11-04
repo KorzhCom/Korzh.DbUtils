@@ -1,11 +1,9 @@
-﻿using System;
+﻿using NpgsqlTypes;
 
-using NpgsqlTypes;
-
-namespace Korzh.DbUtils.Postgre
+namespace System
 {
     /// <summary>
-    /// Contains an extension method to get a NpgsqlDbType from an instance of <see cref="System.Type"/> 
+    /// Contains an extension method to get a <see cref="NpgsqlDbType"/> from an instance of <see cref="System.Type"/> 
     /// </summary>
     public static class PostgreTypeExtensions
     {

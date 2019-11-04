@@ -16,7 +16,7 @@ using Korzh.DbUtils;
 using Korzh.DbUtils.Import;
 using Korzh.DbUtils.SqlServer;
 using Korzh.DbUtils.MySql;
-using Korzh.DbUtils.Postgre;
+using Korzh.DbUtils.PostgreSql;
 using Korzh.DbUtils.Packing;
 
 
