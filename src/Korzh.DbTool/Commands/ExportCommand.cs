@@ -77,6 +77,7 @@ namespace Korzh.DbTool
         private void InitConnection(ConnectionInfo info)
         {
             switch (info.DbType) {
+                case DbType.OldSqlServer:
                 case DbType.SqlServer:
                     _connection = new SqlConnection(info.ConnectionString);
                     break;
@@ -87,7 +88,7 @@ namespace Korzh.DbTool
                     _connection = new NpgsqlConnection(info.ConnectionString);
                     break;
                 default:
-                    throw new Exception("Unknown connection type: " + info.DbType);
+                    throw new Exception($"Unknown connection type: {info.DbType}. Evaluable types: {string.Join(", ", DbType.AllDbTypes)}");
             }
 
             if (_connection.State != ConnectionState.Open) {

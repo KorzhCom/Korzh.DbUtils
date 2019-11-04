@@ -1,7 +1,7 @@
 {
   "connections": {
     "EqDemoDbSql": {
-      "DbType": "mssql",
+      "DbType": "sqlserver",
       "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EqDemoDb05;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
     },
     "NWind": {
@@ -9,7 +9,7 @@
       "ConnectionString": "Server=demodb.korzh.com;Port=6603;Database=nwind;Uid=equser;Pwd=ILoveEasyQuery;SslMode=none"
     },
     "PostgreTest": {
-      "DbType": "postgresql",
+      "DbType": "postgre",
       "ConnectionString": "User ID=postgres;Password=0000;Host=localhost;Port=5432;Database=nwind;"
     }
   }
