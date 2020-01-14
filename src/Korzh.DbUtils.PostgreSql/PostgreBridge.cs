@@ -226,7 +226,7 @@ namespace Korzh.DbUtils.PostgreSql
                 return;
             
             using (var command = GetConnection().CreateCommand()){
-                command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentTable)} disable trigger all;";
+                command.CommandText = $"ALTER TABLE {GetFormattedTableName(CurrentTable)} disable trigger all;";
                 command.CommandType = CommandType.Text;
 
                 Logger?.LogDebug(command.CommandText);
@@ -253,7 +253,7 @@ namespace Korzh.DbUtils.PostgreSql
                 return;
 
             using (var command = GetConnection().CreateCommand()){
-                command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentTable)} enable trigger all;";
+                command.CommandText = $"ALTER TABLE {GetFormattedTableName(CurrentTable)} enable trigger all;";
                 command.CommandType = CommandType.Text;
 
                 Logger?.LogDebug(command.CommandText);

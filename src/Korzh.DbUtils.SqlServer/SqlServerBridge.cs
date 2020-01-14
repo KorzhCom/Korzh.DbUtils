@@ -170,7 +170,7 @@ namespace Korzh.DbUtils.SqlServer
         {
             if (CurrentTable != null) {
                 using (var command = GetConnection().CreateCommand()) {
-                    command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentTable)} NOCHECK CONSTRAINT all";
+                    command.CommandText = $"ALTER TABLE {GetFormattedTableName(CurrentTable)} NOCHECK CONSTRAINT all";
                     command.CommandType = CommandType.Text;
 
                     Logger?.LogDebug(command.CommandText);
@@ -188,7 +188,7 @@ namespace Korzh.DbUtils.SqlServer
         {
             if (CurrentTable != null) {
                 using (var command = GetConnection().CreateCommand()) {
-                    command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentTable)} CHECK CONSTRAINT all";
+                    command.CommandText = $"ALTER TABLE {GetFormattedTableName(CurrentTable)} CHECK CONSTRAINT all";
                     command.CommandType = CommandType.Text;
 
                     Logger?.LogDebug(command.CommandText);
@@ -206,7 +206,7 @@ namespace Korzh.DbUtils.SqlServer
         {
             if (CurrentTable != null) {
                 using (var command = GetConnection().CreateCommand()) {
-                    command.CommandText = $"IF EXISTS (SELECT 1 FROM sys.columns c WHERE c.object_id = object_id('{GetTableFullName(CurrentTable)}') AND c.is_identity =1) begin SET IDENTITY_INSERT {GetTableFullName(CurrentTable)} ON end";
+                    command.CommandText = $"IF EXISTS (SELECT 1 FROM sys.columns c WHERE c.object_id = object_id('{GetFormattedTableName(CurrentTable)}') AND c.is_identity =1) begin SET IDENTITY_INSERT {GetFormattedTableName(CurrentTable)} ON end";
                     command.CommandType = CommandType.Text;
 
                     Logger?.LogDebug(command.CommandText);
@@ -224,7 +224,7 @@ namespace Korzh.DbUtils.SqlServer
         {
             if (CurrentTable != null) {
                 using (var command = GetConnection().CreateCommand()) {
-                    command.CommandText = $"IF EXISTS (SELECT 1 from sys.columns c WHERE c.object_id = object_id('{GetTableFullName(CurrentTable)}') AND c.is_identity = 1) begin SET IDENTITY_INSERT {GetTableFullName(CurrentTable)} OFF end";
+                    command.CommandText = $"IF EXISTS (SELECT 1 from sys.columns c WHERE c.object_id = object_id('{GetFormattedTableName(CurrentTable)}') AND c.is_identity = 1) begin SET IDENTITY_INSERT {GetFormattedTableName(CurrentTable)} OFF end";
                     command.CommandType = CommandType.Text;
 
                     Logger?.LogDebug(command.CommandText);

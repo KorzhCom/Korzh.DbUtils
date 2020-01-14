@@ -22,7 +22,6 @@ namespace Korzh.DbTool
             var tablesArg = command.Argument("<tables>", "Table names separeated by ,")
                               .IsRequired();
 
-
             Func<int> runCommandFunc = new FilterTablesCommand(connectionArg, tablesArg, options).Run;
             command.OnExecute(runCommandFunc);
         }

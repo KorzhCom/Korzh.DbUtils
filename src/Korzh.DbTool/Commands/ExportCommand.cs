@@ -3,19 +3,12 @@ using System.IO;
 using System.Linq;
 using System.Data.Common;
 using System.Data;
-using System.Data.SqlClient;
-
-using MySql.Data.MySqlClient;
-using Npgsql;
 
 using McMaster.Extensions.CommandLineUtils;
 
 using Korzh.DbUtils;
 using Korzh.DbUtils.Packing;
 using Korzh.DbUtils.Export;
-using Korzh.DbUtils.SqlServer;
-using Korzh.DbUtils.MySql;
-using Korzh.DbUtils.PostgreSql;
 
 namespace Korzh.DbTool
 {
@@ -77,20 +70,7 @@ namespace Korzh.DbTool
 
         private void InitConnection(ConnectionInfo info)
         {
-            switch (info.DbType) {
-                case DbType.OldSqlServer:
-                case DbType.SqlServer:
-                    _connection = new SqlConnection(info.ConnectionString);
-                    break;
-                case DbType.MySql:
-                    _connection = new MySqlConnection(info.ConnectionString);
-                    break;
-                case DbType.PostgreSql:
-                    _connection = new NpgsqlConnection(info.ConnectionString);
-                    break;
-                default:
-                    throw new Exception($"Unknown connection type: {info.DbType}. Evaluable types: {string.Join(", ", DbType.AllDbTypes)}");
-            }
+            _connection = ConnectionFactory.Create(info);
 
             if (_connection.State != ConnectionState.Open) {
                 Console.WriteLine($"Openning {info.Id} connection...");
@@ -110,18 +90,7 @@ namespace Korzh.DbTool
 
         private IDbReader GetDbReader()
         {
-            if (_connection is SqlConnection) {
-                return new SqlServerBridge(_connection as SqlConnection, Program.LoggerFactory);
-            }
-            else if (_connection is MySqlConnection){
-                return new MySqlBridge(_connection as MySqlConnection, Program.LoggerFactory);
-            }
-            else if(_connection is NpgsqlConnection){
-                return new PostgreBridge(_connection as NpgsqlConnection, Program.LoggerFactory);
-            }
-
-            return null;
-
+            return DbBridgeFactory.Create(_connection);
         }
 
         private IDataPacker GetPacker()
@@ -166,8 +135,8 @@ namespace Korzh.DbTool
             InitConnection(info);
 
             Func<DatasetInfo, bool> filter = null;
-            var tables = info.Tables.Split(',').ToList();
             if (!string.IsNullOrEmpty(info.Tables)) {
+                var tables = info.Tables.Split(',').ToList();
                 filter = (dataSet) =>
                 {
                     return tables.Contains(dataSet.Name);

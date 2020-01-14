@@ -47,7 +47,7 @@ namespace Korzh.DbUtils.Export
                         if (string.Equals(table.Name, "__EFMigrationsHistory", StringComparison.InvariantCultureIgnoreCase))
                             continue;
 
-                        if (filter is null && !filter(table))
+                        if (!(filter is null || filter(table)))
                             continue;
 
                         using (var stream = GetPackerStream(table.Name))

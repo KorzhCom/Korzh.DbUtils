@@ -149,11 +149,11 @@ namespace Korzh.DbUtils
             sql.Append("SELECT");
 
             foreach (var column in columns) {
-                sql.AppendFormat(" {0}{1}{2},", Quote1, column.Name, Quote2);
+                sql.AppendFormat(" {0},", GetFormattedColumnName(column));
             }
 
             sql.Remove(sql.Length - 1, 1);
-            sql.AppendFormat(" FROM {0}", GetTableFullName(table));
+            sql.AppendFormat(" FROM {0}", GetFormattedTableName(table));
 
             return GetDataReaderForSql(sql.ToString());
         }
@@ -224,11 +224,11 @@ namespace Korzh.DbUtils
 
             CheckConnection();
 
-            FillParameters(_insertCommand, record);
+            FillParameters(_updateCommand, record);
 
-            Logger?.LogDebug(_insertCommand.CommandText);
+            Logger?.LogDebug(_updateCommand.CommandText);
 
-            _insertCommand.ExecuteNonQuery();
+            _updateCommand.ExecuteNonQuery();
         }
 
         /// <summary>
@@ -261,7 +261,7 @@ namespace Korzh.DbUtils
         protected string GenerateInsertStatement(DatasetInfo table, IDbCommand command)
         {
             var sb = new StringBuilder(100);
-            sb.AppendFormat("INSERT INTO {0} ( ", GetTableFullName(table));
+            sb.AppendFormat("INSERT INTO {0} ( ", GetFormattedTableName(table));
 
             var columns = new List<ColumnInfo>();
             ExtractColumnList(table.Schema, table.Name, columns);
@@ -274,7 +274,7 @@ namespace Korzh.DbUtils
             }
 
             foreach(var column in columns) {
-                sb.AppendFormat("{0}{1}{2}, ", Quote1, column.Name, Quote2);
+                sb.AppendFormat("{0}, ", GetFormattedColumnName(column));
             }
 
             sb.Remove(sb.Length - 2, 2);
@@ -306,7 +306,7 @@ namespace Korzh.DbUtils
         protected string GenerateUpdateStatement(DatasetInfo table, IDbCommand command)
         {
             var sb = new StringBuilder(1024);
-            sb.AppendFormat("UPDATE {0} SET ", GetTableFullName(table));
+            sb.AppendFormat("UPDATE {0} SET ", GetFormattedTableName(table));
 
             var columns = new List<ColumnInfo>();
             ExtractColumnList(table.Schema, table.Name, columns);
@@ -319,7 +319,7 @@ namespace Korzh.DbUtils
                 //parameter.DbType = column.DbType; ????  maybe we need to save DbType on ExtractColumnList
                 parameter.ParameterName = paramName;
                 command.Parameters.Add(parameter);
-                sb.AppendFormat("{0}{1}{2}={3}, ", Quote1, column.Name, Quote2.Length, paramName);
+                sb.AppendFormat("{0}={1}, ", GetFormattedColumnName(column), paramName);
             }
 
             sb.Remove(sb.Length - 2, 2);
@@ -333,10 +333,10 @@ namespace Korzh.DbUtils
                 //parameter.DbType = column.DbType; ????  maybe we need to save DbType on ExtractColumnList
                 parameter.ParameterName = paramName;
                 command.Parameters.Add(parameter);
-                sb.AppendFormat("{0}{1}{2}={3}, ", Quote1, column.Name, Quote2.Length, paramName);
+                sb.AppendFormat("{0}={1} AND ", GetFormattedColumnName(column), paramName);
             }
 
-            sb.Remove(sb.Length - 2, 2);
+            sb.Remove(sb.Length - 5, 5);
             sb.Append(";");
 
             return sb.ToString();
@@ -387,7 +387,7 @@ namespace Korzh.DbUtils
             }
 
             CurrentTable = table;
-            Logger?.LogDebug("Start seeding: " + GetTableFullName(CurrentTable));
+            Logger?.LogDebug("Start seeding: " + GetFormattedTableName(CurrentTable));
             TurnOffConstraints();
             TurnOffAutoIncrement();
 
@@ -407,7 +407,7 @@ namespace Korzh.DbUtils
             }
 
             CurrentTable = table;
-            Logger?.LogDebug("Start updating: " + GetTableFullName(CurrentTable));
+            Logger?.LogDebug("Start updating: " + GetFormattedTableName(CurrentTable));
 
             _updateCommand = GetConnection().CreateCommand();
             _updateCommand.CommandText = GenerateUpdateStatement(CurrentTable, _updateCommand);
@@ -450,7 +450,7 @@ namespace Korzh.DbUtils
         {
             TurnOnConstraints();
             TurnOnAutoIncrement();
-            Logger?.LogDebug("Finish seeding: " + GetTableFullName(CurrentTable));
+            Logger?.LogDebug("Finish seeding: " + GetFormattedTableName(CurrentTable));
             CurrentTable = null;
             _insertCommand.Dispose();
             _insertCommand = null;
@@ -462,7 +462,7 @@ namespace Korzh.DbUtils
         /// </summary>
         public void FinishUpdating()
         {
-            Logger?.LogDebug("Finish updating: " + GetTableFullName(CurrentTable));
+            Logger?.LogDebug("Finish updating: " + GetFormattedTableName(CurrentTable));
             CurrentTable = null;
             _updateCommand.Dispose();
             _updateCommand = null;
@@ -474,7 +474,7 @@ namespace Korzh.DbUtils
         /// </summary>
         /// <param name="table">The table.</param>
         /// <returns>System.String.</returns>
-        protected virtual string GetTableFullName(DatasetInfo table)
+        public virtual string GetFormattedTableName(DatasetInfo table)
         {
             var result = "";
             if (!string.IsNullOrEmpty(table.Schema)) {
@@ -484,6 +484,26 @@ namespace Korzh.DbUtils
             result += Quote1 + table.Name + Quote2;
 
             return result;
+        }
+
+        /// <summary>
+        /// Gets the formatted name of the column (including schemaall necessary quotes).
+        /// </summary>
+        /// <param name="column"></param>
+        /// <returns></returns>
+        public virtual string GetFormattedColumnName(ColumnInfo column)
+        {
+            return GetFormattedColumnName(column.Name);
+        }
+
+        /// <summary>
+        /// Gets the formatted name of the column (including schemaall necessary quotes).
+        /// </summary>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
+        public virtual string GetFormattedColumnName(string columnName)
+        {
+            return Quote1 + columnName + Quote2;
         }
     }
 
