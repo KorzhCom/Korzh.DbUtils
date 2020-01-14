@@ -1,9 +1,9 @@
 
 # DbTool utility and Korzh.DbUtils packages
 
-| Build status | Nuget| 
-|---|---|
-|   [![Build status](https://korzhdev.visualstudio.com/EasyQuery/_apis/build/status/Kedonec/prod-DbUtils)](https://korzhdev.visualstudio.com/EasyQuery/_build/latest?definitionId=47) | [![NuGet](https://img.shields.io/nuget/v/Korzh.DbTool.svg)](https://www.nuget.org/packages/Korzh.DbTool) |
+| Build status | Nuget| Inspired by|
+|---|---|---|
+|   [![Build status](https://korzhdev.visualstudio.com/EasyQuery/_apis/build/status/Kedonec/prod-DbUtils)](https://korzhdev.visualstudio.com/EasyQuery/_build/latest?definitionId=47) | [![NuGet](https://img.shields.io/nuget/v/Korzh.DbTool.svg)](https://www.nuget.org/packages/Korzh.DbTool) |[![EasyQuery](https://i.ibb.co/xzsf24t/Easy-Query.png)](http://korzh.com/easyquery)|
 
 ## About
 
