@@ -79,8 +79,9 @@ namespace Korzh.DbUtils.MySql
             foreach (DataRow row in schemaTable.Rows) {
                 var columnName = (string)row["column_name"];
                 var dbTypeName = (string)row["data_type"];
+                var isPK = row["column_key"].ToString() == "PRI";
 
-                ColumnInfo column = new ColumnInfo(columnName, SqlTypeToClrType(dbTypeName));
+                ColumnInfo column = new ColumnInfo(columnName, SqlTypeToClrType(dbTypeName), isPK);
 
                 columns.Add(column);
             }

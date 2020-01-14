@@ -72,13 +72,34 @@ namespace Korzh.DbUtils.PostgreSql
             string[] restrictions = new string[3];
             restrictions[2] = tableName;
 
+            var sqlForKeys = @"SELECT a.attname, format_type(a.atttypid, a.atttypmod) AS data_type
+                            FROM   pg_index i
+                            JOIN   pg_attribute a ON a.attrelid = i.indrelid
+                                                 AND a.attnum = ANY(i.indkey)
+                            WHERE  i.indrelid = '" + tableName + @"'::regclass
+                            AND    i.indisprimary;";
+
+            var primaryKeys = new List<string>();
+            using (var command = this.Connection.CreateCommand()) {
+                command.CommandText = sqlForKeys;
+                command.CommandType = CommandType.Text;
+
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        primaryKeys.Add(reader[0].ToString());
+                    }
+                }
+            }
+
+
             DataTable schemaTable = Connection.GetSchema("Columns", restrictions);
             
             foreach (DataRow row in schemaTable.Rows){
                 var columnName = (string)row["column_name"];
                 var dbTypeName = (string)row["data_type"];
+                var isPK = sqlForKeys.Contains(columnName);
 
-                ColumnInfo column = new ColumnInfo(columnName, PostgreDbTypeToClrType(dbTypeName));
+                ColumnInfo column = new ColumnInfo(columnName, PostgreDbTypeToClrType(dbTypeName), isPK);
                 
                 columns.Add(column);
             }            
@@ -201,11 +222,11 @@ namespace Korzh.DbUtils.PostgreSql
         /// </summary>
         protected override void TurnOffConstraints()
         {
-            if (CurrentSeedingTable == null)
+            if (CurrentTable == null)
                 return;
             
             using (var command = GetConnection().CreateCommand()){
-                command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentSeedingTable)} disable trigger all;";
+                command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentTable)} disable trigger all;";
                 command.CommandType = CommandType.Text;
 
                 Logger?.LogDebug(command.CommandText);
@@ -228,11 +249,11 @@ namespace Korzh.DbUtils.PostgreSql
         /// </summary>
         protected override void TurnOnConstraints()
         {
-            if (CurrentSeedingTable == null)
+            if (CurrentTable == null)
                 return;
 
             using (var command = GetConnection().CreateCommand()){
-                command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentSeedingTable)} enable trigger all;";
+                command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentTable)} enable trigger all;";
                 command.CommandType = CommandType.Text;
 
                 Logger?.LogDebug(command.CommandText);

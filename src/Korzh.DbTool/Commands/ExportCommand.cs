@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Data.Common;
 using System.Data;
 using System.Data.SqlClient;
@@ -164,10 +165,19 @@ namespace Korzh.DbTool
 
             InitConnection(info);
 
+            Func<DatasetInfo, bool> filter = null;
+            var tables = info.Tables.Split(',').ToList();
+            if (!string.IsNullOrEmpty(info.Tables)) {
+                filter = (dataSet) =>
+                {
+                    return tables.Contains(dataSet.Name);
+                };
+            }
+
             var exporter = new DbExporter(GetDbReader(), GetDatasetExporter(), GetPacker(), Program.LoggerFactory);
 
             Console.WriteLine($"Exporting database [{_arguments.ConnectionId}]...");
-            exporter.Export();
+            exporter.Export(filter);
             Console.WriteLine($"Export completed!");
 
             return 0;

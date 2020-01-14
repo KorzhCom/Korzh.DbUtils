@@ -50,7 +50,7 @@ namespace Korzh.DbUtils.Import
                             try {
                                 while (_datasetImporter.HasRecords()) {
                                     try {
-                                        _dbWriter.WriteRecord(_datasetImporter.NextRecord());
+                                        _dbWriter.InsertRecord(_datasetImporter.NextRecord());
                                         recordCount++;
                                     }
                                     catch (Exception ex) {

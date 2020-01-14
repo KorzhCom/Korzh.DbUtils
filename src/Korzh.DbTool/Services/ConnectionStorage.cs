@@ -18,6 +18,8 @@ namespace Korzh.DbTool
 
         public string ConnectionString { get; set; }
 
+        public string Tables { get; set; }
+
         public ConnectionInfo() { }
 
         public ConnectionInfo(string id, string dbType, string connectionString)

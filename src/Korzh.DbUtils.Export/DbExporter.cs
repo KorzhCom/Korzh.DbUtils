@@ -36,7 +36,7 @@ namespace Korzh.DbUtils.Export
         /// exports the content of each of them to the specified data format and then 
         /// packs the result files with the specified packer.
         /// </summary>
-        public void Export()
+        public void Export(Func<DatasetInfo, bool> filter = null)
         {
             var datasets = _dbReader.GetDatasets();
             if (datasets.Count > 0) {
@@ -45,6 +45,9 @@ namespace Korzh.DbUtils.Export
                     foreach (var table in datasets) {
 
                         if (string.Equals(table.Name, "__EFMigrationsHistory", StringComparison.InvariantCultureIgnoreCase))
+                            continue;
+
+                        if (filter is null && !filter(table))
                             continue;
 
                         using (var stream = GetPackerStream(table.Name))

@@ -16,6 +16,12 @@ namespace Korzh.DbUtils
         public string Name { get; private set; }
 
         /// <summary>
+        /// Determines whether the column is a primary key.
+        /// </summary>
+        /// <value>The name of the column.</value>
+        public bool IsPrimaryKey { get; private set; }
+
+        /// <summary>
         /// Gets the type of the column (as CLR type).
         /// </summary>
         /// <value>The type of the column data.</value>
@@ -32,7 +38,8 @@ namespace Korzh.DbUtils
         /// </summary>
         /// <param name="name">The name of the column.</param>
         /// <param name="type">The name of the CLR type for the new column.</param>
-        public ColumnInfo(string name, string type) : this(name, Type.GetType(type))
+        /// <param name="isPK">Is primary key.</param>
+        public ColumnInfo(string name, string type, bool isPK = false) : this(name, Type.GetType(type), isPK)
         {
         }
 
@@ -41,10 +48,12 @@ namespace Korzh.DbUtils
         /// </summary>
         /// <param name="name">The name of the new column.</param>
         /// <param name="type">The CLR type of the new column.</param>
-        public ColumnInfo(string name, Type type)
+        /// <param name="isPK">Is primary key.</param>
+        public ColumnInfo(string name, Type type, bool isPK = false)
         {
             Name = name;
             DataType = type;
+            IsPrimaryKey = isPK;
         }
 
     }
@@ -67,6 +76,10 @@ namespace Korzh.DbUtils
         /// <value>The schema name.</value>
         public string Schema { get; private set; }
 
+        /// <summary>
+        /// Sets the schema
+        /// </summary>
+        /// <param name="schema"></param>
         public void SetSchema(string schema)
         {
             Schema = schema;
