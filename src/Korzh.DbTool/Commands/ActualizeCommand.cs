@@ -12,7 +12,6 @@ namespace Korzh.DbTool
     class ActualizeCommand : ICommand
     {
 
-
         public static void Configure(CommandLineApplication command, GlobalOptions options)
         {
             command.Description = "Our INTERNAL command to actualize test (demo) data. Current update dates value updating using calculated delta.";
@@ -93,25 +92,33 @@ namespace Korzh.DbTool
             var deltaYear = DateTime.Now.Year - maxDate.Year;
             Console.WriteLine("Delta year: " + deltaYear);
 
+            if (deltaYear < 0)
+                return 0;
+
             foreach (var dataSet in dataSets) {
                 if (!(filter is null || filter(dataSet))) {
                     continue;
                 }
 
+                var count = 0;
                 try {
+                    Console.WriteLine("Updating: " + dataSet.Name);
                     bridgeUpdate.StartUpdating(dataSet);
                     using (reader = bridgeSelect.GetDataReaderForTable(dataSet)) {
                         while (reader.Read()) {
                             var record = new DataRecord();
                             FillDataRecord(record, reader, deltaYear);
                             bridgeUpdate.UpdateRecord(record);
+                            count++;
                         }
                     }
                 }
                 finally {
+                    Console.WriteLine("Updated: " + count);
                     bridgeUpdate.FinishUpdating();
                 }
             }
+
             return 0;
         }
 

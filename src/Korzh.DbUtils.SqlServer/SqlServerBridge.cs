@@ -138,6 +138,7 @@ namespace Korzh.DbUtils.SqlServer
                     return typeof(TimeSpan);
                 case "binary":
                 case "varbinary":
+                case "image":
                     return typeof(byte[]);
                 default:
                     return typeof(string);

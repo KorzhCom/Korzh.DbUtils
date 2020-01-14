@@ -176,7 +176,7 @@ namespace Korzh.DbTool
                 var location = _options.LocalConfigFilePathOption.HasValue() ? _options.LocalConfigFilePathOption.Value() : "global";
                 Console.WriteLine($"Connections ({location}): ");
                 foreach (var connection in connections) {
-                    Console.WriteLine("({0}) \"{1}\": \"{2}\"", connection.Info.DbType, connection.ConnectionId, connection.Info.ConnectionString);
+                    Console.WriteLine("({0}) \"{1}\": \"{2}\" \n(Filter tables: {3})", connection.Info.DbType, connection.ConnectionId, connection.Info.ConnectionString, connection.Info.Tables ?? "All");
                 }
             }
             else {
