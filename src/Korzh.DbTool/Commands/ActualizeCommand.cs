@@ -62,7 +62,7 @@ namespace Korzh.DbTool
             var storage = new ConnectionStorage(_options.ConfigFilePath);
             var info = storage.Get(connectionId);
             if (info == null) {
-                Console.WriteLine("Connection with current ID is not found: " + connectionId);
+                Console.WriteLine("Connection not found: " + connectionId);
                 return -1;
             }
 
@@ -104,7 +104,7 @@ namespace Korzh.DbTool
 
                 var count = 0;
                 try {
-                    Console.WriteLine("Updating: " + dataSet.Name);
+                    Console.WriteLine($"Updating: {dataSet.Name}...");
                     bridgeUpdate.StartUpdating(dataSet);
                     using (reader = bridgeSelect.GetDataReaderForTable(dataSet)) {
                         while (reader.Read()) {
@@ -141,8 +141,7 @@ namespace Korzh.DbTool
                 }
 
                 record[columnName] = value;          
-            }
-           
+            }           
         }
     }
 }
