@@ -11,7 +11,7 @@
 The exported files can be used after that for DB seeding in your application with the help of 
 Korzh.DbUtils library.
 
-Currently, the tool supports MS SQL Server and MySQL connections.
+Currently, the tool supports MS SQL Server, MySQL and PostgreSQL connections.
 To add other types of connections please create an issue on GitHub repository.
     </Description>
     <Authors>Sergiy Korzh, Anton Ivanenko</Authors>
@@ -32,6 +32,7 @@ To add other types of connections please create an issue on GitHub repository.
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.3.4" />
+    <PackageReference Include="System.Data.Common" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>

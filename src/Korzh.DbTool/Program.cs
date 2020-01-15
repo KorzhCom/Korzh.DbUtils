@@ -1,11 +1,7 @@
 ﻿using System;
-using System.IO;
-using System.ComponentModel.DataAnnotations;
 
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 
 using McMaster.Extensions.CommandLineUtils;
 
@@ -23,6 +19,9 @@ namespace Korzh.DbTool
 
         public static int Main(string[] args)
         {
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            Console.WriteLine($"dbtool utility {assembly.GetName().Version.ToString()} (c) Korzh.com 2019-2020");
+
             var app = new CommandLineApplication();
             RootCommand.Configure(app);
             return app.Execute(args);
@@ -33,6 +32,7 @@ namespace Korzh.DbTool
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddLogging(builder =>
                    builder.AddConsole());
+
             return serviceCollection.BuildServiceProvider().GetService<ILoggerFactory>();
         }
     }
@@ -59,10 +59,14 @@ namespace Korzh.DbTool
                                       .Accepts(config => config.Values(true, "xml", "json"));
 
 
+            // Internal commands
+            app.Command("actualize", c => ActualizeCommand.Configure(c, options));
+
             // Register commands
             app.Command("export", c => ExportCommand.Configure(c, options));
             app.Command("import", c => ImportCommand.Configure(c, options));
             app.Command("connections", c => ConnectionsCommand.Configure(c, options));
+            app.Command("filter-tables", c => FilterTablesCommand.Configure(c, options));
 
             Func<int> runCommandFunc = new RootCommand(app, options).Run;
             app.OnExecute(runCommandFunc);

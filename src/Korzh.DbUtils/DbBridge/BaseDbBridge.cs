@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -148,11 +149,11 @@ namespace Korzh.DbUtils
             sql.Append("SELECT");
 
             foreach (var column in columns) {
-                sql.AppendFormat(" {0}{1}{2},", Quote1, column.Name, Quote2);
+                sql.AppendFormat(" {0},", GetFormattedColumnName(column));
             }
 
             sql.Remove(sql.Length - 1, 1);
-            sql.AppendFormat(" FROM {0}", GetTableFullName(table));
+            sql.AppendFormat(" FROM {0}", GetFormattedTableName(table));
 
             return GetDataReaderForSql(sql.ToString());
         }
@@ -190,17 +191,59 @@ namespace Korzh.DbUtils
         protected abstract void ExtractDatasetList(IList<DatasetInfo> datasets);
 
         /// <summary>
-        /// Writes (adds) a record to the database tables specified previously at <see cref="StartSeeding(DatasetInfo)" /> method call.
+        /// Inserts a record to the database tables specified previously at <see cref="StartSeeding(DatasetInfo)" /> method call.
         /// </summary>
         /// <param name="record">The record to save to the database table.</param>
         /// <exception cref="Korzh.DbUtils.DbBridgeException">Seeding is not stared. Call StartSeeding() before.</exception>
-        public void WriteRecord(IDataRecord record)
+        public void InsertRecord(IDataRecord record)
         {
-            if (CurrentSeedingTable == null) {
+            if (CurrentTable is null || _insertCommand is null) {
                 throw new DbBridgeException("Seeding is not stared. Call StartSeeding() before." );
             }
 
-            var connection = GetConnection();
+            CheckConnection();
+
+            FillParameters(_insertCommand, record);
+
+            Logger?.LogDebug(_insertCommand.CommandText);
+
+            _insertCommand.ExecuteNonQuery();
+        }
+
+
+        /// <summary>
+        /// Updates a record in the database tables specified previously at <see cref="StartUpdating(DatasetInfo)" /> method call.
+        /// </summary>
+        /// <param name="record">The record to save to the database table.</param>
+        /// <exception cref="Korzh.DbUtils.DbBridgeException">Seeding is not stared. Call StartUpdating() before.</exception>
+        public void UpdateRecord(IDataRecord record)
+        {
+            if (CurrentTable is null || _updateCommand is null) {
+                throw new DbBridgeException("Updating is not stared. Call StartUpdating() before.");
+            }
+
+            CheckConnection();
+
+            FillParameters(_updateCommand, record);
+
+            Logger?.LogDebug(_updateCommand.CommandText);
+
+            _updateCommand.ExecuteNonQuery();
+        }
+
+        /// <summary>
+        /// Adds a record to the database tables specified previously at <see cref="StartSeeding(DatasetInfo)" /> method call.
+        /// </summary>
+        /// <param name="record">The record to save to the database table.</param>
+        /// <exception cref="Korzh.DbUtils.DbBridgeException">Seeding is not stared. Call StartSeeding() before.</exception>
+        [Obsolete("Use InsertRecort() instead")]
+        public void WriteRecord(IDataRecord record)
+        {
+            if (CurrentTable is null || _insertCommand is null) {
+                throw new DbBridgeException("Seeding is not stared. Call StartSeeding() before.");
+            }
+
+            CheckConnection();
 
             FillParameters(_insertCommand, record);
 
@@ -218,7 +261,7 @@ namespace Korzh.DbUtils
         protected string GenerateInsertStatement(DatasetInfo table, IDbCommand command)
         {
             var sb = new StringBuilder(100);
-            sb.AppendFormat("INSERT INTO {0} ( ", GetTableFullName(table));
+            sb.AppendFormat("INSERT INTO {0} ( ", GetFormattedTableName(table));
 
             var columns = new List<ColumnInfo>();
             ExtractColumnList(table.Schema, table.Name, columns);
@@ -231,7 +274,7 @@ namespace Korzh.DbUtils
             }
 
             foreach(var column in columns) {
-                sb.AppendFormat("{0}{1}{2}, ", Quote1, column.Name, Quote2);
+                sb.AppendFormat("{0}, ", GetFormattedColumnName(column));
             }
 
             sb.Remove(sb.Length - 2, 2);
@@ -250,6 +293,51 @@ namespace Korzh.DbUtils
 
             sb.Remove(sb.Length - 2, 2);
             sb.Append(");");
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        ///  Generates the UPDATE statement.
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        protected string GenerateUpdateStatement(DatasetInfo table, IDbCommand command)
+        {
+            var sb = new StringBuilder(1024);
+            sb.AppendFormat("UPDATE {0} SET ", GetFormattedTableName(table));
+
+            var columns = new List<ColumnInfo>();
+            ExtractColumnList(table.Schema, table.Name, columns);
+
+            foreach (var column in columns.Where(c => !c.IsPrimaryKey)) {
+                var paramName = ToParameterName(column.Name);
+                _parameterColumnMap[paramName] = column.Name;
+                var parameter = command.CreateParameter();
+                parameter.DbType = column.DataType.ToDbType();
+                //parameter.DbType = column.DbType; ????  maybe we need to save DbType on ExtractColumnList
+                parameter.ParameterName = paramName;
+                command.Parameters.Add(parameter);
+                sb.AppendFormat("{0}={1}, ", GetFormattedColumnName(column), paramName);
+            }
+
+            sb.Remove(sb.Length - 2, 2);
+
+            sb.Append(" WHERE ");
+            foreach (var column in columns.Where(c => c.IsPrimaryKey)) {
+                var paramName = ToParameterName(column.Name);
+                _parameterColumnMap[paramName] = column.Name;
+                var parameter = command.CreateParameter();
+                parameter.DbType = column.DataType.ToDbType();
+                //parameter.DbType = column.DbType; ????  maybe we need to save DbType on ExtractColumnList
+                parameter.ParameterName = paramName;
+                command.Parameters.Add(parameter);
+                sb.AppendFormat("{0}={1} AND ", GetFormattedColumnName(column), paramName);
+            }
+
+            sb.Remove(sb.Length - 5, 5);
+            sb.Append(";");
 
             return sb.ToString();
         }
@@ -285,7 +373,7 @@ namespace Korzh.DbUtils
         /// <summary>
         /// The current table we are going to seed with the data.
         /// </summary>
-        protected DatasetInfo CurrentSeedingTable;
+        protected DatasetInfo CurrentTable;
 
         /// <summary>
         /// Starts the seeding process for the specified table
@@ -294,21 +382,41 @@ namespace Korzh.DbUtils
         /// <exception cref="Korzh.DbUtils.DbBridgeException">Seeding is not finised. Call FinishSeeding() before start another one.</exception>
         public void StartSeeding(DatasetInfo table)
         {
-            if (CurrentSeedingTable != null) {
+            if (CurrentTable != null) {
                 throw new DbBridgeException("Seeding is not finised. Call FinishSeeding() before start another one.");
             }
 
-            CurrentSeedingTable = table;
-            Logger?.LogDebug("Start seeding: " + GetTableFullName(CurrentSeedingTable));
+            CurrentTable = table;
+            Logger?.LogDebug("Start seeding: " + GetFormattedTableName(CurrentTable));
             TurnOffConstraints();
             TurnOffAutoIncrement();
 
             _insertCommand = GetConnection().CreateCommand();
-            _insertCommand.CommandText = GenerateInsertStatement(CurrentSeedingTable, _insertCommand);
+            _insertCommand.CommandText = GenerateInsertStatement(CurrentTable, _insertCommand);
             _insertCommand.CommandType = CommandType.Text;
         }
 
+        /// <summary>
+        /// Starts the updating process for the specified table
+        /// </summary>
+        /// <param name="table"></param>
+        public void StartUpdating(DatasetInfo table) 
+        {
+            if (CurrentTable != null) {
+                throw new DbBridgeException("Updating is not finised. Call FinishUpdating() before start another one.");
+            }
+
+            CurrentTable = table;
+            Logger?.LogDebug("Start updating: " + GetFormattedTableName(CurrentTable));
+
+            _updateCommand = GetConnection().CreateCommand();
+            _updateCommand.CommandText = GenerateUpdateStatement(CurrentTable, _updateCommand);
+            _updateCommand.CommandType = CommandType.Text;
+        }
+
         private IDbCommand _insertCommand = null;
+        private IDbCommand _updateCommand = null;
+
         private Dictionary<string, string> _parameterColumnMap = new Dictionary<string, string>();
 
         /// <summary>
@@ -342,9 +450,22 @@ namespace Korzh.DbUtils
         {
             TurnOnConstraints();
             TurnOnAutoIncrement();
-            Logger?.LogDebug("Finish seeding: " + GetTableFullName(CurrentSeedingTable));
-            CurrentSeedingTable = null;
+            Logger?.LogDebug("Finish seeding: " + GetFormattedTableName(CurrentTable));
+            CurrentTable = null;
             _insertCommand.Dispose();
+            _insertCommand = null;
+            _parameterColumnMap.Clear();
+        }
+
+        /// <summary>
+        /// Finilizes the updating process.
+        /// </summary>
+        public void FinishUpdating()
+        {
+            Logger?.LogDebug("Finish updating: " + GetFormattedTableName(CurrentTable));
+            CurrentTable = null;
+            _updateCommand.Dispose();
+            _updateCommand = null;
             _parameterColumnMap.Clear();
         }
 
@@ -353,7 +474,7 @@ namespace Korzh.DbUtils
         /// </summary>
         /// <param name="table">The table.</param>
         /// <returns>System.String.</returns>
-        protected virtual string GetTableFullName(DatasetInfo table)
+        public virtual string GetFormattedTableName(DatasetInfo table)
         {
             var result = "";
             if (!string.IsNullOrEmpty(table.Schema)) {
@@ -363,6 +484,26 @@ namespace Korzh.DbUtils
             result += Quote1 + table.Name + Quote2;
 
             return result;
+        }
+
+        /// <summary>
+        /// Gets the formatted name of the column (including schemaall necessary quotes).
+        /// </summary>
+        /// <param name="column"></param>
+        /// <returns></returns>
+        public virtual string GetFormattedColumnName(ColumnInfo column)
+        {
+            return GetFormattedColumnName(column.Name);
+        }
+
+        /// <summary>
+        /// Gets the formatted name of the column (including schemaall necessary quotes).
+        /// </summary>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
+        public virtual string GetFormattedColumnName(string columnName)
+        {
+            return Quote1 + columnName + Quote2;
         }
     }
 
