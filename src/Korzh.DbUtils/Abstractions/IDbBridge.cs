@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace Korzh.DbUtils
@@ -52,11 +53,25 @@ namespace Korzh.DbUtils
     /// <seealso cref="Korzh.DbUtils.IDbBridge" />
     public interface IDbWriter : IDbBridge
     {
+
         /// <summary>
         /// Writes (adds) a record to the database tables specified previously at <see cref="StartSeeding(DatasetInfo)"/> method call. 
         /// </summary>
         /// <param name="record">The record to save to the database table.</param>
+        [Obsolete("Use InsertRecord() instead.")]
         void WriteRecord(IDataRecord record);
+
+        /// <summary>
+        /// Inserts a record to the database tables specified previously at <see cref="StartSeeding(DatasetInfo)"/> method call. 
+        /// </summary>
+        /// <param name="record">The record to save to the database table.</param>
+        void InsertRecord(IDataRecord record);
+
+        /// <summary>
+        /// Updates a record in the database tables specified previously at <see cref="StartUpdating(DatasetInfo)"/> method call. 
+        /// </summary>
+        /// <param name="record">The record to save to the database table.</param>
+        void UpdateRecord(IDataRecord record);
 
         /// <summary>
         /// Starts the seeding process for the specified table
@@ -65,8 +80,19 @@ namespace Korzh.DbUtils
         void StartSeeding(DatasetInfo table);
 
         /// <summary>
+        /// Starts the updating process for the specified table
+        /// </summary>
+        /// <param name="table">The table.</param>
+        void StartUpdating(DatasetInfo table);
+
+        /// <summary>
         /// Finilizes the seeding process.
         /// </summary>
         void FinishSeeding();
+
+        /// <summary>
+        /// Finilizes the updating process.
+        /// </summary>
+        void FinishUpdating();
     }
 }

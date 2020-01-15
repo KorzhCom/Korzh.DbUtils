@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
-using System.Text;
 
 using Microsoft.Extensions.Logging;
 
@@ -74,11 +73,35 @@ namespace Korzh.DbUtils.SqlServer
             string[] restrictions = new string[4];
             restrictions[2] = tableName;
 
+            //Get key-fields from table
+            var sqlForKeys = @"SELECT CCU.COLUMN_NAME
+                               FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                               JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CCU ON
+                               TC.CONSTRAINT_CATALOG = CCU.CONSTRAINT_CATALOG AND
+                               TC.CONSTRAINT_SCHEMA = CCU.CONSTRAINT_SCHEMA AND
+                               TC.CONSTRAINT_NAME = CCU.CONSTRAINT_NAME AND
+                               TC.CONSTRAINT_TYPE = 'PRIMARY KEY' AND
+                               TC.TABLE_SCHEMA = '" + tableSchema + @"' 
+                               AND TC.TABLE_NAME = '" + tableName + "';";
+
+            var primaryKeys = new List<string>();
+            using (var command = this.Connection.CreateCommand()) {
+                command.CommandText = sqlForKeys;
+                command.CommandType = CommandType.Text;
+
+                using (var reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        primaryKeys.Add(reader[0].ToString());
+                    }
+                }
+            }
+
             DataTable schemaTable = Connection.GetSchema(SqlClientMetaDataCollectionNames.Columns, restrictions);
             foreach (DataRow row in schemaTable.Rows) {
                 var columnName = row["COLUMN_NAME"] as string;
                 var type = row["DATA_TYPE"] as string;
-                ColumnInfo column = new ColumnInfo(columnName, SqlTypeToClrType(type));
+                var isPK = primaryKeys.Contains(columnName);
+                ColumnInfo column = new ColumnInfo(columnName, SqlTypeToClrType(type), isPK);
                 column.IsTimestamp = type == "rowversion" || type == "timestamp";
                 columns.Add(column);
             }
@@ -115,6 +138,7 @@ namespace Korzh.DbUtils.SqlServer
                     return typeof(TimeSpan);
                 case "binary":
                 case "varbinary":
+                case "image":
                     return typeof(byte[]);
                 default:
                     return typeof(string);
@@ -145,9 +169,9 @@ namespace Korzh.DbUtils.SqlServer
         /// </summary>
         protected override void TurnOffConstraints()
         {
-            if (CurrentSeedingTable != null) {
+            if (CurrentTable != null) {
                 using (var command = GetConnection().CreateCommand()) {
-                    command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentSeedingTable)} NOCHECK CONSTRAINT all";
+                    command.CommandText = $"ALTER TABLE {GetFormattedTableName(CurrentTable)} NOCHECK CONSTRAINT all";
                     command.CommandType = CommandType.Text;
 
                     Logger?.LogDebug(command.CommandText);
@@ -163,9 +187,9 @@ namespace Korzh.DbUtils.SqlServer
         /// </summary>
         protected override void TurnOnConstraints()
         {
-            if (CurrentSeedingTable != null) {
+            if (CurrentTable != null) {
                 using (var command = GetConnection().CreateCommand()) {
-                    command.CommandText = $"ALTER TABLE {GetTableFullName(CurrentSeedingTable)} CHECK CONSTRAINT all";
+                    command.CommandText = $"ALTER TABLE {GetFormattedTableName(CurrentTable)} CHECK CONSTRAINT all";
                     command.CommandType = CommandType.Text;
 
                     Logger?.LogDebug(command.CommandText);
@@ -181,9 +205,9 @@ namespace Korzh.DbUtils.SqlServer
         /// </summary>
         protected override void TurnOffAutoIncrement()
         {
-            if (CurrentSeedingTable != null) {
+            if (CurrentTable != null) {
                 using (var command = GetConnection().CreateCommand()) {
-                    command.CommandText = $"IF EXISTS (SELECT 1 FROM sys.columns c WHERE c.object_id = object_id('{GetTableFullName(CurrentSeedingTable)}') AND c.is_identity =1) begin SET IDENTITY_INSERT {GetTableFullName(CurrentSeedingTable)} ON end";
+                    command.CommandText = $"IF EXISTS (SELECT 1 FROM sys.columns c WHERE c.object_id = object_id('{GetFormattedTableName(CurrentTable)}') AND c.is_identity =1) begin SET IDENTITY_INSERT {GetFormattedTableName(CurrentTable)} ON end";
                     command.CommandType = CommandType.Text;
 
                     Logger?.LogDebug(command.CommandText);
@@ -199,9 +223,9 @@ namespace Korzh.DbUtils.SqlServer
         /// </summary>
         protected override void TurnOnAutoIncrement()
         {
-            if (CurrentSeedingTable != null) {
+            if (CurrentTable != null) {
                 using (var command = GetConnection().CreateCommand()) {
-                    command.CommandText = $"IF EXISTS (SELECT 1 from sys.columns c WHERE c.object_id = object_id('{GetTableFullName(CurrentSeedingTable)}') AND c.is_identity = 1) begin SET IDENTITY_INSERT {GetTableFullName(CurrentSeedingTable)} OFF end";
+                    command.CommandText = $"IF EXISTS (SELECT 1 from sys.columns c WHERE c.object_id = object_id('{GetFormattedTableName(CurrentTable)}') AND c.is_identity = 1) begin SET IDENTITY_INSERT {GetFormattedTableName(CurrentTable)} OFF end";
                     command.CommandType = CommandType.Text;
 
                     Logger?.LogDebug(command.CommandText);
