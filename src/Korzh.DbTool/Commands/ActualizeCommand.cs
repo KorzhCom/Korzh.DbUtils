@@ -14,7 +14,8 @@ namespace Korzh.DbTool
 
         public static void Configure(CommandLineApplication command, GlobalOptions options)
         {
-            command.Description = "Our INTERNAL command to actualize test (demo) data. Current update dates value updating using calculated delta.";
+            command.Description = "This command can help you to actualize date/time values in some DB. " + 
+                    "It's very usuful when you need to update some testing/demo database and make all dates in it actual (meainig: within this year or close)";
             command.HelpOption("-?|-h|--help");
 
             // add local config option
@@ -23,7 +24,8 @@ namespace Korzh.DbTool
             var connectionIdArg= command.Argument("<connection ID>", "The ID of some previously registered connection")
                                         .IsRequired();
 
-            var columnDateArg = command.Argument("<column date>", "The column date to calculate delta as CurrentYear - MAX(<column date>).Year. For example Order.OrderDate")
+            var columnDateArg = command.Argument("<column>", "The full name of some date/time column to get the DELTA for all other date/time values in this DB. " 
+                                                + "The DELTA is calculated as CurrentYear - MAX(<column>).Year. For example: Order.OrderDate")
                                        .IsRequired();
 
             Func<int> runCommandFunc = new ActualizeCommand(connectionIdArg, columnDateArg, options).Run;
