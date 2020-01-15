@@ -95,7 +95,7 @@ namespace Korzh.DbTool
         {
             var storage = new ConnectionStorage(_options.ConfigFilePath);
 
-            storage.Add(_arguments.ConnectionId, 
+            storage.AddUpdate(_arguments.ConnectionId, 
                 new ConnectionInfo(_arguments.ConnectionId, 
                         _arguments.DbType, 
                         _arguments.ConnectionString));
@@ -176,7 +176,8 @@ namespace Korzh.DbTool
                 var location = _options.LocalConfigFilePathOption.HasValue() ? _options.LocalConfigFilePathOption.Value() : "global";
                 Console.WriteLine($"Connections ({location}): ");
                 foreach (var connection in connections) {
-                    Console.WriteLine("({0}) \"{1}\": \"{2}\" \n(Filter tables: {3})", connection.Info.DbType, connection.ConnectionId, connection.Info.ConnectionString, connection.Info.Tables ?? "All");
+                    Console.WriteLine("{0} ({1}): \"{2}\" \n(Filtered by: {3})", 
+                        connection.ConnectionId, connection.Info.DbType, connection.Info.ConnectionString, connection.Info.Tables ?? "None");
                 }
             }
             else {

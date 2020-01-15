@@ -11,16 +11,15 @@ namespace Korzh.DbTool
 
         public static void Configure(CommandLineApplication command, GlobalOptions options)
         {
-            command.Description = "Adds table to use for the connection.";
+            command.Description = "Updates the connection filter: sets the list of tables which will be processed on export. ";
             command.HelpOption("-?|-h|--help");
 
             command.Options.Add(options.LocalConfigFilePathOption);
 
-            var connectionArg = command.Argument("<сonnection ID>", "The connection ID stored in the configuration")
+            var connectionArg = command.Argument("<сonnection ID>", "The ID of some previously registered connection")
                                   .IsRequired();
 
-            var tablesArg = command.Argument("<tables>", "Table names separeated by ,")
-                              .IsRequired();
+            var tablesArg = command.Argument("<tables>", "Table names separeated by comma. Leave this argument empty to clear the connection filter.");
 
             Func<int> runCommandFunc = new FilterTablesCommand(connectionArg, tablesArg, options).Run;
             command.OnExecute(runCommandFunc);
@@ -44,16 +43,21 @@ namespace Korzh.DbTool
             var storage = new ConnectionStorage(_options.ConfigFilePath);
             var connection = storage.Get(connectionId);
             if (connection is null) {
-                Console.WriteLine($"Connection {connectionId} is not found.");
+                Console.WriteLine($"Connection not found: {connectionId}");
                 return -1;
             }
 
             connection.Tables = tables;
-            storage.Add(connectionId, connection);
+            storage.AddUpdate(connectionId, connection);
 
             storage.SaveChanges();
 
-            Console.WriteLine($"Connection {connectionId} has been updated with tables: " + tables);
+            if (!string.IsNullOrEmpty(tables)) {
+                Console.WriteLine($"The connection [{connectionId}] is now filtered by tables: " + tables);
+            }
+            else {
+                Console.WriteLine($"The connection's ({connectionId}) filter has been cleared");
+            }
 
             return 0;
         }

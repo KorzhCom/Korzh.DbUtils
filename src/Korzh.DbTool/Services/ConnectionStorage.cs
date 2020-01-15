@@ -74,7 +74,7 @@ namespace Korzh.DbTool
             return null;
         }
 
-        public void Add(string id, ConnectionInfo info)
+        public void AddUpdate(string id, ConnectionInfo info)
         {
             _connections[id] = info;
         }
