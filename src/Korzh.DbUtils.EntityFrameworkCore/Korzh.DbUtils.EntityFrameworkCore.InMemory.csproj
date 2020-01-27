@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+    <PackageId>Korzh.DbUtils.EntityFrameworkCore.InMemory</PackageId>
+    <Authors>Korzh.com</Authors>
+    <Description>DbBridge for Entity Framework Core InMemory database</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Copyright>Copyright 2019 -2020 (c) Korzh.com. All rights reserved.</Copyright>
+    <PackageTags>database utility export import data seed</PackageTags>
+    <Configurations>Debug;Release</Configurations>
+    <DocumentationFile>Korzh.DbUtils.EntityFrameworkCore.InMemory.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.*" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Korzh.DbUtils\Korzh.DbUtils.csproj" />
+  </ItemGroup>
+
+</Project>

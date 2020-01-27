@@ -27,6 +27,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.Import", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.PostgreSql", "src\Korzh.DbUtils.PostgreSql\Korzh.DbUtils.PostgreSql.csproj", "{10378DBC-C428-4C73-A49A-D33C3ADF9B92}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.EntityFrameworkCore.InMemory", "src\Korzh.DbUtils.EntityFrameworkCore\Korzh.DbUtils.EntityFrameworkCore.InMemory.csproj", "{ACCB593C-F570-49BE-BC5E-1B9D7B3A6580}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korzh.DbUtils.Sqlite", "src\Korzh.DbUtils.Sqlite\Korzh.DbUtils.Sqlite.csproj", "{3F9124C1-AB28-4925-8481-1646BD85505E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,14 @@ Global
 		{10378DBC-C428-4C73-A49A-D33C3ADF9B92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10378DBC-C428-4C73-A49A-D33C3ADF9B92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10378DBC-C428-4C73-A49A-D33C3ADF9B92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACCB593C-F570-49BE-BC5E-1B9D7B3A6580}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACCB593C-F570-49BE-BC5E-1B9D7B3A6580}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACCB593C-F570-49BE-BC5E-1B9D7B3A6580}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACCB593C-F570-49BE-BC5E-1B9D7B3A6580}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F9124C1-AB28-4925-8481-1646BD85505E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F9124C1-AB28-4925-8481-1646BD85505E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F9124C1-AB28-4925-8481-1646BD85505E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F9124C1-AB28-4925-8481-1646BD85505E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +95,8 @@ Global
 		{3CB45656-F4F8-4D90-B80F-D9DEC37EDAE5} = {1BE9C416-D4CD-40CE-95FD-37A604595058}
 		{E1CC26CA-5EDE-41C4-9298-454B28E1DC33} = {1BE9C416-D4CD-40CE-95FD-37A604595058}
 		{10378DBC-C428-4C73-A49A-D33C3ADF9B92} = {1BE9C416-D4CD-40CE-95FD-37A604595058}
+		{ACCB593C-F570-49BE-BC5E-1B9D7B3A6580} = {1BE9C416-D4CD-40CE-95FD-37A604595058}
+		{3F9124C1-AB28-4925-8481-1646BD85505E} = {1BE9C416-D4CD-40CE-95FD-37A604595058}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B25EF7F4-DB2D-44B6-AA7F-2CAC60551D0C}

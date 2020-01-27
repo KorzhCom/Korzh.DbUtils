@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -15,23 +14,21 @@ namespace Korzh.DbUtils.EntityFrameworkCore
     }
 
 
-    public class DbContextBridge : IDbSeeder
+    public class DbContextBridge : IDbReader, IDbWriter
     {
 
         protected DbContext DbContext;
 
-        protected readonly Dictionary<string, IEntityType> TableEntityTypes
-            = new Dictionary<string, IEntityType>();
-
         public DbContextBridge(DbContext dbContext)
         {
+            if (!dbContext.Database.IsInMemory()) {
+                throw new DbContextBridgeException("This bridge supports only InMemory provider");
+            }
+
             DbContext = dbContext;
 
             var entityTypes = DbContext.Model.GetEntityTypes();
-            foreach (var entityType in entityTypes) {
-                var mapping = entityType.Relational();
-                TableEntityTypes[mapping.TableName] = entityType;
-            }
+       
         }
 
         public IDbConnection GetConnection()
@@ -46,8 +43,8 @@ namespace Korzh.DbUtils.EntityFrameworkCore
 
             foreach (var entityType in entityTypes) {
                 var tableName = entityType.Relational().TableName;
-                if (tables.FirstOrDefault(t => t.Name == tableName) == null)
-                    DetermineTableOrder(null, entityType, ref tables);
+                var schema = entityType.Relational().Schema;
+                tables.Add(new DatasetInfo(tableName, schema));
             }
 
             tables.Reverse();
@@ -90,18 +87,6 @@ namespace Korzh.DbUtils.EntityFrameworkCore
             catch {
                 DbContext.Entry(item).State = EntityState.Detached;
             }
-
-            //var tableSchema = entityType.Relational().Schema;
-            //var fullTableName = string.IsNullOrEmpty(tableSchema)
-            //    ? tableName
-            //    : tableSchema + "." + tableName;
-            //DbContext.Database.OpenConnection();
-            ////DbContext.Database.BeginTransaction(); //not necessary actually
-            //var baseSql = "SET IDENTITY_INSERT \"" + fullTableName + "\"";
-            //DbContext.Database.ExecuteSqlCommand(baseSql + " ON");
-            //DbContext.SaveChanges();
-            //DbContext.Database.ExecuteSqlCommand(baseSql + " OFF");
-            ////DbContext.Database.CommitTransaction();
         }
 
 
@@ -142,6 +127,36 @@ namespace Korzh.DbUtils.EntityFrameworkCore
         {
             //Turn all saved constraints on
             //Clear the list of constraints
+        }
+
+        public IDataReader GetDataReaderForTable(DatasetInfo table)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IDataReader GetDataReaderForSql(string sql)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void InsertRecord(IDataRecord record)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateRecord(IDataRecord record)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StartUpdating(DatasetInfo table)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void FinishUpdating()
+        {
+            throw new NotImplementedException();
         }
     }
 
