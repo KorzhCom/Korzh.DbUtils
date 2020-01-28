@@ -20,6 +20,7 @@ namespace Korzh.DbUtils.EntityFrameworkCore.InMemory.Tests
             optionsBuilder.UseInMemoryDatabase("test-db");
 
             var dbContext = new AppDbContext(optionsBuilder.Options);
+            dbContext.Database.EnsureCreated();
 
             DbInitializer.Create(options => {
                 options.UseInMemoryDatabase(dbContext);
