@@ -29,7 +29,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.PostgreSql", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.EntityFrameworkCore.InMemory", "src\Korzh.DbUtils.EntityFrameworkCore.InMemory\Korzh.DbUtils.EntityFrameworkCore.InMemory.csproj", "{ACCB593C-F570-49BE-BC5E-1B9D7B3A6580}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korzh.DbUtils.Sqlite", "src\Korzh.DbUtils.Sqlite\Korzh.DbUtils.Sqlite.csproj", "{3F9124C1-AB28-4925-8481-1646BD85505E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.Sqlite", "src\Korzh.DbUtils.Sqlite\Korzh.DbUtils.Sqlite.csproj", "{3F9124C1-AB28-4925-8481-1646BD85505E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korzh.DbUtils.Sqlite.Tests", "tests\Korzh.DbUtils.Sqlite.Tests\Korzh.DbUtils.Sqlite.Tests.csproj", "{D61BFBF2-FF2B-4E23-A4EC-A232BECA2778}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korzh.DbUtils.EntityFrameworkCore.InMemory.Tests", "src\Korzh.DbUtils.EntityFrameworkCore.InMemory.Tests\Korzh.DbUtils.EntityFrameworkCore.InMemory.Tests.csproj", "{1EAD33D2-498F-4859-828F-3DD74286AFCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korzh.DbUtils.Tests.Common", "tests\Korzh.DbUtils.Tests.Common\Korzh.DbUtils.Tests.Common.csproj", "{7425F8EB-607F-4E5C-948C-E5B3B4AAD35C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +87,18 @@ Global
 		{3F9124C1-AB28-4925-8481-1646BD85505E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F9124C1-AB28-4925-8481-1646BD85505E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F9124C1-AB28-4925-8481-1646BD85505E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D61BFBF2-FF2B-4E23-A4EC-A232BECA2778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D61BFBF2-FF2B-4E23-A4EC-A232BECA2778}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D61BFBF2-FF2B-4E23-A4EC-A232BECA2778}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D61BFBF2-FF2B-4E23-A4EC-A232BECA2778}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EAD33D2-498F-4859-828F-3DD74286AFCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EAD33D2-498F-4859-828F-3DD74286AFCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EAD33D2-498F-4859-828F-3DD74286AFCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EAD33D2-498F-4859-828F-3DD74286AFCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7425F8EB-607F-4E5C-948C-E5B3B4AAD35C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7425F8EB-607F-4E5C-948C-E5B3B4AAD35C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7425F8EB-607F-4E5C-948C-E5B3B4AAD35C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7425F8EB-607F-4E5C-948C-E5B3B4AAD35C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +115,9 @@ Global
 		{10378DBC-C428-4C73-A49A-D33C3ADF9B92} = {1BE9C416-D4CD-40CE-95FD-37A604595058}
 		{ACCB593C-F570-49BE-BC5E-1B9D7B3A6580} = {1BE9C416-D4CD-40CE-95FD-37A604595058}
 		{3F9124C1-AB28-4925-8481-1646BD85505E} = {1BE9C416-D4CD-40CE-95FD-37A604595058}
+		{D61BFBF2-FF2B-4E23-A4EC-A232BECA2778} = {2ED5DC21-5E61-4244-BF19-CEBA7B7FDB00}
+		{1EAD33D2-498F-4859-828F-3DD74286AFCE} = {2ED5DC21-5E61-4244-BF19-CEBA7B7FDB00}
+		{7425F8EB-607F-4E5C-948C-E5B3B4AAD35C} = {2ED5DC21-5E61-4244-BF19-CEBA7B7FDB00}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B25EF7F4-DB2D-44B6-AA7F-2CAC60551D0C}

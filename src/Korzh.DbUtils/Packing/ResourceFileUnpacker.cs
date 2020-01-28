@@ -45,7 +45,7 @@ namespace Korzh.DbUtils.Packing
         /// <param name="loggerFactory">The logger factory.</param>
         public ResourceFileUnpacker(Assembly assembly, ILoggerFactory loggerFactory) : this(assembly)
         {
-            _logger = loggerFactory.CreateLogger("Korzh.DbUtils");
+            _logger = loggerFactory?.CreateLogger("Korzh.DbUtils");
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Korzh.DbUtils.Packing
         /// <param name="loggerFactory">The logger factory.</param>
         public ResourceFileUnpacker(Assembly assembly, string folderPath, ILoggerFactory loggerFactory) : this(assembly, folderPath)
         {
-            _logger = loggerFactory.CreateLogger("DbUtils.Packing");
+            _logger = loggerFactory?.CreateLogger("DbUtils.Packing");
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Korzh.DbUtils.Packing
         /// <returns>Stream.</returns>
         public Stream OpenStreamForUnpacking(string entryName)
         {
-            var nameWithFolder = Path.Combine(_folderPath, entryName).Replace('\\', '.').Replace('/', '.');
+            var nameWithFolder = Path.Combine(_folderPath, entryName + "." + _fileExtension).Replace('\\', '.').Replace('/', '.');
             var fullName = _assembly.GetManifestResourceNames().FirstOrDefault(res => res.EndsWith(nameWithFolder));
 
             return (!string.IsNullOrEmpty(fullName))

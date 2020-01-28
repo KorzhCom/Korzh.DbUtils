@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.10.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+    <PackageReference Include="coverlet.collector" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\tests\Korzh.DbUtils.Tests.Common\Korzh.DbUtils.Tests.Common.csproj" />
+    <ProjectReference Include="..\Korzh.DbUtils.EntityFrameworkCore.InMemory\Korzh.DbUtils.EntityFrameworkCore.InMemory.csproj" />
+    <ProjectReference Include="..\Korzh.DbUtils.Import\Korzh.DbUtils.Import.csproj" />
+  </ItemGroup>
+
+</Project>

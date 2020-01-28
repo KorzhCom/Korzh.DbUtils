@@ -127,8 +127,6 @@ namespace Korzh.DbUtils.EntityFrameworkCore.InMemory
             var item = CreateEntityItem(entityType, record);
 
             DbContext.Add(item);
-            DbContext.SaveChanges();
-
         }
         /// <summary>
         /// Updates a record in the database tables specified previously at <see cref="StartUpdating(DatasetInfo)" /> method call.
@@ -147,7 +145,6 @@ namespace Korzh.DbUtils.EntityFrameworkCore.InMemory
             var item = CreateEntityItem(entityType, record);
 
             DbContext.Update(item);
-            DbContext.SaveChanges();
         }
 
         private object CreateEntityItem(IEntityType entityType, IDataRecord record) 
@@ -188,8 +185,11 @@ namespace Korzh.DbUtils.EntityFrameworkCore.InMemory
         /// </summary>
         public void FinishSeeding()
         {
-            Logger?.LogDebug("Finish seeding: " + CurrentTable.Name);
+            DbContext.SaveChanges();
+
             CurrentTable = null;
+
+            Logger?.LogDebug("Finish seeding: " + CurrentTable.Name);
         }
 
         /// <summary>
@@ -213,6 +213,8 @@ namespace Korzh.DbUtils.EntityFrameworkCore.InMemory
         /// </summary>
         public void FinishUpdating()
         {
+            DbContext.SaveChanges();
+
             CurrentTable = null;
 
             Logger?.LogDebug("Finish updating: " + CurrentTable.Name);

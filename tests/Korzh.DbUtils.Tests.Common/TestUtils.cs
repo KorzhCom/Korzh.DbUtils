@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Korzh.DbUtils.Tests
 {
-    internal static class TestUtils
+    public static class TestUtils
     {
         public static Stream GetResourceStream(this Assembly assembly, string resourceFolder, string resourceFileName)
         {

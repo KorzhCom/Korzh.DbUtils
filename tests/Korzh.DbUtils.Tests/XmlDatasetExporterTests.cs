@@ -34,7 +34,7 @@ namespace Korzh.DbUtils.Tests
             _exporter.ExportDataset(testData.CreateDataReader(), stream, new DatasetInfo("Test", "Test"));
 
             var result = Encoding.UTF8.GetString(stream.ToArray());
-            var trueResult = TestUtils.GetResourceAsString("Resources", "test-data.xml");
+            var trueResult = TestUtils.GetResourceAsString(typeof(XmlDatasetExporterTests).Assembly, "Resources", "test-data.xml");
 
             result.Should().Be(trueResult);
         }
