@@ -15,11 +15,9 @@ namespace Korzh.DbUtils
         /// <param name="options"></param>
         /// <param name="dbContext"></param>
         /// <exception cref="Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridgeException">This bridge supports only InMemory provider</exception>
-        public static IDbUtilsOptions UseInMemoryDatabase(this IDbUtilsOptions options, DbContext dbContext) 
+        public static void UseInMemoryDatabase(this IDbUtilsOptions options, DbContext dbContext) 
         {
-
             options.DbWriter = new Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge(dbContext, options.LoggerFactory);
-            return options;
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿
+using System.Reflection;
+
 using Korzh.DbUtils.Packing;
 
 namespace Korzh.DbUtils
@@ -33,6 +35,20 @@ namespace Korzh.DbUtils
                 zipFilePath = System.IO.Path.Combine(options.SeedDataFolder, "dataseed.zip");
             }
             options.Unpacker = new ZipFilePacker(zipFilePath);
+        }
+
+        /// <summary>
+        /// Registers an instanse of <see cref="ResourceFileUnpacker"/> class as unpacker for DbInitializer
+        /// </summary>
+        /// <param name="options">An instance of <see cref="IDbUtilsOptions"/>.</param>
+        /// <param name="assembly">The assembly with embedded resources</param>
+        /// <param name="folderPath">The folder in resources.</param>
+        public static void UseResourceFileUnpacker(this IDbUtilsOptions options, Assembly assembly, string folderPath = null)
+        {
+            if (string.IsNullOrEmpty(folderPath)) {
+                folderPath = options.SeedDataFolder;
+            }
+            options.Unpacker = new ResourceFileUnpacker(assembly, folderPath, options.LoggerFactory);
         }
     }
 }

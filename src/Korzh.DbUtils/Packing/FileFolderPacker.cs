@@ -70,6 +70,8 @@ namespace Korzh.DbUtils.Packing
             if (!Directory.Exists(_folderPath)) {
                 throw new DataPackingException("No such folder:" + _folderPath);
             }
+
+            _logger?.LogDebug("Start unpacking from folder: " + _folderPath);
         }
 
         /// <summary>
@@ -77,6 +79,7 @@ namespace Korzh.DbUtils.Packing
         /// </summary>
         public void FinishUnpacking()
         {
+            _logger?.LogDebug("Finish unpacking from folder: " + _folderPath);
         }
 
         /// <summary>

@@ -85,7 +85,7 @@ namespace Korzh.DbUtils.Packing
             _zipArchive = ZipFile.Open(_filePath, ZipArchiveMode.Read);
             _fileExtension = fileExtension;
 
-            _logger?.LogDebug("Start unpacking" + _filePath);
+            _logger?.LogDebug("Start unpacking: " + _filePath);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Korzh.DbUtils.Packing
         /// </summary>
         public void FinishUnpacking()
         {
-            _logger?.LogDebug("Finish unpacking" + _filePath);
+            _logger?.LogDebug("Finish unpacking: " + _filePath);
         }
 
         /// <summary>
