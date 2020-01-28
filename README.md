@@ -28,7 +28,7 @@ dotnet tool install -g Korzh.DbTool
 __dbtool__ stores the information about DB connections and some other settings in a global configuration file ({USERDIR}/.korzh/dbtool.config), so register your connection in that list you need to call `connections add` command:
 
 ```cmd
-dbtool connections add {Connection ID} {DB Type (sqlserver|mysql|postgre)} {Connection string}
+dbtool connections add {Connection ID} {DB Type (sqlserver|mysql|postgre|sqlite)} {Connection string}
 ```
 
 For example:
@@ -110,11 +110,10 @@ The library includes several packages which implement some basic database operat
 
   Implements DB manipulation interfaces for SQLite connections.
   
- * `Korzh.DbUtils.EntityFrameworkCore.InMemory`
-  
+* `Korzh.DbUtils.EntityFrameworkCore.InMemory`
+
   Implements DB manipulation interfaces for EFCore In-Memory database (for testing purposes only).
   
-
 Here you can find the [full API reference of the library](https://korzh.aistant.com/db-utils/api-reference).
 
 ## Basic scenario: Data seeding in your app
@@ -183,7 +182,7 @@ That's it. With the above 3 simple steps your database will be created and seede
 ### Step 1: Export you "master" DB (described in Basic Scenario)
 
 ### Step 2: Add data files to your project
-After the previous step you will have a new folder like `MyMasterDb-20190720` with a bunch of JSON files in it (one for each table). Copy all these files to your test project's folder `Resources` and mark all files as `Embedded resource`.
+After the previous step you will have a new folder like `MyMasterDb-20190720` with a bunch of JSON files in it (one for each table). In this example we will use `embedded resources`, but you can youse `zip` archive or files in folder as well. Copy all generated files to your test project's folder `Resources` and mark them as `Embedded resource`.
 Please note, that you will also need to add those files to your project manually for .NET Framework projects.
 
 ### Step 3: DB initialization code
@@ -214,9 +213,9 @@ DbInitializer.Create(options => {
 .Seed();
 
 ```
-Here you can see a full example
+Here you can see [a full example](https://github.com/kedonec/Korzh.DbUtils/blob/09dfece6586f43845883826f47330de4a21e1101/tests/Korzh.DbUtils.EntityFrameworkCore.InMemory.Tests/DbContextBridgeTests.cs#L19).
 
-If we want to use in-memory SQLite database for testing, we can use such initialization code:
+If you would like to use in-memory SQLite database for testing, you can use such initialization code:
 ```c#
 var connection = new SqliteConnection("Data Source=:memory:;");
 
