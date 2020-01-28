@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Korzh.DbUtils.EntityFrameworkCore.InMemory</name>
+    </assembly>
+    <members>
+        <member name="T:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge">
+            <summary>
+            A default implementation of the main DB related intefaces for EFCore in memory provider.
+            <see cref="T:Korzh.DbUtils.IDbReader" /> and <see cref="T:Korzh.DbUtils.IDbWriter" />
+            </summary>
+            <seealso cref="T:Korzh.DbUtils.IDbReader" />
+            <seealso cref="T:Korzh.DbUtils.IDbWriter" />
+        </member>
+        <member name="F:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.DbContext">
+            <summary>
+            The DbContext.
+            </summary>
+        </member>
+        <member name="F:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.TableEntityTypes">
+            <summary>
+            Contains mapping between tables and entity types
+            </summary>
+        </member>
+        <member name="F:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.CurrentTable">
+            <summary>
+            The seeding or updating Table
+            </summary>
+        </member>
+        <member name="F:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.Logger">
+            <summary>
+            The logger
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.#ctor(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge"/> class.
+            </summary>
+            <param name="dbContext">The dbcontext.</param>
+            <exception cref="T:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridgeException">This bridge supports only InMemory provider.</exception>
+        </member>
+        <member name="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.#ctor(Microsoft.EntityFrameworkCore.DbContext,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge"/> class.
+            </summary>
+            <param name="dbContext">The dbcontext.</param>
+            <param name="loggerFactory">The logger factory.</param>
+            <exception cref="T:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridgeException">Throw if current provider is not im-memory.</exception>
+        </member>
+        <member name="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.GetDatasets">
+            <summary>
+            Gets the list of tables for the current dbcontext.
+            </summary>
+            <returns>IReadOnlyCollection&lt;DatasetInfo&gt;.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.WriteRecord(System.Data.IDataRecord)">
+            <summary>
+            Inserts a record to the database tables specified previously at <see cref="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.StartSeeding(Korzh.DbUtils.DatasetInfo)" /> method call.
+            </summary>
+            <param name="record">The record to save to the database table.</param>
+            <exception cref="T:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridgeException">Seeding is not stared. Call StartSeeding() before.</exception>
+        </member>
+        <member name="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.InsertRecord(System.Data.IDataRecord)">
+            <summary>
+            Inserts a record to the database tables specified previously at <see cref="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.StartSeeding(Korzh.DbUtils.DatasetInfo)" /> method call.
+            </summary>
+            <param name="record">The record to save to the database table.</param>
+            <exception cref="T:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridgeException">Seeding is not stared. Call StartSeeding() before.</exception>
+        </member>
+        <member name="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.UpdateRecord(System.Data.IDataRecord)">
+            <summary>
+            Updates a record in the database tables specified previously at <see cref="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.StartUpdating(Korzh.DbUtils.DatasetInfo)" /> method call.
+            </summary>
+            <param name="record">The record to update in the database table.</param>
+            <exception cref="T:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridgeException">Updating is not stared. Call StartUpdating() before.</exception>
+        </member>
+        <member name="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.StartSeeding(Korzh.DbUtils.DatasetInfo)">
+            <summary>
+            Starts the seeding process for the specified table
+            </summary>
+            <param name="table">The table.</param>
+            <exception cref="T:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridgeException">Seeding is not finised. Call FinishSeeding() before start another one.</exception>
+        </member>
+        <member name="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.FinishSeeding">
+            <summary>
+            Finilizes the seeding process.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.StartUpdating(Korzh.DbUtils.DatasetInfo)">
+            <summary>
+            Starts the updating process for the specified table.
+            </summary>
+            <param name="table">The table.</param>
+            <exception cref="T:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridgeException">Updating is not finised. Call FinishUpdating() before start another one.</exception>
+        </member>
+        <member name="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.FinishUpdating">
+            <summary>
+            Finilizes the updating process.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.GetDataReaderForTable(Korzh.DbUtils.DatasetInfo)">
+            <summary>
+            Creates and returns a <see cref="T:System.Data.IDataReader" /> object for some table.
+            </summary>
+            <param name="table">The table represented by <see cref="T:Korzh.DbUtils.DatasetInfo" /> structure.</param>
+            <returns>IDataReader.</returns>
+            <exception cref="T:System.NotSupportedException"></exception>
+        </member>
+        <member name="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.GetDataReaderForSql(System.String)">
+            <summary>
+            Executes the SQL statement passed in the parameter and returns a <see cref="T:System.Data.IDataReader" /> object with the result of that execution.
+            </summary>
+            <param name="sql">The SQL statement to execute.</param>
+            <returns>IDataReader.</returns>
+            <exception cref="T:System.NotSupportedException"></exception>
+        </member>
+        <member name="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridge.GetConnection">
+            <summary>
+            Gets the database connection.
+            </summary>
+            <returns>IDbConnection.</returns>
+            <exception cref="T:System.NotSupportedException"></exception>
+        </member>
+        <member name="T:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridgeException">
+            <summary>
+            Represents errors that occur during database operations.
+            Implements the <see cref="T:System.Exception" />
+            </summary>
+            <seealso cref="T:System.Exception" />
+        </member>
+        <member name="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridgeException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridgeException"/> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="T:Korzh.DbUtils.EntityFrameworkCore.InMemory.EntityFrameworkCore2Extensions">
+            <summary>
+            Defines some extensions which unify meta-data functions used in EF Core 2 with EF Core 3 API.
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.EntityFrameworkCore2Extensions.GetTableName(Microsoft.EntityFrameworkCore.Metadata.IEntityType)">
+            <summary>
+            Gets the table name for the specified IEntityType.
+            </summary>
+            <param name="entityType">Type of the entity.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.EntityFrameworkCore2Extensions.GetSchema(Microsoft.EntityFrameworkCore.Metadata.IEntityType)">
+            <summary>
+            Gets the schema name for the specified IEntityType
+            </summary>
+            <param name="entityType">Type of the entity.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.EntityFrameworkCore.InMemory.EntityFrameworkCore2Extensions.GetColumnName(Microsoft.EntityFrameworkCore.Metadata.IProperty)">
+            <summary>
+            Gets the column name for the specified IProperty.
+            </summary>
+            <param name="property">The property.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="T:Korzh.DbUtils.DbContextBridgeExtensions">
+            <summary>
+            Static class with extensions for registering DbContextBridge as DB reader and DB writer in <see cref="T:Korzh.DbUtils.IDbUtilsOptions"/>
+            </summary>
+        </member>
+        <member name="M:Korzh.DbUtils.DbContextBridgeExtensions.UseInMemoryDatabase(Korzh.DbUtils.IDbUtilsOptions,Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Registers DbContextBridge as DB reader and DB writer in <see cref="T:Korzh.DbUtils.IDbUtilsOptions"/>.
+            SUPPORTS ONLY IN-MEMORY PROVIDER.
+            </summary>
+            <param name="options"></param>
+            <param name="dbContext"></param>
+            <exception cref="T:Korzh.DbUtils.EntityFrameworkCore.InMemory.DbContextBridgeException">This bridge supports only InMemory provider</exception>
+        </member>
+        <member name="T:Korzh.DbUtils.IDataRecordExtension">
+            <summary>
+            Contains several useful extension methods of IDataRecord interface.
+            </summary>
+        </member>
+    </members>
+</doc>

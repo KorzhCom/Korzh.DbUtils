@@ -104,6 +104,13 @@
             <param name="options">The options.</param>
             <param name="connectionString">The connection string.</param>
         </member>
+        <member name="M:Korzh.DbUtils.PostgreDbUtilsOptionsExtensions.UsePostgreSql(Korzh.DbUtils.IDbUtilsOptions,Npgsql.NpgsqlConnection)">
+            <summary>
+            Registers PostgreBridge as DB reader and DB writer in <see cref="T:Korzh.DbUtils.IDbUtilsOptions"/>
+            </summary>
+            <param name="options">The options.</param>
+            <param name="connection">The connection.</param>
+        </member>
         <member name="T:System.PostgreTypeExtensions">
             <summary>
             Contains an extension method to get a <see cref="T:NpgsqlTypes.NpgsqlDbType"/> from an instance of <see cref="T:System.Type"/> 

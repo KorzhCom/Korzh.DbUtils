@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.Import", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.PostgreSql", "src\Korzh.DbUtils.PostgreSql\Korzh.DbUtils.PostgreSql.csproj", "{10378DBC-C428-4C73-A49A-D33C3ADF9B92}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.EntityFrameworkCore.InMemory", "src\Korzh.DbUtils.EntityFrameworkCore\Korzh.DbUtils.EntityFrameworkCore.InMemory.csproj", "{ACCB593C-F570-49BE-BC5E-1B9D7B3A6580}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.EntityFrameworkCore.InMemory", "src\Korzh.DbUtils.EntityFrameworkCore.InMemory\Korzh.DbUtils.EntityFrameworkCore.InMemory.csproj", "{ACCB593C-F570-49BE-BC5E-1B9D7B3A6580}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korzh.DbUtils.Sqlite", "src\Korzh.DbUtils.Sqlite\Korzh.DbUtils.Sqlite.csproj", "{3F9124C1-AB28-4925-8481-1646BD85505E}"
 EndProject
