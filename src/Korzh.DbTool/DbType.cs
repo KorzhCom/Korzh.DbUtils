@@ -10,7 +10,9 @@
 
         public const string PostgreSql = "postgre";
 
-        public static readonly string[] AllDbTypes = new[] { DbType.SqlServer, DbType.MySql, DbType.PostgreSql };
+        public const string Sqlite = "sqlite"
+
+        public static readonly string[] AllDbTypes = new[] { DbType.SqlServer, DbType.MySql, DbType.PostgreSql, DbType.Sqlite };
 
     }
 }

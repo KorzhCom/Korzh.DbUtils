@@ -40,6 +40,7 @@ To add other types of connections please create an issue on GitHub repository.
     <ProjectReference Include="..\Korzh.DbUtils.Import\Korzh.DbUtils.Import.csproj" />
     <ProjectReference Include="..\Korzh.DbUtils.MySql\Korzh.DbUtils.MySql.csproj" />
     <ProjectReference Include="..\Korzh.DbUtils.PostgreSql\Korzh.DbUtils.PostgreSql.csproj" />
+    <ProjectReference Include="..\Korzh.DbUtils.Sqlite\Korzh.DbUtils.Sqlite.csproj" />
     <ProjectReference Include="..\Korzh.DbUtils.SqlServer\Korzh.DbUtils.SqlServer.csproj" />
     <ProjectReference Include="..\Korzh.DbUtils\Korzh.DbUtils.csproj" />
   </ItemGroup>
