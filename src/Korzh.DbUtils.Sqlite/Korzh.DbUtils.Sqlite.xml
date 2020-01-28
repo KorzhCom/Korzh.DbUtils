@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Korzh.DbUtils.Sqlite</name>
+    </assembly>
+    <members>
+        <member name="T:Korzh.DbUtils.Sqlite.SqliteBridge">
+            <summary>
+            An implementation of <see cref="T:Korzh.DbUtils.BaseDbBridge"/> for Sqlite
+            Implements the <see cref="T:Korzh.DbUtils.BaseDbBridge" />
+            </summary>
+            <seealso cref="T:Korzh.DbUtils.BaseDbBridge" />
+        </member>
+        <member name="M:Korzh.DbUtils.Sqlite.SqliteBridge.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.Sqlite.SqliteBridge"/> class.
+            </summary>
+            <param name="connectionString">The connection string.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.Sqlite.SqliteBridge.#ctor(System.String,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.Sqlite.SqliteBridge"/> class.
+            </summary>
+            <param name="connectionString">The connection string.</param>
+            <param name="loggerFactory">The logger factory.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.Sqlite.SqliteBridge.#ctor(Microsoft.Data.Sqlite.SqliteConnection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.Sqlite.SqliteBridge"/> class.
+            </summary>
+            <param name="connection">The connection.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.Sqlite.SqliteBridge.#ctor(Microsoft.Data.Sqlite.SqliteConnection,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Korzh.DbUtils.Sqlite.SqliteBridge"/> class.
+            </summary>
+            <param name="connection">The connection.</param>
+            <param name="loggerFactory">The logger factory.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.Sqlite.SqliteBridge.CreateConnection(System.String)">
+            <summary>
+            Creates an SqliteConnection object.
+            </summary>
+            <param name="connectionString">The connection string.</param>
+            <returns>DbConnection.</returns>
+        </member>
+        <member name="M:Korzh.DbUtils.Sqlite.SqliteBridge.ExtractDatasetList(System.Collections.Generic.IList{Korzh.DbUtils.DatasetInfo})">
+            <summary>
+            Extracts the list of tables for the current DB and saves them to the list object passed in the parameter.
+            </summary>
+            <param name="datasets">The list of datasets (tables) to fill.</param>
+        </member>
+        <member name="M:Korzh.DbUtils.Sqlite.SqliteBridge.ExtractColumnList(System.String,System.String,System.Collections.Generic.IList{Korzh.DbUtils.ColumnInfo})">
+            <summary>
+            Extracts the list of columns for the current table and saves them to the list object passed in the parameter.
+            </summary>
+            <param name="tableSchema">The table schema.</param>
+            <param name="tableName">The table name.</param>
+            <param name="columns">The list which will be filled with the columns from the specified table.</param>
+        </member>
+        <member name="T:Korzh.DbUtils.SqliteDbUtilsOptionsExtensions">
+            <summary>
+            Static class with extensions for registering SqliteBridge as DB reader and DB writer in <see cref="T:Korzh.DbUtils.IDbUtilsOptions"/>
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Korzh.DbUtils.SqliteDbUtilsOptionsExtensions.UseSqlite(Korzh.DbUtils.IDbUtilsOptions,System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:Korzh.DbUtils.SqliteDbUtilsOptionsExtensions.UseSqlite(Korzh.DbUtils.IDbUtilsOptions,Microsoft.Data.Sqlite.SqliteConnection)" -->
+        <member name="T:System.SqliteTypeExtensions">
+            <summary>
+            Contains an extension method to get a <see cref="T:Microsoft.Data.Sqlite.SqliteType"/> from an instance of <see cref="T:System.Type"/> 
+            </summary>
+        </member>
+        <member name="M:System.SqliteTypeExtensions.ToSqliteDbType(System.Type)">
+            <summary>
+            Converts a <see cref="T:System.Type"/> to a <see cref="T:Microsoft.Data.Sqlite.SqliteType"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>NpgsqlDbType.</returns>
+        </member>
+    </members>
+</doc>

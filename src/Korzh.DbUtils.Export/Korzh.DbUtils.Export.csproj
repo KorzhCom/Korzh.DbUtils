@@ -6,7 +6,7 @@
     <Authors>Korzh.com</Authors>
     <Description>A part of Korzh.DbUtils library which implements data exporting functionality.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright 2019 (c) Korzh.com. All rights reserved.</Copyright>
+    <Copyright>Copyright 2019-2020 (c) Korzh.com. All rights reserved.</Copyright>
     <PackageTags>database utility export import data seed</PackageTags>
     <Configurations>Debug;Release</Configurations>
     <DocumentationFile>Korzh.DbUtils.Export.xml</DocumentationFile>

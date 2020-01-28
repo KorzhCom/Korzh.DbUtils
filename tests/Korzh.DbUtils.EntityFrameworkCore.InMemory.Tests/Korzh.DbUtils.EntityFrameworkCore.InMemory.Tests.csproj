@@ -15,9 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\tests\Korzh.DbUtils.Tests.Common\Korzh.DbUtils.Tests.Common.csproj" />
-    <ProjectReference Include="..\Korzh.DbUtils.EntityFrameworkCore.InMemory\Korzh.DbUtils.EntityFrameworkCore.InMemory.csproj" />
-    <ProjectReference Include="..\Korzh.DbUtils.Import\Korzh.DbUtils.Import.csproj" />
+    <ProjectReference Include="..\Korzh.DbUtils.Tests.Common\Korzh.DbUtils.Tests.Common.csproj" />
+    <ProjectReference Include="..\..\src\Korzh.DbUtils.EntityFrameworkCore.InMemory\Korzh.DbUtils.EntityFrameworkCore.InMemory.csproj" />
+    <ProjectReference Include="..\..\src\Korzh.DbUtils.Import\Korzh.DbUtils.Import.csproj" />
   </ItemGroup>
 
 </Project>

@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Korzh.DbUtils.Sqlite", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korzh.DbUtils.Sqlite.Tests", "tests\Korzh.DbUtils.Sqlite.Tests\Korzh.DbUtils.Sqlite.Tests.csproj", "{D61BFBF2-FF2B-4E23-A4EC-A232BECA2778}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korzh.DbUtils.EntityFrameworkCore.InMemory.Tests", "src\Korzh.DbUtils.EntityFrameworkCore.InMemory.Tests\Korzh.DbUtils.EntityFrameworkCore.InMemory.Tests.csproj", "{1EAD33D2-498F-4859-828F-3DD74286AFCE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korzh.DbUtils.EntityFrameworkCore.InMemory.Tests", "tests\Korzh.DbUtils.EntityFrameworkCore.InMemory.Tests\Korzh.DbUtils.EntityFrameworkCore.InMemory.Tests.csproj", "{1EAD33D2-498F-4859-828F-3DD74286AFCE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Korzh.DbUtils.Tests.Common", "tests\Korzh.DbUtils.Tests.Common\Korzh.DbUtils.Tests.Common.csproj", "{7425F8EB-607F-4E5C-948C-E5B3B4AAD35C}"
 EndProject
