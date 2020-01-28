@@ -92,7 +92,7 @@ The library includes several packages which implement some basic database operat
 
 * `Korzh.DbUtils.Export`
 
- Contains implementations of `IDatasetExporter` for XML and JSON.
+  Contains implementations of `IDatasetExporter` for XML and JSON.
 
 * `Korzh.DbUtils.SqlServer`
 
