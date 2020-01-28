@@ -105,6 +105,15 @@ The library includes several packages which implement some basic database operat
 * `Korzh.DbUtils.PostgreSql`
 
   Implements DB manipulation interfaces for PosrgreSql connections.
+  
+* `Korzh.DbUtils.Sqlite`
+
+  Implements DB manipulation interfaces for SQLite connections.
+  
+ * `Korzh.DbUtils.EntityFrameworkCore.InMemory`
+  
+  Implements DB manipulation interfaces for EFCore In-Memory database (for testing purposes only).
+  
 
 Here you can find the [full API reference of the library](https://korzh.aistant.com/db-utils/api-reference).
 
@@ -135,7 +144,7 @@ Please note, that you will also need to add those files to your project manually
 
 Let's suppose we have a ASP.NET Core project and we need to seed our DB with the data on the first start. The database itself is created automatically with Entity Framework Core migrations. To seed it with the data we just need:
 
-#### 1. Install Korzh.DbUtils NuGet packages
+#### 1. Install Korzh.DbUtils NuGet packages                                                             
 
 In this case we will need 2 of them:
 
@@ -168,3 +177,58 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 ```
 
 That's it. With the above 3 simple steps your database will be created and seeded automatically on the first app start.
+
+## Testing scenario: Data seeding in your unit and integration tests
+
+### Step 1: Export you "master" DB (described in Basic Scenario)
+
+### Step 2: Add data files to your project
+After the previous step you will have a new folder like `MyMasterDb-20190720` with a bunch of JSON files in it (one for each table). Copy all these files to your test project's folder `Resources` and mark all files as `Embedded resource`.
+Please note, that you will also need to add those files to your project manually for .NET Framework projects.
+
+### Step 3: DB initialization code
+
+#### 1. Install Korzh.DbUtils NuGet packages
+
+In this case we will need 2 of them:
+
+* `Korzh.DbUtils.Import`
+
+* `Korzh.DbUtils.EnityFrameworkCore.InMemory` (or `Korzh.DbUtils.Sqlite` )
+
+#### 2. Add the initialization code
+
+Here is an example of the such code we need to add for testing `AppDbContext`:
+```c#
+var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+optionsBuilder.UseInMemoryDatabase("test-db");
+
+var dbContext = new AppDbContext(optionsBuilder.Options);
+dbContext.Database.EnsureCreated();
+
+DbInitializer.Create(options => {
+    options.UseInMemoryDatabase(dbContext);
+    options.UseJsonImporter();
+    options.UseResourceFileUnpacker(typeof(YourTestClass).Assembly, "Resources");
+})
+.Seed();
+
+```
+Here you can see a full example
+
+If we want to use in-memory SQLite database for testing, we can use such initialization code:
+```c#
+var connection = new SqliteConnection("Data Source=:memory:;");
+
+// Create your test database here
+...................................................................
+
+// Seed data
+DbInitializer.Create(options => {
+    options.UseSqlite(connection);
+    options.UseJsonImporter();
+    options.UseResourceFileUnpacker(typeof(YourTestClass).Assembly, "Resources");
+})
+.Seed();
+```
+Here you can see [a full example](https://github.com/kedonec/Korzh.DbUtils/blob/4b809a9528958931eba2d28677103648fb1f5797/tests/Korzh.DbUtils.Sqlite.Tests/SqliteBridgeTests.cs#L17).
