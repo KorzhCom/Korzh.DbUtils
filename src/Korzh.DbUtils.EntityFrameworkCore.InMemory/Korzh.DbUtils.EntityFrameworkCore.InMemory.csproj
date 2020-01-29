@@ -6,7 +6,7 @@
     <Authors>Korzh.com</Authors>
     <Description>DbBridge for Entity Framework Core InMemory database (fot testing purposes only)</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright 2019 -2020 (c) Korzh.com. All rights reserved.</Copyright>
+    <Copyright>Copyright 2019-2020 (c) Korzh.com. All rights reserved.</Copyright>
     <PackageTags>database utility export import data seed</PackageTags>
     <Configurations>Debug;Release</Configurations>
     <DocumentationFile>Korzh.DbUtils.EntityFrameworkCore.InMemory.xml</DocumentationFile>

@@ -11,7 +11,7 @@
 The exported files can be used after that for DB seeding in your application with the help of 
 Korzh.DbUtils library.
 
-Currently, the tool supports MS SQL Server, MySQL, PostgreSQL and SQLite connections.
+Currently, the tool supports MS SQL Server, MySQL, PostgreSQL, and SQLite connections.
 To add other types of connections please create an issue on GitHub repository.
     </Description>
     <Authors>Sergiy Korzh, Anton Ivanenko</Authors>
