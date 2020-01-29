@@ -10,7 +10,7 @@ namespace Korzh.DbUtils
         /// <summary>
         /// Registers SqlServerBridge as DB reader and DB writer in <see cref="IDbUtilsOptions"/>
         /// </summary>
-        /// <param name="options">The options.</param>
+        /// <param name="options">Different options. An object that implements <see cref="IDbUtilsOptions"/> interface.</param>
         /// <param name="connectionString">The connection string.</param>
         public static void UseSqlServer(this IDbUtilsOptions options, string connectionString)
         {
