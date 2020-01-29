@@ -151,6 +151,7 @@ namespace Korzh.DbUtils.PostgreSql
                 case "timestamp":
                 case "timestamptz":
                 case "timetz":
+                case "timestamp without time zone":
                     return typeof(DateTime);
 
                 case "interval":
