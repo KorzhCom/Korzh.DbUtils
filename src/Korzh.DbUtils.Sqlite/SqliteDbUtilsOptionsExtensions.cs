@@ -7,6 +7,7 @@ namespace Korzh.DbUtils
     /// </summary>
     public static class SqliteDbUtilsOptionsExtensions
     {
+        /// <summary>
         /// Registers SqliteBridge as a DB writer in <see cref="IDbUtilsOptions"/>
         /// </summary>
         /// <param name="options">The options.</param>
@@ -16,6 +17,7 @@ namespace Korzh.DbUtils
             options.DbWriter = new Korzh.DbUtils.Sqlite.SqliteBridge(connectionString, options.LoggerFactory);
         }
 
+        /// <summary>
         /// Registers SqliteBridge as a DB writer in <see cref="IDbUtilsOptions"/>
         /// </summary>
         /// <param name="options">The options.</param>
