@@ -31,7 +31,7 @@ namespace Korzh.DbUtils.Tests
         [Fact]
         public void Import_MustBeEqualToTestData()
         {
-            var stream = TestUtils.GetResourceStream("Resources", "test-data.xml");
+            var stream = TestUtils.GetResourceStream(typeof(XmlDatasetImporterTests).Assembly, "Resources", "test-data.xml");
             var dataset = _importer.StartImport(stream);
             dataset.Name.Should().Be("Test");
 

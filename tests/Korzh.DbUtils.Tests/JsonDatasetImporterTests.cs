@@ -31,7 +31,7 @@ namespace Korzh.DbUtils.Tests
         [Fact]
         public void Import_MustBeEqualToTestData()
         {
-            var stream = TestUtils.GetResourceStream("Resources", "test-data.json");
+            var stream = TestUtils.GetResourceStream(typeof(JsonDatasetImporterTests).Assembly, "Resources", "test-data.json");
             var dataset = _importer.StartImport(stream);
             dataset.Name.Should().Be("Test");
 

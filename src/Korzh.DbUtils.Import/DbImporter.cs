@@ -62,11 +62,12 @@ namespace Korzh.DbUtils.Import
                             finally {
                                 _dbWriter.FinishSeeding();
                                 _datasetImporter.FinishImport();
-                            }
-                            _logger?.LogInformation($"{recordCount} records were imported");
 
-                            if (errorCount > 0) {
-                               _logger?.LogWarning($"{errorCount} errors during import (duplicated records or violated constraints)");
+                                _logger?.LogInformation($"{recordCount} records were imported");
+
+                                if (errorCount > 0) {
+                                    _logger?.LogWarning($"{errorCount} errors during import (duplicate records or violated constraints)");
+                                }
                             }
                         }
                     }

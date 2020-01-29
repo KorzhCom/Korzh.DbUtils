@@ -6,7 +6,7 @@
     <Authors>Korzh.com</Authors>
     <Description>Basic abstractions for Korzh.DbUtils library.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright 2019 (c) Korzh.com. All rights reserved.</Copyright>
+    <Copyright>Copyright 2019-2020 (c) Korzh.com. All rights reserved.</Copyright>
     <PackageTags>database utility export import data seed</PackageTags>
     <Configurations>Debug;Release</Configurations>
     <DocumentationFile>Korzh.DbUtils.xml</DocumentationFile>

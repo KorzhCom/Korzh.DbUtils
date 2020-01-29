@@ -8,6 +8,14 @@ namespace Korzh.DbUtils
     /// </summary>
     public static class IDataRecordExtension
     {
+        /// <summary>
+        /// Reads property from data record if it exists.
+        /// </summary>
+        /// <typeparam name="T">The property type</typeparam>
+        /// <param name="dataRecord">The data record.</param>
+        /// <param name="i">The property index.</param>
+        /// <param name="value">The property value.</param>
+        /// <returns></returns>
         public static bool TryGetProperty<T>(this IDataRecord dataRecord, int i, out T value)
         {
             var result = TryGetProperty(dataRecord, i, typeof(T), out var valueObj);
@@ -15,17 +23,40 @@ namespace Korzh.DbUtils
             return result;
         }
 
+        /// <summary>
+        /// Reads property from data record if it exists.
+        /// </summary>
+        /// <typeparam name="T">The property type</typeparam>
+        /// <param name="dataRecord">The data record.</param>
+        /// <param name="name">The property name.</param>
+        /// <param name="value">The property value.</param>
+        /// <returns></returns>
         public static bool TryGetProperty<T>(this IDataRecord dataRecord, string name, out T value)
         {
             return TryGetProperty(dataRecord, dataRecord.GetOrdinal(name), out value);
         }
 
+        /// <summary>
+        /// Reads property from data record if it exists.
+        /// </summary>
+        /// <param name="dataRecord">The data rectord.</param>
+        /// <param name="name">The property name.</param>
+        /// <param name="type">The property type.</param>
+        /// <param name="value">The property value.</param>
+        /// <returns></returns>
         public static bool TryGetProperty(this IDataRecord dataRecord, string name, Type type, out object value)
         {
             return TryGetProperty(dataRecord, dataRecord.GetOrdinal(name), type, out value);
         }
 
-
+        /// <summary>
+        /// Reads property from data record if it exists.
+        /// </summary>
+        /// <param name="dataRecord">The data rectord.</param>
+        /// <param name="i">The property index.</param>
+        /// <param name="type">The property type.</param>
+        /// <param name="value">The property value.</param>
+        /// <returns></returns>
         public static bool TryGetProperty(this IDataRecord dataRecord, int i, Type type, out object value)
         {
             try {
@@ -42,8 +73,7 @@ namespace Korzh.DbUtils
                     return true;
                 }
 
-                if (type == typeof(byte)
-                  || type == typeof(byte?)) {
+                if (type.IsByte()) {
                     value = dataRecord.GetByte(i);
                     return true;
                 }
@@ -63,70 +93,54 @@ namespace Korzh.DbUtils
                     return true;
                 }
 
-                if (type == typeof(int)
-                    || type == typeof(int?)) {
+                if (type.IsInt32()) {
                     value = dataRecord.GetInt32(i);
                     return true;
                 }
 
 
-                if (type == typeof(bool)
-                    || type == typeof(bool?)) {
+                if (type.IsBool()) {
                     value = dataRecord.GetBoolean(i);
                     return true;
                 }
 
-                if (type == typeof(short)
-                    || type == typeof(short?)) {
+                if (type.IsInt16()) {
                     value = dataRecord.GetInt16(i);
                     return true;
                 }
 
-                if (type == typeof(float)
-                    || type == typeof(float?)) {
+                if (type.IsFloat()) {
                     value = dataRecord.GetFloat(i);
                     return true;
                 }
 
-                if (type == typeof(double)
-                    || type == typeof(double?)) {
+                if (type.IsDouble()) {
                     value = dataRecord.GetDouble(i);
                     return true;
                 }
 
-                if (type == typeof(decimal)
-                    || type == typeof(decimal?)) {
+                if (type.IsDecimal()) {
 
                     value = dataRecord.GetDecimal(i);
                     return true;
                 }
 
-                if (type == typeof(Guid)
-                    || type == typeof(Guid?)) {
+                if (type.IsGuid()) {
                     value = dataRecord.GetGuid(i);
                     return true;
                 }
 
-                if (type == typeof(DateTime)
-                    || type == typeof(DateTime?)) {
+                if (type.IsDateTime()) {
                     value = dataRecord.GetDateTime(i);
                     return true;
                 }
 
-                if (type == typeof(DateTimeOffset)
-                    || type == typeof(DateTimeOffset?)) {
+                if (type.IsDateTimeOffset()) {
                     value = (DateTimeOffset)dataRecord.GetDateTime(i);
                     return true;
                 }
 
-
-                if (type == typeof(TimeSpan)) {
-                    value = TimeSpan.FromTicks(dataRecord.GetDateTime(i).Ticks);
-                    return true;
-                }
-
-                if (type == typeof(TimeSpan)
-                    || type == typeof(TimeSpan?)) {
+                if (type.IsTimeSpan()) {
                     value = TimeSpan.FromTicks(dataRecord.GetDateTime(i).Ticks);
                 }
 
