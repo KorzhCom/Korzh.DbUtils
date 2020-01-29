@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 using DbUtilsDemo.Models;
 
@@ -45,17 +39,66 @@ namespace DbUtilsDemo
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Category>()
+                .ToTable("Categories")
+                .Property(c => c.Id).HasColumnName("CategoryID");
+
+            modelBuilder.Entity<Category>()
+                .HasKey(c => c.Id);
+
             modelBuilder.Entity<Customer>()
+                .ToTable("Customers")
                 .Property(c => c.RowVersion)
                 .IsRowVersion();
 
+            modelBuilder.Entity<Customer>()
+                .Property(c => c.Id).HasColumnName("CustomerID");
+
+            modelBuilder.Entity<Customer>()
+                 .HasKey(c => c.Id);
+
+            modelBuilder.Entity<Employee>()
+                .ToTable("Employees")
+                .HasKey(e => e.Id);
+
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.Id).HasColumnName("EmployeeID");
+
+            modelBuilder.Entity<Product>()
+                .ToTable("Products")
+                .HasKey(p => p.Id);
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Id).HasColumnName("ProductID");
+
             modelBuilder.Entity<Order>()
+               .ToTable("Orders")
                .Property(o => o.RowVersion)
                .IsRowVersion();
+
+            modelBuilder.Entity<Order>()
+               .Property(o => o.Id).HasColumnName("OrderID");
+
+            modelBuilder.Entity<Order>()
+                .HasKey(o => o.Id);
 
             modelBuilder.Entity<OrderDetail>()
                 .ToTable("Order_Details")
                 .HasKey(od => new { od.OrderID, od.ProductID });
+
+            modelBuilder.Entity<Shipper>()
+                .ToTable("Shippers")
+                .HasKey(s => s.Id);
+
+            modelBuilder.Entity<Shipper>()
+              .Property(s => s.Id).HasColumnName("ShipperID");
+
+            modelBuilder.Entity<Supplier>()
+                .ToTable("Suppliers")
+                .HasKey(s => s.Id);
+
+            modelBuilder.Entity<Shipper>()
+                .Property(s => s.Id).HasColumnName("SupplierID");
         }
     }
 }

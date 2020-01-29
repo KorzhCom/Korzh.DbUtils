@@ -27,6 +27,7 @@
     <ProjectReference Include="..\..\src\Korzh.DbUtils.Export\Korzh.DbUtils.Export.csproj" />
     <ProjectReference Include="..\..\src\Korzh.DbUtils.Import\Korzh.DbUtils.Import.csproj" />
     <ProjectReference Include="..\..\src\Korzh.DbUtils\Korzh.DbUtils.csproj" />
+    <ProjectReference Include="..\Korzh.DbUtils.Tests.Common\Korzh.DbUtils.Tests.Common.csproj" />
   </ItemGroup>
 
 </Project>

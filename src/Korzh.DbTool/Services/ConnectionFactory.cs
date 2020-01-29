@@ -1,8 +1,11 @@
-﻿using MySql.Data.MySqlClient;
-using Npgsql;
-using System;
+﻿using System;
 using System.Data.Common;
 using System.Data.SqlClient;
+
+using Microsoft.Data.Sqlite;
+
+using MySql.Data.MySqlClient;
+using Npgsql;
 
 namespace Korzh.DbTool
 {
@@ -19,6 +22,8 @@ namespace Korzh.DbTool
                     return new MySqlConnection(info.ConnectionString);
                 case DbType.PostgreSql:
                     return new NpgsqlConnection(info.ConnectionString);
+                case DbType.Sqlite:
+                    return new SqliteConnection(info.ConnectionString);
                 default:
                     throw new Exception($"Unknown connection type: {info.DbType}. Evaluable types: {string.Join(", ", DbType.AllDbTypes)}");
             }

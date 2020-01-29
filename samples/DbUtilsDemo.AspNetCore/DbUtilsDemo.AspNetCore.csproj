@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.16" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.4" />
@@ -24,9 +25,11 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Korzh.DbUtils.EntityFrameworkCore.InMemory\Korzh.DbUtils.EntityFrameworkCore.InMemory.csproj" />
     <ProjectReference Include="..\..\src\Korzh.DbUtils.Import\Korzh.DbUtils.Import.csproj" />
     <ProjectReference Include="..\..\src\Korzh.DbUtils.MySql\Korzh.DbUtils.MySql.csproj" />
     <ProjectReference Include="..\..\src\Korzh.DbUtils.PostgreSql\Korzh.DbUtils.PostgreSql.csproj" />
+    <ProjectReference Include="..\..\src\Korzh.DbUtils.Sqlite\Korzh.DbUtils.Sqlite.csproj" />
     <ProjectReference Include="..\..\src\Korzh.DbUtils.SqlServer\Korzh.DbUtils.SqlServer.csproj" />
     <ProjectReference Include="..\..\src\Korzh.DbUtils\Korzh.DbUtils.csproj" />
   </ItemGroup>
