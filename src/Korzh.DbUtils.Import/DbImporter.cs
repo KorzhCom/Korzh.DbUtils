@@ -66,7 +66,7 @@ namespace Korzh.DbUtils.Import
                                 _logger?.LogInformation($"{recordCount} records were imported");
 
                                 if (errorCount > 0) {
-                                    _logger?.LogWarning($"{errorCount} errors during import (duplicated records or violated constraints)");
+                                    _logger?.LogWarning($"{errorCount} errors during import (duplicate records or violated constraints)");
                                 }
                             }
                         }

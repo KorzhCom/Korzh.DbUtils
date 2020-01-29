@@ -3,12 +3,12 @@
 namespace Korzh.DbUtils
 {
     /// <summary>
-    /// Static class with extensions for registering SqlServerBridge as DB reader and DB writer in <see cref="IDbUtilsOptions"/>
+    /// Static class with extensions for registering SqlServerBridge as a DB writer in <see cref="IDbUtilsOptions"/>
     /// </summary>
     public static class PostgreDbUtilsOptionsExtensions
     {
         /// <summary>
-        /// Registers PostgreBridge as DB reader and DB writer in <see cref="IDbUtilsOptions"/>
+        /// Registers PostgreBridge as a DB writer in <see cref="IDbUtilsOptions"/>
         /// </summary>
         /// <param name="options">The options.</param>
         /// <param name="connectionString">The connection string.</param>
@@ -18,7 +18,7 @@ namespace Korzh.DbUtils
         }
 
         /// <summary>
-        /// Registers PostgreBridge as DB reader and DB writer in <see cref="IDbUtilsOptions"/>
+        /// Registers PostgreBridge as a DB writer in <see cref="IDbUtilsOptions"/>
         /// </summary>
         /// <param name="options">The options.</param>
         /// <param name="connection">The connection.</param>
