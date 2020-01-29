@@ -28,6 +28,8 @@ namespace DbUtilsDemo
             services.AddDbContext<AppDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DbUtilsDemoDb01"));
                 //options.UseNpgsql(Configuration.GetConnectionString("DbUtilsDemoDb03"));
+                //options.UseInMemoryDatabase("test-db");
+                // options.UseSqlite("Data Source=test.db;");
             });
 
             services.Configure<CookiePolicyOptions>(options => {
@@ -64,6 +66,8 @@ namespace DbUtilsDemo
                         options.UseSqlServer(Configuration.GetConnectionString("DbUtilsDemoDb01"));
                         //options.UseMySQL(Configuration.GetConnectionString("DbUtilsDemoDb02"));
                         //options.UsePostgreSql(Configuration.GetConnectionString("DbUtilsDemoDb03"));
+                        //options.UseInMemoryDatabase(context);
+                        //options.UseSqlite("Data Source=test.db;");
                         options.UseJsonImporter();
                         options.UseFileFolderPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "SeedData"));
                         //options.UseZipPacker(System.IO.Path.Combine(env.ContentRootPath, "App_Data", "dataseed.zip"));

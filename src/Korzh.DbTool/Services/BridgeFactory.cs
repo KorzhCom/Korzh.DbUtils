@@ -1,6 +1,7 @@
 ﻿using System.Data.Common;
 using System.Data.SqlClient;
 
+using Microsoft.Data.Sqlite;
 using MySql.Data.MySqlClient;
 using Npgsql;
 
@@ -8,6 +9,7 @@ using Korzh.DbUtils;
 using Korzh.DbUtils.MySql;
 using Korzh.DbUtils.PostgreSql;
 using Korzh.DbUtils.SqlServer;
+using Korzh.DbUtils.Sqlite;
 
 namespace Korzh.DbTool
 {
@@ -23,6 +25,9 @@ namespace Korzh.DbTool
             }
             else if (connection is NpgsqlConnection) {
                 return new PostgreBridge(connection as NpgsqlConnection, Program.LoggerFactory);
+            }
+            else if (connection is SqliteConnection) {
+                return new SqliteBridge(connection as SqliteConnection, Program.LoggerFactory);
             }
 
             return null;
