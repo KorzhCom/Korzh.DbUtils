@@ -76,7 +76,7 @@ namespace Korzh.DbUtils.PostgreSql
                             FROM   pg_index i
                             JOIN   pg_attribute a ON a.attrelid = i.indrelid
                                                  AND a.attnum = ANY(i.indkey)
-                            WHERE  i.indrelid = '" + tableName + @"'::regclass
+                            WHERE  i.indrelid = '" + GetFormattedTableName(new DatasetInfo(tableName, tableSchema)) + @"'::regclass
                             AND    i.indisprimary;";
 
             var primaryKeys = new List<string>();
@@ -97,7 +97,7 @@ namespace Korzh.DbUtils.PostgreSql
             foreach (DataRow row in schemaTable.Rows){
                 var columnName = (string)row["column_name"];
                 var dbTypeName = (string)row["data_type"];
-                var isPK = sqlForKeys.Contains(columnName);
+                var isPK = primaryKeys.Contains(columnName);
 
                 ColumnInfo column = new ColumnInfo(columnName, PostgreDbTypeToClrType(dbTypeName), isPK);
                 
