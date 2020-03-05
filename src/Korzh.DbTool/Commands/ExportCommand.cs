@@ -29,10 +29,10 @@ namespace Korzh.DbTool
                 ConnectionIdArg = command.Argument("<connection ID>", "The ID of some previously registered connection")
                                            .IsRequired();
 
-                OutputPathOption = command.Option("--output|-o:<OUTPUT_DIRECTORY>", "Directory in which to place the export files", CommandOptionType.SingleOrNoValue)
+                OutputPathOption = command.Option("--output|-o=<OUTPUT_DIRECTORY>", "Directory in which to place the export files", CommandOptionType.SingleOrNoValue)
                                            .Accepts(config => config.LegalFilePath());
 
-                ZipOption = command.Option("--zip:<ZIP_NAME>", "Pack result to zip package", CommandOptionType.SingleOrNoValue);
+                ZipOption = command.Option("--zip=<ZIP_NAME>", "Pack result to zip package", CommandOptionType.SingleOrNoValue);
             }
 
             public string ConnectionId => ConnectionIdArg.Value;

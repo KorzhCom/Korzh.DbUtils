@@ -26,8 +26,8 @@ namespace DbUtilsDemo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options => {
-                options.UseSqlServer(Configuration.GetConnectionString("DbUtilsDemoDb01"));
-                //options.UseNpgsql(Configuration.GetConnectionString("DbUtilsDemoDb03"));
+                //options.UseSqlServer(Configuration.GetConnectionString("DbUtilsDemoDb01"));
+                options.UseNpgsql(Configuration.GetConnectionString("DbUtilsDemoDb03"));
                 //options.UseInMemoryDatabase("test-db");
                 // options.UseSqlite("Data Source=test.db;");
             });
