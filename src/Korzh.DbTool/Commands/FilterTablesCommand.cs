@@ -54,10 +54,10 @@ namespace Korzh.DbTool
             var exclude = _excludeOption.Values.Count > 0;
 
             if (exclude) {
-                connection.IncludeTables = tables;
+                connection.ExcludeTables = tables;
             }
             else {
-                connection.ExcludeTables = tables;
+                connection.IncludeTables = tables;
             }
 
             storage.AddUpdate(connectionId, connection);
