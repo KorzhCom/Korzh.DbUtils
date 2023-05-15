@@ -15,10 +15,6 @@ Currently, the tool supports MS SQL Server, MySQL, PostgreSQL, and SQLite connec
 To add other types of connections please create an issue on GitHub repository.
     </Description>
     <Authors>Sergiy Korzh, Anton Ivanenko</Authors>
-    <Copyright>Copyright 2019-2020 (c) Korzh.com. All rights reserved.</Copyright>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/kedonec/Korzh.DbUtils</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/kedonec/Korzh.DbUtils</RepositoryUrl>
 
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>dbtool</ToolCommandName>

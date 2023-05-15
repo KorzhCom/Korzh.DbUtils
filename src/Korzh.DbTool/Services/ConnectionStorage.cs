@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Newtonsoft.Json.Linq;
+using Korzh.DbUtils;
 
 namespace Korzh.DbTool
 {
@@ -16,7 +17,9 @@ namespace Korzh.DbTool
 
         public string ConnectionString { get; set; }
 
-        public string Tables { get; set; }
+        public string IncludeTables { get; set; }
+
+        public string ExcludeTables { get; set; }
 
         public ConnectionInfo() { }
 
@@ -25,6 +28,24 @@ namespace Korzh.DbTool
             Id = id;
             DbType = dbType;
             ConnectionString = connectionString;
+        }
+
+        public Func<DatasetInfo, bool> GetDatasetFilter()
+        {
+            var includeTables = !string.IsNullOrEmpty(IncludeTables)
+                    ? IncludeTables.Split(',').ToList()
+                    : null;
+
+            var excludeTables = !string.IsNullOrEmpty(ExcludeTables)
+                            ? ExcludeTables.Split(',').ToList()
+                            : new List<string>();
+
+            Func<DatasetInfo, bool> filter = (dataSet) => {
+                return (includeTables == null || includeTables.Contains(dataSet.Name))
+                        && !excludeTables.Contains(dataSet.Name);
+            };
+
+            return filter;
         }
     }
 
@@ -101,6 +122,5 @@ namespace Korzh.DbTool
             config["connections"] = JObject.FromObject(_connections);
             File.WriteAllText(_configFile, config.ToString());
         }
-
     } 
 }

@@ -1,0 +1,13 @@
+<Project>
+  <PropertyGroup>
+    <Configurations>Debug;Release</Configurations>
+    <Authors>Korzh.com</Authors>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Copyright>Copyright 2019-$([System.DateTime]::Now.Year) (c) Korzh.com. All rights reserved.</Copyright>
+    <PackageProjectUrl>https://github.com/KorzhCom/Korzh.DbUtils</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/KorzhCom/Korzh.DbUtils</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <NoWarn>CS1591,CS1574</NoWarn>
+  </PropertyGroup>
+</Project>

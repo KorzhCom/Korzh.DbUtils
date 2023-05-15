@@ -20,7 +20,7 @@ namespace Korzh.DbTool
         public static int Main(string[] args)
         {
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            Console.WriteLine($"dbtool utility {assembly.GetName().Version.ToString()} (c) Korzh.com 2019-2020");
+            Console.WriteLine($"dbtool utility {assembly.GetName().Version.ToString()} (c) Korzh.com 2019-2023");
 
             var app = new CommandLineApplication();
             RootCommand.Configure(app);

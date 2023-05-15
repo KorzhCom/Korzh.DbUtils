@@ -134,19 +134,10 @@ namespace Korzh.DbTool
 
             InitConnection(info);
 
-            Func<DatasetInfo, bool> filter = null;
-            if (!string.IsNullOrEmpty(info.Tables)) {
-                var tables = info.Tables.Split(',').ToList();
-                filter = (dataSet) =>
-                {
-                    return tables.Contains(dataSet.Name);
-                };
-            }
-
             var exporter = new DbExporter(GetDbReader(), GetDatasetExporter(), GetPacker(), Program.LoggerFactory);
 
             Console.WriteLine($"Exporting database [{_arguments.ConnectionId}]...");
-            exporter.Export(filter);
+            exporter.Export(info.GetDatasetFilter());
             Console.WriteLine($"Export completed!");
 
             return 0;

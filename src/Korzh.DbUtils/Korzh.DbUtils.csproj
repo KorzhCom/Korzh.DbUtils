@@ -3,16 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>Korzh.DbUtils</PackageId>
-    <Authors>Korzh.com</Authors>
     <Description>Basic abstractions for Korzh.DbUtils library.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright 2019-2020 (c) Korzh.com. All rights reserved.</Copyright>
     <PackageTags>database utility export import data seed</PackageTags>
-    <Configurations>Debug;Release</Configurations>
     <DocumentationFile>Korzh.DbUtils.xml</DocumentationFile>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/kedonec/Korzh.DbUtils</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/kedonec/Korzh.DbUtils</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
