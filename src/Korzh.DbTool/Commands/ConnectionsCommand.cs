@@ -175,9 +175,18 @@ namespace Korzh.DbTool
             if (connections.Any()) {
                 var location = _options.LocalConfigFilePathOption.HasValue() ? _options.LocalConfigFilePathOption.Value() : "global";
                 Console.WriteLine($"Connections ({location}): ");
+                var num = 1;
                 foreach (var connection in connections) {
-                    Console.WriteLine("{0} ({1}): \"{2}\" \n(Filtered by: {3})", 
-                        connection.ConnectionId, connection.Info.DbType, connection.Info.ConnectionString, connection.Info.Tables ?? "None");
+                    var connDesc = $"{num:D2}: {connection.ConnectionId} [{connection.Info.DbType}]\n    \"{connection.Info.ConnectionString}\"";
+                    if (!string.IsNullOrEmpty(connection.Info.IncludeTables)) {
+                        connDesc += "\n    Include only: " + connection.Info.IncludeTables;
+                    }
+                    if (!string.IsNullOrEmpty(connection.Info.ExcludeTables)) {
+                        connDesc += "\n    Exclude: " + connection.Info.ExcludeTables;
+                    }
+                    Console.WriteLine(connDesc);
+                    Console.WriteLine();
+                    num++;
                 }
             }
             else {

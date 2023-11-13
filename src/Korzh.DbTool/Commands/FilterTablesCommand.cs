@@ -15,25 +15,29 @@ namespace Korzh.DbTool
             command.HelpOption("-?|-h|--help");
 
             command.Options.Add(options.LocalConfigFilePathOption);
+            var excludeOption = command.Option("--exclude", "Exclude specified tables", CommandOptionType.NoValue);
 
-            var connectionArg = command.Argument("<сonnection ID>", "The ID of some previously registered connection")
+            var connectionArg = command.Argument("<Connection ID>", "The ID of some previously registered connection")
                                   .IsRequired();
 
-            var tablesArg = command.Argument("<tables>", "Table names separeated by comma. Leave this argument empty to clear the connection filter.");
+            var tablesArg = command.Argument("<tables>", "Table names separated by comma. Leave this argument empty to clear the connection filter.");
 
-            Func<int> runCommandFunc = new FilterTablesCommand(connectionArg, tablesArg, options).Run;
+            Func<int> runCommandFunc = new FilterTablesCommand(connectionArg, tablesArg, excludeOption, options).Run;
             command.OnExecute(runCommandFunc);
         }
 
-        private readonly GlobalOptions _options;
         private readonly CommandArgument _connectionIdArg;
         private readonly CommandArgument _tablesArg;
+        private readonly CommandOption _excludeOption;
+        private readonly GlobalOptions _options;
 
-        public FilterTablesCommand(CommandArgument connectionIdArg, CommandArgument tablesArg, GlobalOptions globalOptions)
+        public FilterTablesCommand(CommandArgument connectionIdArg, CommandArgument tablesArg, 
+                                    CommandOption excludeOption, GlobalOptions globalOptions)
         {
-            _tablesArg = tablesArg;
-            _options = globalOptions;
             _connectionIdArg = connectionIdArg;
+            _tablesArg = tablesArg;
+            _excludeOption = excludeOption;
+            _options = globalOptions;
         }
 
         public int Run()
@@ -47,13 +51,26 @@ namespace Korzh.DbTool
                 return -1;
             }
 
-            connection.Tables = tables;
+            var exclude = _excludeOption.Values.Count > 0;
+
+            if (exclude) {
+                connection.ExcludeTables = tables;
+            }
+            else {
+                connection.IncludeTables = tables;
+            }
+
             storage.AddUpdate(connectionId, connection);
 
             storage.SaveChanges();
 
             if (!string.IsNullOrEmpty(tables)) {
-                Console.WriteLine($"The connection [{connectionId}] is now filtered by tables: " + tables);
+                if (exclude) {
+                    Console.WriteLine($"Tables {tables} will be excluded for connection [{connectionId}]");
+                }
+                else {
+                    Console.WriteLine($"Only tables {tables} will be processed for connection [{connectionId}]");
+                }
             }
             else {
                 Console.WriteLine($"The connection's ({connectionId}) filter has been cleared");

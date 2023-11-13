@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
@@ -68,14 +69,7 @@ namespace Korzh.DbTool
 
             InitConnection(info);
 
-            Func<DatasetInfo, bool> filter = null;
-            if (!string.IsNullOrEmpty(info.Tables)) {
-                var tables = info.Tables.Split(',').ToList();
-                filter = (dataSet) =>
-                {
-                    return tables.Contains(dataSet.Name);
-                };
-            }
+            var filter = info.GetDatasetFilter();
 
             var bridgeSelect = DbBridgeFactory.Create(_connection);
             var bridgeUpdate = DbBridgeFactory.Create(ConnectionFactory.Create(info));
@@ -98,7 +92,7 @@ namespace Korzh.DbTool
                 return 0;
 
             foreach (var dataSet in dataSets) {
-                if (!(filter is null || filter(dataSet))) {
+                if (filter(dataSet)) {
                     continue;
                 }
 
