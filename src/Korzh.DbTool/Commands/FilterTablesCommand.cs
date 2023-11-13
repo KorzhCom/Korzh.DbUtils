@@ -15,14 +15,14 @@ namespace Korzh.DbTool
             command.HelpOption("-?|-h|--help");
 
             command.Options.Add(options.LocalConfigFilePathOption);
-            var exclueOption = command.Option("--exclude", "Exclude specified tables", CommandOptionType.NoValue);
+            var excludeOption = command.Option("--exclude", "Exclude specified tables", CommandOptionType.NoValue);
 
             var connectionArg = command.Argument("<Connection ID>", "The ID of some previously registered connection")
                                   .IsRequired();
 
-            var tablesArg = command.Argument("<tables>", "Table names separeated by comma. Leave this argument empty to clear the connection filter.");
+            var tablesArg = command.Argument("<tables>", "Table names separated by comma. Leave this argument empty to clear the connection filter.");
 
-            Func<int> runCommandFunc = new FilterTablesCommand(connectionArg, tablesArg, exclueOption, options).Run;
+            Func<int> runCommandFunc = new FilterTablesCommand(connectionArg, tablesArg, excludeOption, options).Run;
             command.OnExecute(runCommandFunc);
         }
 

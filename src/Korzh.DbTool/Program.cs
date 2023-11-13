@@ -9,7 +9,6 @@ namespace Korzh.DbTool
 {
     class Program
     {
-
         public static ILoggerFactory LoggerFactory;
 
         static Program()

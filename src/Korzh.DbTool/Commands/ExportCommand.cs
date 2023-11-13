@@ -45,7 +45,7 @@ namespace Korzh.DbTool
 
         public static void Configure(CommandLineApplication command, GlobalOptions options)
         {
-            command.Description = "Exports some DB to a backup archive in the specified format (XML, JSON)";
+            command.Description = "Exports specified DB to a backup archive in the specified format (XML, JSON)";
             command.HelpOption("-?|-h|--help");
 
             command.Options.Add(options.FormatOption);
@@ -73,7 +73,7 @@ namespace Korzh.DbTool
             _connection = ConnectionFactory.Create(info);
 
             if (_connection.State != ConnectionState.Open) {
-                Console.WriteLine($"Openning {info.Id} connection...");
+                Console.WriteLine($"Opening {info.Id} connection...");
                 _connection.Open();
             }
         }
