@@ -14,7 +14,7 @@ namespace Korzh.DbTool
             command.Description = "Updates the connection filter: sets the list of tables which will be processed on export. ";
             command.HelpOption("-?|-h|--help");
 
-            command.Options.Add(options.LocalConfigFilePathOption);
+            command.AddOption(options.LocalConfigFilePathOption);
             var excludeOption = command.Option("--exclude", "Exclude specified tables", CommandOptionType.NoValue);
 
             var connectionArg = command.Argument("<Connection ID>", "The ID of some previously registered connection")

@@ -20,7 +20,7 @@ namespace Korzh.DbTool
             command.HelpOption("-?|-h|--help");
 
             // add local config option
-            command.Options.Add(options.LocalConfigFilePathOption);
+            command.AddOption(options.LocalConfigFilePathOption);
 
             var connectionIdArg= command.Argument("<connection ID>", "The ID of some previously registered connection")
                                         .IsRequired();

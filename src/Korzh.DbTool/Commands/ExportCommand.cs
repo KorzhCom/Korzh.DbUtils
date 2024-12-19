@@ -48,8 +48,8 @@ namespace Korzh.DbTool
             command.Description = "Exports specified DB to a backup archive in the specified format (XML, JSON)";
             command.HelpOption("-?|-h|--help");
 
-            command.Options.Add(options.FormatOption);
-            command.Options.Add(options.LocalConfigFilePathOption);
+            command.AddOption(options.FormatOption);
+            command.AddOption(options.LocalConfigFilePathOption);
 
             var arguments = new ArgumentsAndOptions(command);
 

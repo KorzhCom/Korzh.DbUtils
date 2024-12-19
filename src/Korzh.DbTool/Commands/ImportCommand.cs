@@ -49,8 +49,8 @@ namespace Korzh.DbTool
             command.Description = "Imports some DB from a backup archive with the specified format (XML, JSON)";
             command.HelpOption("-?|-h|--help");
 
-            command.Options.Add(options.FormatOption);
-            command.Options.Add(options.LocalConfigFilePathOption);
+            command.AddOption(options.FormatOption);
+            command.AddOption(options.LocalConfigFilePathOption);
 
             var arguments = new ArgumentsAndOptions(command);
 

@@ -14,7 +14,7 @@ namespace Korzh.DbTool
             command.HelpOption("-?|-h|--help");
 
             // add local config option
-            command.Options.Add(options.LocalConfigFilePathOption);
+            command.AddOption(options.LocalConfigFilePathOption);
 
             // add connections subcommands
             command.Command("add", c => ConnectionsAddCommand.Configure(c, options));
@@ -73,7 +73,7 @@ namespace Korzh.DbTool
             command.Description = "Adds connection to configuration file";
             command.HelpOption("-?|-h|--help");
 
-            command.Options.Add(options.LocalConfigFilePathOption);
+            command.AddOption(options.LocalConfigFilePathOption);
 
             var argumets = new Arguments(command);
 
@@ -115,7 +115,7 @@ namespace Korzh.DbTool
             command.Description = "Removes connection from configuration file";
             command.HelpOption("-?|-h|--help");
 
-            command.Options.Add(options.LocalConfigFilePathOption);
+            command.AddOption(options.LocalConfigFilePathOption);
 
             var connectionIdArg = command.Argument("<сonnection ID>", "The ID of the connection stored in the configuration")
                                         .IsRequired();
@@ -154,7 +154,7 @@ namespace Korzh.DbTool
 
             command.Description = "Shows the list of connections.";
 
-            command.Options.Add(options.LocalConfigFilePathOption);
+            command.AddOption(options.LocalConfigFilePathOption);
 
             Func<int> runCommandFunc = new ConnectionsListCommand(options).Run;
             command.OnExecute(runCommandFunc);
