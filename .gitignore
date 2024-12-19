@@ -337,3 +337,6 @@ ASALocalRun/
 /src/Korzh.DbUtils.Sqlite/Korzh.DbUtils.Sqlite.xml
 /src/Korzh.DbUtils.PostgreSql/Korzh.DbUtils.PostgreSql.xml
 /src/Korzh.DbUtils.EntityFrameworkCore.InMemory/Korzh.DbUtils.EntityFrameworkCore.InMemory.xml
+/samples/DbUtilsDemo.AspNetCore/test.db
+/samples/DbUtilsDemo.AspNetCore/test.db-shm
+/samples/DbUtilsDemo.AspNetCore/test.db-wal
