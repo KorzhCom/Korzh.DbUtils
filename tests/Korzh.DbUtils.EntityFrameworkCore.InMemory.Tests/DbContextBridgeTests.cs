@@ -15,7 +15,6 @@ namespace Korzh.DbUtils.EntityFrameworkCore.InMemory.Tests
         [Fact]
         public void SeedDataBaseTest_MustFillDataBase()
         {
-
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
             optionsBuilder.UseInMemoryDatabase("test-db");
 

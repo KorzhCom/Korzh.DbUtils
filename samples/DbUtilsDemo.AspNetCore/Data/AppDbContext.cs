@@ -13,7 +13,8 @@ namespace DbUtilsDemo
 
         protected AppDbContext(DbContextOptions options) 
             : base(options)
-        { }
+        {
+        }
 
         #region NWind
         public DbSet<Category> Categories { get; set; }
